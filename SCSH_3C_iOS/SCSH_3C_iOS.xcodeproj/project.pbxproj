@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		61A0D91A2A1BA4BA00C18629 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 61A0D9192A1BA4BA00C18629 /* CombineMoya */; };
+		61A0D91C2A1BA4BA00C18629 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 61A0D91B2A1BA4BA00C18629 /* Moya */; };
 		61C54E352A13A2B700EF39C3 /* MainApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C54E342A13A2B700EF39C3 /* MainApp.swift */; };
 		61C54E372A13A2B700EF39C3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C54E362A13A2B700EF39C3 /* ContentView.swift */; };
 		61C54E392A13A2B700EF39C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61C54E382A13A2B700EF39C3 /* Assets.xcassets */; };
@@ -44,6 +46,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61A0D91C2A1BA4BA00C18629 /* Moya in Frameworks */,
+				61A0D91A2A1BA4BA00C18629 /* CombineMoya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +125,10 @@
 			dependencies = (
 			);
 			name = SCSH_3C_iOS;
+			packageProductDependencies = (
+				61A0D9192A1BA4BA00C18629 /* CombineMoya */,
+				61A0D91B2A1BA4BA00C18629 /* Moya */,
+			);
 			productName = SCSH_3C_iOS;
 			productReference = 61C54E312A13A2B700EF39C3 /* SCSH_3C_iOS.app */;
 			productType = "com.apple.product-type.application";
@@ -171,6 +179,9 @@
 				Base,
 			);
 			mainGroup = 61C54E282A13A2B700EF39C3;
+			packageReferences = (
+				61A0D9182A1BA4BA00C18629 /* XCRemoteSwiftPackageReference "Moya" */,
+			);
 			productRefGroup = 61C54E322A13A2B700EF39C3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -474,6 +485,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		61A0D9182A1BA4BA00C18629 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		61A0D9192A1BA4BA00C18629 /* CombineMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 61A0D9182A1BA4BA00C18629 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = CombineMoya;
+		};
+		61A0D91B2A1BA4BA00C18629 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 61A0D9182A1BA4BA00C18629 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		61C54E3F2A13A2B700EF39C3 /* SCSH_3C_iOS.xcdatamodeld */ = {
