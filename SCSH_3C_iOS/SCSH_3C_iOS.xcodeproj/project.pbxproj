@@ -61,6 +61,61 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6169AC202A6E3E2A00F84AE5 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				61C54E3D2A13A2B700EF39C3 /* Persistence.swift */,
+				61C54E3F2A13A2B700EF39C3 /* SCSH_3C_iOS.xcdatamodeld */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		6169AC212A6E3E3400F84AE5 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		6169AC222A6E3E3A00F84AE5 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		6169AC232A6E3E4200F84AE5 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				61C54E342A13A2B700EF39C3 /* MainApp.swift */,
+				61C54E362A13A2B700EF39C3 /* ContentView.swift */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		6169AC242A6E3E4700F84AE5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				61C54E422A13A2B700EF39C3 /* Info.plist */,
+				61C54E382A13A2B700EF39C3 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		6169AC252A6E3E5400F84AE5 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		6169AC262A6E3E6300F84AE5 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
 		61C54E282A13A2B700EF39C3 = {
 			isa = PBXGroup;
 			children = (
@@ -82,13 +137,14 @@
 		61C54E332A13A2B700EF39C3 /* SCSH_3C_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				61C54E342A13A2B700EF39C3 /* MainApp.swift */,
-				61C54E362A13A2B700EF39C3 /* ContentView.swift */,
-				61C54E382A13A2B700EF39C3 /* Assets.xcassets */,
-				61C54E3D2A13A2B700EF39C3 /* Persistence.swift */,
-				61C54E422A13A2B700EF39C3 /* Info.plist */,
-				61C54E3F2A13A2B700EF39C3 /* SCSH_3C_iOS.xcdatamodeld */,
+				6169AC262A6E3E6300F84AE5 /* Coordinator */,
+				6169AC232A6E3E4200F84AE5 /* Modules */,
+				6169AC212A6E3E3400F84AE5 /* Network */,
 				61C54E3A2A13A2B700EF39C3 /* Preview Content */,
+				6169AC252A6E3E5400F84AE5 /* Repository */,
+				6169AC242A6E3E4700F84AE5 /* Resources */,
+				6169AC202A6E3E2A00F84AE5 /* Storage */,
+				6169AC222A6E3E3A00F84AE5 /* Utility */,
 			);
 			path = SCSH_3C_iOS;
 			sourceTree = "<group>";
