@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6169AC292A6E435E00F84AE5 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169AC282A6E435E00F84AE5 /* NetworkConstants.swift */; };
+		6169AC2B2A6E437600F84AE5 /* RemoteDataSourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169AC2A2A6E437600F84AE5 /* RemoteDataSourceType.swift */; };
+		6169AC2D2A6E440E00F84AE5 /* HealthInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169AC2C2A6E440E00F84AE5 /* HealthInterface.swift */; };
+		6169AC302A6E45AA00F84AE5 /* MoyaNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169AC2F2A6E45AA00F84AE5 /* MoyaNetworkService.swift */; };
+		6169AE4E2A6E558F00F84AE5 /* MoyaApiInterfaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169AE4D2A6E558F00F84AE5 /* MoyaApiInterfaceType.swift */; };
+		6169AE512A6E5D8400F84AE5 /* MoyaNetworkService+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169AE502A6E5D8400F84AE5 /* MoyaNetworkService+Combine.swift */; };
+		6169AE542A6F8EDE00F84AE5 /* ProductApiInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169AE532A6F8EDE00F84AE5 /* ProductApiInterface.swift */; };
+		6169AE562A6F9E7F00F84AE5 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169AE552A6F9E7F00F84AE5 /* ContentViewModel.swift */; };
 		61A0D91A2A1BA4BA00C18629 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 61A0D9192A1BA4BA00C18629 /* CombineMoya */; };
 		61A0D91C2A1BA4BA00C18629 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 61A0D91B2A1BA4BA00C18629 /* Moya */; };
 		61C54E352A13A2B700EF39C3 /* MainApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C54E342A13A2B700EF39C3 /* MainApp.swift */; };
@@ -29,6 +37,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6169AC282A6E435E00F84AE5 /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
+		6169AC2A2A6E437600F84AE5 /* RemoteDataSourceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDataSourceType.swift; sourceTree = "<group>"; };
+		6169AC2C2A6E440E00F84AE5 /* HealthInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthInterface.swift; sourceTree = "<group>"; };
+		6169AC2F2A6E45AA00F84AE5 /* MoyaNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaNetworkService.swift; sourceTree = "<group>"; };
+		6169AE4D2A6E558F00F84AE5 /* MoyaApiInterfaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaApiInterfaceType.swift; sourceTree = "<group>"; };
+		6169AE502A6E5D8400F84AE5 /* MoyaNetworkService+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoyaNetworkService+Combine.swift"; sourceTree = "<group>"; };
+		6169AE532A6F8EDE00F84AE5 /* ProductApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductApiInterface.swift; sourceTree = "<group>"; };
+		6169AE552A6F9E7F00F84AE5 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		61C54E312A13A2B700EF39C3 /* SCSH_3C_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SCSH_3C_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61C54E342A13A2B700EF39C3 /* MainApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainApp.swift; sourceTree = "<group>"; };
 		61C54E362A13A2B700EF39C3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -61,6 +77,101 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6169AC202A6E3E2A00F84AE5 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				61C54E3D2A13A2B700EF39C3 /* Persistence.swift */,
+				61C54E3F2A13A2B700EF39C3 /* SCSH_3C_iOS.xcdatamodeld */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		6169AC212A6E3E3400F84AE5 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				6169AC272A6E429400F84AE5 /* Moya */,
+				6169AC282A6E435E00F84AE5 /* NetworkConstants.swift */,
+				6169AC2A2A6E437600F84AE5 /* RemoteDataSourceType.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		6169AC222A6E3E3A00F84AE5 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		6169AC232A6E3E4200F84AE5 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				61C54E342A13A2B700EF39C3 /* MainApp.swift */,
+				61C54E362A13A2B700EF39C3 /* ContentView.swift */,
+				6169AE552A6F9E7F00F84AE5 /* ContentViewModel.swift */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		6169AC242A6E3E4700F84AE5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				61C54E422A13A2B700EF39C3 /* Info.plist */,
+				61C54E382A13A2B700EF39C3 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		6169AC252A6E3E5400F84AE5 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		6169AC262A6E3E6300F84AE5 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		6169AC272A6E429400F84AE5 /* Moya */ = {
+			isa = PBXGroup;
+			children = (
+				6169AC2E2A6E444D00F84AE5 /* MoyaApiInterface */,
+				6169AC2F2A6E45AA00F84AE5 /* MoyaNetworkService.swift */,
+				6169AE502A6E5D8400F84AE5 /* MoyaNetworkService+Combine.swift */,
+			);
+			path = Moya;
+			sourceTree = "<group>";
+		};
+		6169AC2E2A6E444D00F84AE5 /* MoyaApiInterface */ = {
+			isa = PBXGroup;
+			children = (
+				6169AE4F2A6E55C800F84AE5 /* Health */,
+				6169AE4D2A6E558F00F84AE5 /* MoyaApiInterfaceType.swift */,
+				6169AE522A6F8ECD00F84AE5 /* Product */,
+			);
+			path = MoyaApiInterface;
+			sourceTree = "<group>";
+		};
+		6169AE4F2A6E55C800F84AE5 /* Health */ = {
+			isa = PBXGroup;
+			children = (
+				6169AC2C2A6E440E00F84AE5 /* HealthInterface.swift */,
+			);
+			path = Health;
+			sourceTree = "<group>";
+		};
+		6169AE522A6F8ECD00F84AE5 /* Product */ = {
+			isa = PBXGroup;
+			children = (
+				6169AE532A6F8EDE00F84AE5 /* ProductApiInterface.swift */,
+			);
+			path = Product;
+			sourceTree = "<group>";
+		};
 		61C54E282A13A2B700EF39C3 = {
 			isa = PBXGroup;
 			children = (
@@ -82,13 +193,14 @@
 		61C54E332A13A2B700EF39C3 /* SCSH_3C_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				61C54E342A13A2B700EF39C3 /* MainApp.swift */,
-				61C54E362A13A2B700EF39C3 /* ContentView.swift */,
-				61C54E382A13A2B700EF39C3 /* Assets.xcassets */,
-				61C54E3D2A13A2B700EF39C3 /* Persistence.swift */,
-				61C54E422A13A2B700EF39C3 /* Info.plist */,
-				61C54E3F2A13A2B700EF39C3 /* SCSH_3C_iOS.xcdatamodeld */,
+				6169AC262A6E3E6300F84AE5 /* Coordinator */,
+				6169AC232A6E3E4200F84AE5 /* Modules */,
+				6169AC212A6E3E3400F84AE5 /* Network */,
 				61C54E3A2A13A2B700EF39C3 /* Preview Content */,
+				6169AC252A6E3E5400F84AE5 /* Repository */,
+				6169AC242A6E3E4700F84AE5 /* Resources */,
+				6169AC202A6E3E2A00F84AE5 /* Storage */,
+				6169AC222A6E3E3A00F84AE5 /* Utility */,
 			);
 			path = SCSH_3C_iOS;
 			sourceTree = "<group>";
@@ -216,8 +328,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6169AC2B2A6E437600F84AE5 /* RemoteDataSourceType.swift in Sources */,
 				61C54E412A13A2B700EF39C3 /* SCSH_3C_iOS.xcdatamodeld in Sources */,
+				6169AE542A6F8EDE00F84AE5 /* ProductApiInterface.swift in Sources */,
+				6169AE512A6E5D8400F84AE5 /* MoyaNetworkService+Combine.swift in Sources */,
+				6169AC2D2A6E440E00F84AE5 /* HealthInterface.swift in Sources */,
+				6169AE4E2A6E558F00F84AE5 /* MoyaApiInterfaceType.swift in Sources */,
 				61C54E3E2A13A2B700EF39C3 /* Persistence.swift in Sources */,
+				6169AC302A6E45AA00F84AE5 /* MoyaNetworkService.swift in Sources */,
+				6169AE562A6F9E7F00F84AE5 /* ContentViewModel.swift in Sources */,
+				6169AC292A6E435E00F84AE5 /* NetworkConstants.swift in Sources */,
 				61C54E372A13A2B700EF39C3 /* ContentView.swift in Sources */,
 				61C54E352A13A2B700EF39C3 /* MainApp.swift in Sources */,
 			);
