@@ -13,9 +13,9 @@ struct ProductApiInterface: MoyaApiInterfaceType {
     
     typealias OutputModel = ProductApiModel
     
-    init(id: String? = nil) {
-        if let id = id {
-            task = .requestParameters(parameters: ["id": id], encoding: URLEncoding.default)
+    init(name: String? = nil) {
+        if let name = name {
+            task = .requestParameters(parameters: ["name": name], encoding: URLEncoding.default)
         } else {
             task = .requestPlain
         }
@@ -29,5 +29,5 @@ struct ProductApiInterface: MoyaApiInterfaceType {
 }
 
 struct ProductApiModel: Decodable {
-    let name: String
+    let names: [String]
 }

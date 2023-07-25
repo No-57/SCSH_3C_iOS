@@ -30,7 +30,7 @@ class ContentViewModel: ObservableObject {
             }
             .flatMap { [weak self] searchText -> AnyPublisher<ProductApiInterface.OutputModel, Error> in
                 if let self = self {
-                    return self.moyaNetworkService.fetch(apiInterface: ProductApiInterface(id: searchText))
+                    return self.moyaNetworkService.fetch(apiInterface: ProductApiInterface(name: searchText))
                 } else {
                     return Empty(completeImmediately: true).eraseToAnyPublisher()
                 }
@@ -38,7 +38,7 @@ class ContentViewModel: ObservableObject {
             .sink { completion in
                 print("something went wrong")
             } receiveValue: { [weak self] model in
-                self?.productNames = [model.name]
+                self?.productNames = model.names
             }
             .store(in: &cancellables)
     }
