@@ -7,12 +7,13 @@
 
 import Foundation
 import Moya
+import Combine
 
 final class MoyaNetworkService: RemoteDataSourceType {
     
     static var shared = MoyaNetworkService()
-
-    func fetch<T: MoyaApiInterfaceType>(apiInterface: T) {
+    
+    func fetch<T: MoyaApiInterfaceType>(apiInterface: T, success: @escaping (T.OutputModel) -> Void, failure: @escaping (Error) -> Void) {
         let moyaProvider = MoyaProvider<T>()
 
         moyaProvider.request(apiInterface) { result in
@@ -20,19 +21,18 @@ final class MoyaNetworkService: RemoteDataSourceType {
             switch result {
             case .success(let response):
                 do {
-                    let result = try apiInterface.jsonDecoder.decode(T.OutputModel.self, from: response.data)
+                    let outputModel = try apiInterface.jsonDecoder.decode(T.OutputModel.self, from: response.data)
 
-                    print("🎉🎉🎉")
-                    print(result)
+                    success(outputModel)
+                    
                 } catch (let error) {
-                    print("❌❌")
-                    print(error.localizedDescription)
+                    print("❌❌ \(error.localizedDescription)")
+                    failure(error)
                 }
             case .failure(let error):
-                print("❌❌❌")
-                print(error.localizedDescription)
+                print("❌❌❌ \(error.localizedDescription)")
+                failure(error)
             }
-            
         }
     }
 }
