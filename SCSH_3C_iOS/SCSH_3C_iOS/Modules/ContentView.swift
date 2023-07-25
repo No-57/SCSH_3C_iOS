@@ -6,40 +6,68 @@
 //
 
 import SwiftUI
-import CoreData
 
 struct ContentView: View {
-
-    var items: [String]
+    
+    @ObservedObject var viewModel = ContentViewModel()
 
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items, id: \.hash) { item in
-                    NavigationLink {
-                        Text("\(item) it is !")
-                    } label: {
-                        Text(item)
+        VStack {
+            // 1. Header
+            Text("3C Comparsion")
+                .font(.largeTitle)
+                .padding()
+
+            // 2. SearchBar
+            HStack(spacing: 5) {
+                TextField("Enter product name", text: $viewModel.searchText)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                
+                HStack(spacing: 0) {
+                    Button(action: {
+                        viewModel.searchText = ""
+                    }) {
+                        Image(systemName: "xmark")
+                            .font(.title) // Customize the size of the image as desired
+                            .foregroundColor(.gray) // Customize the color of the image
+                    }
+                    
+                    Button(action: {
+                        viewModel.searchButtonDidTap.send(())
+                    }) {
+                        Image(systemName: "magnifyingglass")
+                            .font(.title) // Customize the size of the image as desired
+                            .foregroundColor(.gray) // Customize the color of the image
                     }
                 }
             }
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("SCSH - No.57")
-                        .font(.largeTitle)
+            .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+
+            // 3. ProductList
+            if viewModel.productNames.isEmpty {
+                Spacer()
+            } else {
+                List(viewModel.productNames, id: \.self) { item in
+                    Text(item)
                 }
             }
+
+            // 4. Footer
+            Text("No.57 © 2023 All right reserved.")
+                .font(.footnote)
+                .foregroundColor(.gray)
+                .padding()
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(items: [
-            "iPhone 14",
-            "ps5",
-            "ps4 pro",
-            "switch"
-        ])
+        let viewModel = ContentViewModel()
+        viewModel.productNames = ["iphone15",
+                                  "mac",
+                                  "iphone11 pro max"]
+        
+        return ContentView(viewModel: viewModel)
     }
 }

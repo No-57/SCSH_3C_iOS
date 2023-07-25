@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import Combine
 
 @main
 struct MainApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(items: [])
+            ContentView()
         }
     }
 }
