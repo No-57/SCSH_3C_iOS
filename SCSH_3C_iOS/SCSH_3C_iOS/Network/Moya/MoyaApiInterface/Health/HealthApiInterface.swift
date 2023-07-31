@@ -1,5 +1,5 @@
 //
-//  HealthInterface.swift
+//  HealthApiInterface.swift
 //  SCSH_3C_iOS
 //
 //  Created by 辜敬閎 on 2023/7/24.
@@ -8,7 +8,7 @@
 import Foundation
 import Moya
 
-struct HealthInterface: MoyaApiInterfaceType {
+struct HealthApiInterface: MoyaApiInterfaceType {
     typealias OutputModel = HealthApiModel
     
     var baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost80)!

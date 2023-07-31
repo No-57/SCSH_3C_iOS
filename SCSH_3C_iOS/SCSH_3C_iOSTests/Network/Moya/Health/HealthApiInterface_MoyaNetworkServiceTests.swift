@@ -1,5 +1,5 @@
 //
-//  HealthInterface_MoyaNetworkServiceTests.swift
+//  HealthApiInterface_MoyaNetworkServiceTests.swift
 //  SCSH_3C_iOSTests
 //
 //  Created by 辜敬閎 on 2023/7/26.
@@ -9,9 +9,9 @@ import XCTest
 import Moya
 @testable import SCSH_3C_iOS
 
-final class HealthInterface_MoyaNetworkServiceTests: XCTestCase {
+final class HealthApiInterface_MoyaNetworkServiceTests: XCTestCase {
     
-    var sut: MoyaNetworkService<HealthInterface>!
+    var sut: MoyaNetworkService<HealthApiInterface>!
 
     override func tearDown() {
         sut = nil
@@ -127,10 +127,10 @@ final class HealthInterface_MoyaNetworkServiceTests: XCTestCase {
         XCTAssertEqual(XCTWaiter.wait(for: [failureIsExecuted], timeout: 1), .completed)
     }
     
-    private func makeSUT(healthApiInterface: HealthInterface = HealthInterface(), statusCode: Int, data: Data) {
+    private func makeSUT(healthApiInterface: HealthApiInterface = HealthApiInterface(), statusCode: Int, data: Data) {
         
         // For testing, we will use a MoyaProvider with stubbed data
-        let stubbingProvider = MoyaProvider<HealthInterface>(endpointClosure: { target -> Endpoint in
+        let stubbingProvider = MoyaProvider<HealthApiInterface>(endpointClosure: { target -> Endpoint in
             
             return Endpoint(url: URL(target: target).absoluteString,
                             sampleResponseClosure: { .networkResponse(statusCode, data) },
