@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import Combine
 import Moya
+import Combine
 
 protocol MoyaNetworkFacadeType {
     func fetch<T: MoyaApiInterfaceType>(apiInterface: T) -> AnyPublisher<T.OutputModel, Error>
