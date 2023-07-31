@@ -10,5 +10,12 @@ import Moya
 
 protocol MoyaApiInterfaceType: TargetType {
     associatedtype OutputModel: Decodable
-    var jsonDecoder: JSONDecoder { get set }
+    var jsonEncoder: JSONEncoder { get }
+    var jsonDecoder: JSONDecoder { get }
+}
+
+extension MoyaApiInterfaceType {
+    var jsonEncoder: JSONEncoder { JSONEncoder() }
+    var jsonDecoder: JSONDecoder { JSONDecoder() }
+    var validationType: ValidationType { .successAndRedirectCodes }
 }

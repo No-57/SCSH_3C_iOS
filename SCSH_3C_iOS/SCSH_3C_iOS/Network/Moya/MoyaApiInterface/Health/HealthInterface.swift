@@ -9,8 +9,6 @@ import Foundation
 import Moya
 
 struct HealthInterface: MoyaApiInterfaceType {
-    var jsonDecoder: JSONDecoder = JSONDecoder()
-    
     typealias OutputModel = HealthApiModel
     
     var baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost80)!
@@ -20,6 +18,6 @@ struct HealthInterface: MoyaApiInterfaceType {
     var headers: [String : String]? = .none
 }
 
-struct HealthApiModel: Decodable {
+struct HealthApiModel: Decodable, Equatable {
     let message: String
 }
