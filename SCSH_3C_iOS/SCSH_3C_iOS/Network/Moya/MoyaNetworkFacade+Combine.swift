@@ -1,5 +1,5 @@
 //
-//  MoyaNetworkService+Combine.swift
+//  MoyaNetworkFacade+Combine.swift
 //  SCSH_3C_iOS
 //
 //  Created by 辜敬閎 on 2023/7/24.
@@ -9,8 +9,7 @@ import Foundation
 import Moya
 import Combine
 
-extension MoyaNetworkService {
-    
+extension MoyaNetworkFacade {
     func fetch<T: MoyaApiInterfaceType>(apiInterface: T) -> AnyPublisher<T.OutputModel, Error> {
         Future<T.OutputModel, Error> { [weak self] promise in
             guard let self = self else { return }
