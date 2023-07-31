@@ -9,8 +9,6 @@ import Foundation
 import Moya
 
 struct ProductApiInterface: MoyaApiInterfaceType {
-    var jsonDecoder: JSONDecoder = JSONDecoder()
-    
     typealias OutputModel = ProductApiModel
     
     init(name: String? = nil) {
@@ -28,6 +26,6 @@ struct ProductApiInterface: MoyaApiInterfaceType {
     var headers: [String : String]? = .none
 }
 
-struct ProductApiModel: Decodable {
+struct ProductApiModel: Decodable, Equatable {
     let names: [String]
 }
