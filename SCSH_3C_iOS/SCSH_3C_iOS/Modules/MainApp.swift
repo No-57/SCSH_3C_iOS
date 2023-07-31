@@ -10,9 +10,11 @@ import Combine
 
 @main
 struct MainApp: App {
+    private let startUpCoordinator = StartUpCoordinator()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            startUpCoordinator.start()
         }
     }
 }
