@@ -1,9 +1,10 @@
 # SCSH_3C_iOS
-
-## Introduction
 3C devices price comparison.
 
-## To establish the SCSH_3S_iOS project.
+##  Architecture
+<img width="972" alt="Screenshot 2023-08-01 at 3 48 46 PM" src="https://github.com/No-57/SCSH_3C_iOS/assets/38306406/ae3528c0-2f4e-4ad7-a17c-fc8de330e3ad">
+
+## Getting Started
 
 ### Prerequisites
 - Xcode (latest version)
@@ -18,3 +19,5 @@
 <img width="700" alt="Screenshot 2023-07-10 at 7 37 46 PM" src="https://github.com/No-57/SCSH_3C_iOS/assets/38306406/a858491b-c9c2-4190-8922-4ddc2edd4812">
 
 <img width="200" alt="Screenshot 2023-07-10 at 7 43 22 PM" src="https://github.com/No-57/SCSH_3C_iOS/assets/38306406/de6eb523-6b43-40ce-8bf5-afeb0c836aec">
+
+
