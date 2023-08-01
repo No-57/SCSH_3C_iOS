@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct HomeView: View {
     
-    @ObservedObject var viewModel = ContentViewModel()
+    @ObservedObject var viewModel: HomeViewModel
 
     var body: some View {
         VStack {
@@ -61,13 +61,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = ContentViewModel()
-        viewModel.productNames = ["iphone15",
-                                  "mac",
-                                  "iphone11 pro max"]
-        
-        return ContentView(viewModel: viewModel)
+        return HomeCoordinator().start()
     }
 }
