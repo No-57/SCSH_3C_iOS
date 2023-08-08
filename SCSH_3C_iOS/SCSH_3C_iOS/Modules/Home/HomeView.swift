@@ -42,10 +42,28 @@ struct HomeView: View {
 
             // 3. ProductList
             if viewModel.productNames.isEmpty {
-                Spacer()
+                VStack {
+                    Spacer()
+                    Button(action: {
+                        viewModel.refreshButtonDidTap.send(())
+                    }) {
+                        Image(systemName: "arrow.clockwise")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.gray)
+                    }
+                    Text("No Product !")
+                        .foregroundColor(.gray)
+                        .font(.caption)
+                    Spacer()
+                }
+
             } else {
                 List(viewModel.productNames, id: \.self) { item in
                     Text(item)
+                }
+                .refreshable {
+                    viewModel.refreshControlDidTrigger.send(())
                 }
             }
 

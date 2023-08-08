@@ -12,6 +12,8 @@ class HomeViewModel: ObservableObject {
     @Published var productNames: [String] = []
 
     let viewDidAppear = PassthroughSubject<Void, Error>()
+    let refreshButtonDidTap = PassthroughSubject<Void, Error>()
+    let refreshControlDidTrigger = PassthroughSubject<Void, Error>()
     let searchTextDidChange = PassthroughSubject<String?, Error>()
     
     private let coordinator: HomeCoordinatorType
@@ -27,17 +29,18 @@ class HomeViewModel: ObservableObject {
     }
     
     private func bindEvents() {
-        viewDidAppear
+        Publishers.MergeMany(viewDidAppear, refreshControlDidTrigger, refreshButtonDidTap)
             .flatMap { [weak self] _ -> AnyPublisher<[Product], Error> in
                 guard let self = self else {
                     return Empty(completeImmediately: true).eraseToAnyPublisher()
                 }
                 return self.productRepository.getProducts(name: nil, isLatest: true)
             }
+            .map { $0.map { $0.name } }
             .sink { completion in
                 print("something went wrong in viewOnAppear")
-            } receiveValue: { [weak self] products in
-                self?.productNames = products.map { product in product.name } // temp
+            } receiveValue: { [weak self] names in
+                self?.productNames = names
             }
             .store(in: &cancellables)
 
@@ -49,10 +52,11 @@ class HomeViewModel: ObservableObject {
                 }
                 return self.productRepository.getProducts(name: searchText, isLatest: false)
             }
+            .map { $0.map { $0.name } }
             .sink { completion in
                 print("something went wrong in searchButtonDidTap")
-            } receiveValue: { [weak self] products in
-                self?.productNames = products.map { product in product.name } // temp
+            } receiveValue: { [weak self] names in
+                self?.productNames = names
             }
             .store(in: &cancellables)
     }
