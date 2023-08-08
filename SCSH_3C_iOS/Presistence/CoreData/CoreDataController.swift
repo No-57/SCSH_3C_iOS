@@ -1,5 +1,5 @@
 //
-//  Persistence.swift
+//  CoreDataController.swift
 //  SCSH_3C_iOS
 //
 //  Created by 辜敬閎 on 2023/5/16.
@@ -7,13 +7,17 @@
 
 import CoreData
 
-struct PersistenceController {
-    static let shared = PersistenceController()
+class CoreDataController {
+    static let shared = CoreDataController()
 
     let container: NSPersistentCloudKitContainer
 
     init(inMemory: Bool = false) {
-        container = NSPersistentCloudKitContainer(name: "SCSH_3C_iOS")
+        // in order to load core data more accuratly, correspond to `CoreData.xcdatamodeld`
+        let modelURL = Bundle(for: Self.self).url(forResource: "CoreData", withExtension: "momd")!
+        let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL)
+        container = NSPersistentCloudKitContainer(name: "CoreData", managedObjectModel: managedObjectModel!)
+
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
