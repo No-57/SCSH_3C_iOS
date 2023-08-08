@@ -18,17 +18,17 @@ final class ProductCoreDataServiceTests: XCTestCase {
     /// Test `Select * from Product` in CoreData returns successfully.
     ///
     /// Expect:
-    ///    1. Product(name: `"A123"`), Product(name: `"A222"`)
+    ///    1. Product(name: `"A123"`), Product(name: `"A222"`), Product(name: `"a557"`)
     ///
     /// Condition:
-    ///    1. data `name:"A123"` & `name: "A222"` & `name: "B333"` already existed in the table Product.
-    ///    2. query: `name like *"A"*`
+    ///    1. data `name:"A123"` & `name: "A222"` & `name: "B333"` & `name: "a557"` already existed in the table Product.
+    ///    2. query: `name like[c] *"A"*`
     ///
     func testGetByName() {
         sut = makeSUT()
         
         let mockQueryName = "A"
-        let mockNames = ["A123", "A222", "B333"]
+        let mockNames = ["A123", "A222", "B333", "a557"]
         
         sut.save(names: mockNames) 
             .flatMap { _ -> AnyPublisher<[Product], Error> in
@@ -41,9 +41,10 @@ final class ProductCoreDataServiceTests: XCTestCase {
                     XCTFail(error.localizedDescription)
                 }
             }, receiveValue: { products in
-                XCTAssertEqual(products.count, 2)
+                XCTAssertEqual(products.count, 3)
                 XCTAssertEqual(products[0].name, "A123")
                 XCTAssertEqual(products[1].name, "A222")
+                XCTAssertEqual(products[2].name, "a557")
                 
             })
             .store(in: &cancellables)
