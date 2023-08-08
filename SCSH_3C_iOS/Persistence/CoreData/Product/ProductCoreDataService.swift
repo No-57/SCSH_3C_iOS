@@ -42,7 +42,7 @@ public class ProductCoreDataService: ProductCoreDataServiceType {
         let context = CoreDataController.shared.container.newBackgroundContext()
         let fetchRequest = Product.fetchRequest()
         if let name = name, !name.isEmpty {
-            fetchRequest.predicate = NSPredicate(format: "name LIKE '*\(name)*'")
+            fetchRequest.predicate = NSPredicate(format: "name LIKE[c] '*\(name)*'")
         }
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
