@@ -8,7 +8,7 @@
 import XCTest
 import Combine
 @testable import SCSH_3C_iOS
-@testable import Presistence
+@testable import Persistence
 
 final class ProductRepositoryTests: XCTestCase {
 
@@ -113,11 +113,11 @@ final class ProductRepositoryTests: XCTestCase {
         sut = ProductRepository(productMapper: mockProductMapper, moyaNetworkFacade: mockMoyaNetworkFacade, productCoreDataService: mockProductCoreDataService)
     }
 
-    private func makeMockCoreDataModel(names: [String]) -> [Presistence.Product] {
-        var products: [Presistence.Product] = []
+    private func makeMockCoreDataModel(names: [String]) -> [Persistence.Product] {
+        var products: [Persistence.Product] = []
         
         for name in names {
-            let product = Presistence.Product(context: CoreDataController.shared.container.viewContext)
+            let product = Persistence.Product(context: CoreDataController.shared.container.viewContext)
             product.name = name
             
             products.append(product)
@@ -159,21 +159,21 @@ class MockProductMapper: ProductModelMapperType {
         mockProducts
     }
     
-    func transform(coreDataProducts: [Presistence.Product]) -> [SCSH_3C_iOS.Product] {
+    func transform(coreDataProducts: [Persistence.Product]) -> [SCSH_3C_iOS.Product] {
         mockProducts
     }
 }
 
 class MockProductCoreDataService: ProductCoreDataServiceType {
-    private let mockGetResult: Result<[Presistence.Product], Error>
+    private let mockGetResult: Result<[Persistence.Product], Error>
     private let mockSaveResult: Result<Void, Error>
 
-    init(mockGetResult: Result<[Presistence.Product], Error>, mockSaveResult: Result<Void, Error>) {
+    init(mockGetResult: Result<[Persistence.Product], Error>, mockSaveResult: Result<Void, Error>) {
         self.mockGetResult = mockGetResult
         self.mockSaveResult = mockSaveResult
     }
     
-    func get(name: String?) -> AnyPublisher<[Presistence.Product], Error> {
+    func get(name: String?) -> AnyPublisher<[Persistence.Product], Error> {
         switch mockGetResult {
         case .success(let products):
             return Just(products)

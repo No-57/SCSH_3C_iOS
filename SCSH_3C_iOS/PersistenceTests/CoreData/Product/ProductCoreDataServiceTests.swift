@@ -7,7 +7,7 @@
 
 import XCTest
 import Combine
-@testable import Presistence
+@testable import Persistence
 
 final class ProductCoreDataServiceTests: XCTestCase {
 
