@@ -9,10 +9,10 @@ import Foundation
 import Combine
 
 class HomeViewModel: ObservableObject {
-    @Published var searchText: String = ""
     @Published var productNames: [String] = []
 
-    let searchButtonDidTap = PassthroughSubject<Void, Error>()
+    let viewDidAppear = PassthroughSubject<Void, Error>()
+    let searchTextDidChange = PassthroughSubject<String?, Error>()
     
     private let coordinator: HomeCoordinatorType
     private let productRepository: ProductRepositoryType
@@ -27,18 +27,30 @@ class HomeViewModel: ObservableObject {
     }
     
     private func bindEvents() {
-        searchButtonDidTap
-            .compactMap { [weak self] _ in
-                self?.searchText
+        viewDidAppear
+            .flatMap { [weak self] _ -> AnyPublisher<[Product], Error> in
+                guard let self = self else {
+                    return Empty(completeImmediately: true).eraseToAnyPublisher()
+                }
+                return self.productRepository.getProducts(name: nil, isLatest: true)
             }
+            .sink { completion in
+                print("something went wrong in viewOnAppear")
+            } receiveValue: { [weak self] products in
+                self?.productNames = products.map { product in product.name } // temp
+            }
+            .store(in: &cancellables)
+
+        
+        searchTextDidChange
             .flatMap { [weak self] searchText -> AnyPublisher<[Product], Error> in
                 guard let self = self else {
                     return Empty(completeImmediately: true).eraseToAnyPublisher()
                 }
-                return self.productRepository.getProducts(name: searchText, isLatest: true)
+                return self.productRepository.getProducts(name: searchText, isLatest: false)
             }
             .sink { completion in
-                print("something went wrong")
+                print("something went wrong in searchButtonDidTap")
             } receiveValue: { [weak self] products in
                 self?.productNames = products.map { product in product.name } // temp
             }
