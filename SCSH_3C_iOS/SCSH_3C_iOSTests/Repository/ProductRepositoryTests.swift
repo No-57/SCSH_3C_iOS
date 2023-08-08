@@ -8,6 +8,7 @@
 import XCTest
 import Combine
 @testable import SCSH_3C_iOS
+@testable import Presistence
 
 final class ProductRepositoryTests: XCTestCase {
 
@@ -26,20 +27,24 @@ final class ProductRepositoryTests: XCTestCase {
     ///     1. `[`Product(name: `"iPhone14"`), Product(name: `"iPhone13 pro max"`)`]`
     ///
     /// Condition:
-    ///     1. function parameters   -> name: `"iPhone"`, isLatest: `true`
-    ///     2. MockProductMapper     -> `[`Product(name: `"iPhone14"`), Product(name: `"iPhone13 pro max"`)`]`
-    ///     3. MockMoyaNetworkFacade -> ProductApiModel(names: `[``"iPhone14"`, `"iPhone13 pro max"``]`)
+    ///     1. function parameters          -> name: `"iPhone"`, isLatest: `true`
+    ///     2. MockProductMapper            -> `[`Product(name: `"iPhone14"`), Product(name: `"iPhone13 pro max"`)`]`
+    ///     3. MockMoyaNetworkFacade        -> ProductApiModel(names: `[``"iPhone14"`, `"iPhone13 pro max"``]`)
+    ///     4. MockProductCoreDataService   -> mockGetResult:  .success(`[`Product(`"iPhone14"`), Product(`"iPhone13 pro max""`)`]`)
+    ///                                        mockSaveResult: .success
     ///
     func testGetProductsSuccessWithName() {
         // sut
         let mockProducts = [Product(name: "iPhone14"), Product(name: "iPhone13 pro max")]
         let mockProductApiResult: Result<ProductApiModel, Error> = .success(ProductApiModel(names: ["iPhone14", "iPhone13 pro max"]))
+        let mockProductCoreData = makeMockCoreDataModel(names: ["iPhone14", "iPhone13 pro max"])
 
         let mockProductMapper = MockProductMapper(mockProducts: mockProducts)
         let moyaNetworkFacade = MockMoyaNetworkFacade(mockProductApiResult: mockProductApiResult)
+        let productCoreDataService = MockProductCoreDataService(mockGetResult: .success(mockProductCoreData), mockSaveResult: .success(()))
 
         let receiveValueIsCalled = XCTestExpectation(description: "receiveValueIsCalled")
-        makeSUT(mockProductMapper: mockProductMapper, mockMoyaNetworkFacade: moyaNetworkFacade)
+        makeSUT(mockProductMapper: mockProductMapper, mockMoyaNetworkFacade: moyaNetworkFacade, mockProductCoreDataService: productCoreDataService)
          
         sut.getProducts(name: "iPhone", isLatest: true)
             .sink(receiveCompletion: { completion in
@@ -69,19 +74,23 @@ final class ProductRepositoryTests: XCTestCase {
     ///     1. function parameters   -> name: `"iPhone"`, isLatest: `true`
     ///     2. MockProductMapper     -> `[`Product(name: `"iPhone14"`), Product(name: `"iPhone13 pro max"`)`]`
     ///     3. MockMoyaNetworkFacade -> `NSError(domain: "123", code: 100)`
+    ///     4. MockProductCoreDataService   -> mockGetResult:  .success(`[`Product(`"iPhone14"`), Product(`"iPhone13 pro max""`)`]`)
+    ///                                        mockSaveResult: .success
     ///
     func testGetProductsFailureWithName() {
         // sut
         let mockProducts = [Product(name: "iPhone14"), Product(name: "iPhone13 pro max")]
         let mockError = NSError(domain: "123", code: 100)
         let mockProductApiResult: Result<ProductApiModel, Error> = .failure(mockError)
+        let mockProductCoreData = makeMockCoreDataModel(names: ["iPhone14", "iPhone13 pro max"])
 
         let mockProductMapper = MockProductMapper(mockProducts: mockProducts)
         let moyaNetworkFacade = MockMoyaNetworkFacade(mockProductApiResult: mockProductApiResult)
+        let productCoreDataService = MockProductCoreDataService(mockGetResult: .success(mockProductCoreData), mockSaveResult: .success(()))
 
         let receiveErrorIsCalled = XCTestExpectation(description: "receiveErrorIsCalled")
-        makeSUT(mockProductMapper: mockProductMapper, mockMoyaNetworkFacade: moyaNetworkFacade)
-         
+        makeSUT(mockProductMapper: mockProductMapper, mockMoyaNetworkFacade: moyaNetworkFacade, mockProductCoreDataService: productCoreDataService)
+
         sut.getProducts(name: "iPhone", isLatest: true)
             .sink(receiveCompletion: { completion in
                 switch completion {
@@ -96,14 +105,26 @@ final class ProductRepositoryTests: XCTestCase {
                 XCTFail()
             })
             .store(in: &cancellables)
-        
+
         wait(for: [receiveErrorIsCalled], timeout: 1.0)
     }
     
-    private func makeSUT(mockProductMapper: ProductModelMapperType, mockMoyaNetworkFacade: MoyaNetworkFacadeType) {
-        sut = ProductRepository(productMapper: mockProductMapper, moyaNetworkFacade: mockMoyaNetworkFacade)
+    private func makeSUT(mockProductMapper: ProductModelMapperType, mockMoyaNetworkFacade: MoyaNetworkFacadeType, mockProductCoreDataService: ProductCoreDataServiceType) {
+        sut = ProductRepository(productMapper: mockProductMapper, moyaNetworkFacade: mockMoyaNetworkFacade, productCoreDataService: mockProductCoreDataService)
     }
 
+    private func makeMockCoreDataModel(names: [String]) -> [Presistence.Product] {
+        var products: [Presistence.Product] = []
+        
+        for name in names {
+            let product = Presistence.Product(context: CoreDataController.shared.container.viewContext)
+            product.name = name
+            
+            products.append(product)
+        }
+        
+        return products
+    }
 }
 
 // MARK: mock object
@@ -128,13 +149,49 @@ class MockMoyaNetworkFacade: MoyaNetworkFacadeType {
 }
 
 class MockProductMapper: ProductModelMapperType {
-    private let mockProducts: [Product]
+    private let mockProducts: [SCSH_3C_iOS.Product]
     
-    init(mockProducts: [Product]) {
+    init(mockProducts: [SCSH_3C_iOS.Product]) {
         self.mockProducts = mockProducts
     }
     
     func transform(apiModel: SCSH_3C_iOS.ProductApiModel) -> [SCSH_3C_iOS.Product] {
         mockProducts
+    }
+    
+    func transform(coreDataProducts: [Presistence.Product]) -> [SCSH_3C_iOS.Product] {
+        mockProducts
+    }
+}
+
+class MockProductCoreDataService: ProductCoreDataServiceType {
+    private let mockGetResult: Result<[Presistence.Product], Error>
+    private let mockSaveResult: Result<Void, Error>
+
+    init(mockGetResult: Result<[Presistence.Product], Error>, mockSaveResult: Result<Void, Error>) {
+        self.mockGetResult = mockGetResult
+        self.mockSaveResult = mockSaveResult
+    }
+    
+    func get(name: String?) -> AnyPublisher<[Presistence.Product], Error> {
+        switch mockGetResult {
+        case .success(let products):
+            return Just(products)
+                .setFailureType(to: Error.self)
+                .eraseToAnyPublisher()
+        case .failure(let error):
+            return Fail(error: error).eraseToAnyPublisher()
+        }
+    }
+
+    func save(names: [String]) -> AnyPublisher<Void, Error> {
+        switch mockSaveResult {
+        case .success:
+            return Just(())
+                .setFailureType(to: Error.self)
+                .eraseToAnyPublisher()
+        case .failure(let error):
+            return Fail(error: error).eraseToAnyPublisher()
+        }
     }
 }
