@@ -9,6 +9,8 @@ import SwiftUI
 
 struct HomeView: View {
     
+    @State private var searchText: String = ""
+    
     @ObservedObject var viewModel: HomeViewModel
 
     var body: some View {
@@ -20,22 +22,17 @@ struct HomeView: View {
 
             // 2. SearchBar
             HStack(spacing: 5) {
-                TextField("Enter product name", text: $viewModel.searchText)
+                TextField("Enter product name", text: $searchText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .onChange(of: searchText) { newValue in
+                        viewModel.searchTextDidChange.send(newValue)
+                    }
                 
                 HStack(spacing: 0) {
                     Button(action: {
-                        viewModel.searchText = ""
+                        searchText = ""
                     }) {
                         Image(systemName: "xmark")
-                            .font(.title) // Customize the size of the image as desired
-                            .foregroundColor(.gray) // Customize the color of the image
-                    }
-                    
-                    Button(action: {
-                        viewModel.searchButtonDidTap.send(())
-                    }) {
-                        Image(systemName: "magnifyingglass")
                             .font(.title) // Customize the size of the image as desired
                             .foregroundColor(.gray) // Customize the color of the image
                     }
@@ -45,10 +42,28 @@ struct HomeView: View {
 
             // 3. ProductList
             if viewModel.productNames.isEmpty {
-                Spacer()
+                VStack {
+                    Spacer()
+                    Button(action: {
+                        viewModel.refreshButtonDidTap.send(())
+                    }) {
+                        Image(systemName: "arrow.clockwise")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.gray)
+                    }
+                    Text("No Product !")
+                        .foregroundColor(.gray)
+                        .font(.caption)
+                    Spacer()
+                }
+
             } else {
                 List(viewModel.productNames, id: \.self) { item in
                     Text(item)
+                }
+                .refreshable {
+                    viewModel.refreshControlDidTrigger.send(())
                 }
             }
 
@@ -57,6 +72,9 @@ struct HomeView: View {
                 .font(.footnote)
                 .foregroundColor(.gray)
                 .padding()
+        }
+        .onAppear {
+            viewModel.viewDidAppear.send(())
         }
     }
 }
