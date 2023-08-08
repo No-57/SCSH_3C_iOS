@@ -2,7 +2,7 @@
 3C devices price comparison.
 
 ##  Architecture
-<img width="972" alt="Screenshot 2023-08-01 at 3 48 46 PM" src="https://github.com/No-57/SCSH_3C_iOS/assets/38306406/ae3528c0-2f4e-4ad7-a17c-fc8de330e3ad">
+<img width="972" alt="Screenshot 2023-08-01 at 3 48 46 PM" src="https://github.com/No-57/SCSH_3C_iOS/assets/38306406/d1674bd7-b54a-4821-8f00-ce5c48ab839a">
 
 ## Getting Started
 
