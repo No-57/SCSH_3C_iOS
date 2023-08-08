@@ -6,12 +6,19 @@
 //
 
 import Foundation
+import Presistence
 
 protocol ProductModelMapperType {
     func transform(apiModel: ProductApiModel) -> [Product]
+    func transform(coreDataProducts: [Presistence.Product]) -> [Product]
 }
 
 class ProductModelMapper: ProductModelMapperType {
+    func transform(coreDataProducts: [Presistence.Product]) -> [Product] {
+        coreDataProducts.map { coreDataProduct in
+            Product(name: coreDataProduct.name ?? "unknown")
+        }
+    }
     
     func transform(apiModel: ProductApiModel) -> [Product] {
         apiModel.names.map { name in

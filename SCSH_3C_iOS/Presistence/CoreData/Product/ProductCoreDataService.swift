@@ -7,19 +7,43 @@
 
 import Foundation
 import CoreData
+import Combine
 
-protocol ProductCoreDataServiceType {
-    func get() -> Result<[Product], Error>
-    func save(names: [String]) -> Result<Void, Error>
+public protocol ProductCoreDataServiceType {
+    func get(name: String?) -> AnyPublisher<[Product], Error>
+    func save(names: [String]) -> AnyPublisher<Void, Error>
 }
 
-class ProductCoreDataService: ProductCoreDataServiceType {
+public class ProductCoreDataService: ProductCoreDataServiceType {
     
     private let mapper: ProductCoreDataMapperType = ProductCoreDataMapper()
     
-    func get() -> Result<[Product], Error> {
+    public init() {}
+    
+    public func get(name: String?) -> AnyPublisher<[Product], Error> {
+        Future<[Product], Error> { [weak self] promise in
+            guard let self = self else { return }
+            
+            promise(self.get(name: name))
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    public func save(names: [String]) -> AnyPublisher<Void, Error> {
+        Future<Void, Error> { [weak self] promise in
+            guard let self = self else { return }
+            
+            promise(self.save(names: names))
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    private func get(name: String?) -> Result<[Product], Error> {
         let context = CoreDataController.shared.container.newBackgroundContext()
         let fetchRequest = Product.fetchRequest()
+        if let name = name, !name.isEmpty {
+            fetchRequest.predicate = NSPredicate(format: "name LIKE '*\(name)*'")
+        }
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
         do {
@@ -32,7 +56,7 @@ class ProductCoreDataService: ProductCoreDataServiceType {
         }
     }
     
-    func save(names: [String]) -> Result<Void, Error> {
+    private func save(names: [String]) -> Result<Void, Error> {
         let context = CoreDataController.shared.container.newBackgroundContext()
         
         // truncate table

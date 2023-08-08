@@ -6,11 +6,13 @@
 //
 
 import XCTest
+import Combine
 @testable import Presistence
 
 final class ProductCoreDataServiceTests: XCTestCase {
 
     var sut: ProductCoreDataService!
+    var cancellables = Set<AnyCancellable>()
     
     ///
     /// Test `Select * from Product` in CoreData returns successfully.
@@ -19,27 +21,32 @@ final class ProductCoreDataServiceTests: XCTestCase {
     ///    1. Product(name: `"A123"`), Product(name: `"A222"`)
     ///
     /// Condition:
-    ///    1. data `name:"A123"` & `name: "A222"` already existed in the table Product.
+    ///    1. data `name:"A123"` & `name: "A222"` & `name: "B333"` already existed in the table Product.
+    ///    2. query: `name like *"A"*`
     ///
-    func testGet() {
+    func testGetByName() {
         sut = makeSUT()
         
-        let mockNames = ["A123", "A222"]
-        let saveResult = sut.save(names: mockNames)
-        let queryResult = sut.get()
+        let mockQueryName = "A"
+        let mockNames = ["A123", "A222", "B333"]
         
-        switch (saveResult, queryResult) {
-            
-        case (.success, .success(let products)):
-
-            XCTAssertFalse(products.isEmpty) // check result is not empty
-            for (index, product) in products.enumerated() {
-                XCTAssertEqual(product.name, mockNames[index])
+        sut.save(names: mockNames) 
+            .flatMap { _ -> AnyPublisher<[Product], Error> in
+                self.sut.get(name: mockQueryName)
             }
-
-        default:
-            XCTFail()
-        }
+            .sink(receiveCompletion: { result in
+                switch result {
+                case .finished: break;
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                }
+            }, receiveValue: { products in
+                XCTAssertEqual(products.count, 2)
+                XCTAssertEqual(products[0].name, "A123")
+                XCTAssertEqual(products[1].name, "A222")
+                
+            })
+            .store(in: &cancellables)
     }
     
     private func makeSUT() -> ProductCoreDataService {
