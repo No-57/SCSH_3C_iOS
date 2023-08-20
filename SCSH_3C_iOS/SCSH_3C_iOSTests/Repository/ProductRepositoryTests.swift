@@ -9,6 +9,7 @@ import XCTest
 import Combine
 @testable import SCSH_3C_iOS
 @testable import Persistence
+@testable import Networking
 
 final class ProductRepositoryTests: XCTestCase {
 
@@ -136,7 +137,7 @@ class MockMoyaNetworkFacade: MoyaNetworkFacadeType {
         self.mockProductApiResult = mockProductApiResult
     }
     
-    func fetch<T>(apiInterface: T) -> AnyPublisher<T.OutputModel, Error> where T : SCSH_3C_iOS.MoyaApiInterfaceType {
+    func fetch<T>(apiInterface: T) -> AnyPublisher<T.OutputModel, Error> where T : MoyaApiInterfaceType {
         switch mockProductApiResult {
         case .success(let apiModel):
             return Just(apiModel as! T.OutputModel)
@@ -155,7 +156,7 @@ class MockProductMapper: ProductModelMapperType {
         self.mockProducts = mockProducts
     }
     
-    func transform(apiModel: SCSH_3C_iOS.ProductApiModel) -> [SCSH_3C_iOS.Product] {
+    func transform(apiModel: ProductApiModel) -> [SCSH_3C_iOS.Product] {
         mockProducts
     }
     

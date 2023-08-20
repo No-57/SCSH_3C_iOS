@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import Persistence
+import Networking
 
 protocol ProductRepositoryType {
     func getProducts(name: String?, isLatest: Bool) -> AnyPublisher<[Product], Error>
