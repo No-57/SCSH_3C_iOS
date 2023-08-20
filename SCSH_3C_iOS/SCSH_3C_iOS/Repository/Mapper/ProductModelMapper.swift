@@ -7,6 +7,7 @@
 
 import Foundation
 import Persistence
+import Networking
 
 protocol ProductModelMapperType {
     func transform(apiModel: ProductApiModel) -> [Product]

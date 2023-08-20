@@ -9,15 +9,17 @@ import Foundation
 import Moya
 import Combine
 
-protocol MoyaNetworkFacadeType {
+public protocol MoyaNetworkFacadeType {
     func fetch<T: MoyaApiInterfaceType>(apiInterface: T) -> AnyPublisher<T.OutputModel, Error>
 }
 
-class MoyaNetworkFacade: MoyaNetworkFacadeType {
+public class MoyaNetworkFacade: MoyaNetworkFacadeType {
     
     private var activeService: Any?
     
-    func fetch<T: MoyaApiInterfaceType>(apiInterface: T) -> AnyPublisher<T.OutputModel, Error> {
+    public init() {}
+    
+    public func fetch<T: MoyaApiInterfaceType>(apiInterface: T) -> AnyPublisher<T.OutputModel, Error> {
         Future<T.OutputModel, Error> { [weak self] promise in
             guard let self = self else { return }
             

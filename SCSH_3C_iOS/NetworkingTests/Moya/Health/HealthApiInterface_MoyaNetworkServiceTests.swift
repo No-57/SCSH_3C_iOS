@@ -7,7 +7,7 @@
 
 import XCTest
 import Moya
-@testable import SCSH_3C_iOS
+@testable import Networking
 
 final class HealthApiInterface_MoyaNetworkServiceTests: XCTestCase {
     

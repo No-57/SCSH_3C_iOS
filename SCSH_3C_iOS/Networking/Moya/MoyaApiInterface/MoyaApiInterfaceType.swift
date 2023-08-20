@@ -8,13 +8,13 @@
 import Foundation
 import Moya
 
-protocol MoyaApiInterfaceType: TargetType {
+public protocol MoyaApiInterfaceType: TargetType {
     associatedtype OutputModel: Decodable
     var jsonEncoder: JSONEncoder { get }
     var jsonDecoder: JSONDecoder { get }
 }
 
-extension MoyaApiInterfaceType {
+public extension MoyaApiInterfaceType {
     var jsonEncoder: JSONEncoder { JSONEncoder() }
     var jsonDecoder: JSONDecoder { JSONDecoder() }
     var validationType: ValidationType { .successAndRedirectCodes }
