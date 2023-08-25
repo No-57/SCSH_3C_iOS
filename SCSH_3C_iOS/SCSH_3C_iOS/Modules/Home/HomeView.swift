@@ -61,6 +61,9 @@ struct HomeView: View {
             } else {
                 List(viewModel.productNames, id: \.self) { item in
                     Text(item)
+                        .onTapGesture {
+                            viewModel.productCellDidTap.send(item)
+                        }
                 }
                 .refreshable {
                     viewModel.refreshControlDidTrigger.send(())

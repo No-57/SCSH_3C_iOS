@@ -12,6 +12,7 @@ class HomeViewModel: ObservableObject {
     @Published var productNames: [String] = []
 
     let viewDidAppear = PassthroughSubject<Void, Error>()
+    let productCellDidTap = PassthroughSubject<String, Error>()
     let refreshButtonDidTap = PassthroughSubject<Void, Error>()
     let refreshControlDidTrigger = PassthroughSubject<Void, Error>()
     let searchTextDidChange = PassthroughSubject<String?, Error>()
@@ -29,6 +30,23 @@ class HomeViewModel: ObservableObject {
     }
     
     private func bindEvents() {
+        viewDidAppear
+            .sink { _ in
+                print("something went wrong in viewDidAppear")
+            } receiveValue: { [weak self] _ in
+                self?.coordinator.presentNotificationPermissionDailog() { _ in }
+            }
+            .store(in: &cancellables)
+        
+        productCellDidTap
+            .sink { _ in
+                print("something went wrong in productCellDidTap")
+            } receiveValue: { [weak self] name in
+                self?.coordinator.addNotification(title: name)
+            }
+            .store(in: &cancellables)
+            
+        
         Publishers.MergeMany(viewDidAppear, refreshControlDidTrigger, refreshButtonDidTap)
             .flatMap { [weak self] _ -> AnyPublisher<[Product], Error> in
                 guard let self = self else {
