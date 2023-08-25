@@ -29,6 +29,7 @@
 		61A95C1B2A77F00B005BB895 /* ProductModelMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95C1A2A77F00B005BB895 /* ProductModelMapper.swift */; };
 		61A95C1E2A77F05A005BB895 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95C1D2A77F05A005BB895 /* Product.swift */; };
 		61A95C222A77F94C005BB895 /* ProductRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95C212A77F94C005BB895 /* ProductRepositoryTests.swift */; };
+		61B185592A971EE90072F119 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B185582A971EE90072F119 /* NotificationManager.swift */; };
 		61C54E352A13A2B700EF39C3 /* MainApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C54E342A13A2B700EF39C3 /* MainApp.swift */; };
 		61C54E372A13A2B700EF39C3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C54E362A13A2B700EF39C3 /* HomeView.swift */; };
 		61C54E392A13A2B700EF39C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61C54E382A13A2B700EF39C3 /* Assets.xcassets */; };
@@ -129,6 +130,7 @@
 		61B1822B2A91D3280072F119 /* SCSH_3C_iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = SCSH_3C_iOSTests.xctest; path = "/Users/vince/Work/iOS/SCSH_3C_iOS/SCSH_3C_iOS/build/Debug-iphoneos/SCSH_3C_iOSTests.xctest"; sourceTree = "<absolute>"; };
 		61B1822C2A91D3280072F119 /* PersistenceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = PersistenceTests.xctest; path = "/Users/vince/Work/iOS/SCSH_3C_iOS/SCSH_3C_iOS/build/Debug-iphoneos/PersistenceTests.xctest"; sourceTree = "<absolute>"; };
 		61B1822D2A91D3280072F119 /* NetworkingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = NetworkingTests.xctest; path = "/Users/vince/Work/iOS/SCSH_3C_iOS/SCSH_3C_iOS/build/Debug-iphoneos/NetworkingTests.xctest"; sourceTree = "<absolute>"; };
+		61B185582A971EE90072F119 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		61C54E342A13A2B700EF39C3 /* MainApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainApp.swift; sourceTree = "<group>"; };
 		61C54E362A13A2B700EF39C3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		61C54E382A13A2B700EF39C3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -353,6 +355,22 @@
 			path = Repository;
 			sourceTree = "<group>";
 		};
+		61B1855A2A98B5520072F119 /* Ecosystem */ = {
+			isa = PBXGroup;
+			children = (
+				61B1855B2A98B5700072F119 /* Notification */,
+			);
+			path = Ecosystem;
+			sourceTree = "<group>";
+		};
+		61B1855B2A98B5700072F119 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				61B185582A971EE90072F119 /* NotificationManager.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
 		61C54E282A13A2B700EF39C3 = {
 			isa = PBXGroup;
 			children = (
@@ -369,6 +387,7 @@
 			isa = PBXGroup;
 			children = (
 				6169AC262A6E3E6300F84AE5 /* Coordinator */,
+				61B1855A2A98B5520072F119 /* Ecosystem */,
 				6169AC232A6E3E4200F84AE5 /* Modules */,
 				61C54E3A2A13A2B700EF39C3 /* Preview Content */,
 				6169AC252A6E3E5400F84AE5 /* Repository */,
@@ -731,6 +750,7 @@
 				61C931592A78225A00EA7BD8 /* HomeCoordinator.swift in Sources */,
 				61C54E372A13A2B700EF39C3 /* HomeView.swift in Sources */,
 				61C9315B2A78226300EA7BD8 /* HomeCoordinatorType.swift in Sources */,
+				61B185592A971EE90072F119 /* NotificationManager.swift in Sources */,
 				61C54E352A13A2B700EF39C3 /* MainApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
