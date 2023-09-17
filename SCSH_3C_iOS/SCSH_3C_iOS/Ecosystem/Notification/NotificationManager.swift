@@ -15,13 +15,16 @@ protocol NotificationManagerType {
 
 class NotificationManager: NSObject, NotificationManagerType {
     // thread-safe
-    static let shared: NotificationManagerType = NotificationManager()
+    static let shared: NotificationManagerType = NotificationManager(factory: NotificationFactory())
 
+    private let factory: NotificationFactoryType
+    
     ///
     /// ⚠️⚠️⚠️ DO NOT CALL THE CONSTRUCTOR DIRECTLY.
     /// Instead, access the instace through the `shared`.
     ///
-    override init() {
+    init(factory: NotificationFactoryType) {
+        self.factory = factory
         super.init()
         UNUserNotificationCenter.current().delegate = self
     }
@@ -33,16 +36,9 @@ class NotificationManager: NSObject, NotificationManagerType {
     }
     
     func addNotification(title: String, body: String) {
-        let content = UNMutableNotificationContent()
-        content.title = title
-        content.body = body
-        content.sound = .default
+        let notificationRequest = factory.generate(title: title, body: body)
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request)
+        UNUserNotificationCenter.current().add(notificationRequest)
     }
 }
 
