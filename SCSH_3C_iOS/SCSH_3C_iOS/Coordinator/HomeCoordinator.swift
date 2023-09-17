@@ -14,7 +14,7 @@ class HomeCoordinator: HomeCoordinatorType {
     
     private let notificationManager: NotificationManagerType
     
-    init(notificationManager: NotificationManagerType = NotificationManager()) {
+    init(notificationManager: NotificationManagerType = NotificationManager.shared) {
         self.notificationManager = notificationManager
     }
     

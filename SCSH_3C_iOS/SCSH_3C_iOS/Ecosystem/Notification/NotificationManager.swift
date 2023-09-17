@@ -8,14 +8,19 @@
 import UserNotifications
 
 protocol NotificationManagerType {
-    static var shared: Self { get }
+    static var shared: NotificationManagerType { get }
     func requestAuthorization()
     func addNotification(title: String, body: String)
 }
 
-final class NotificationManager: NSObject, NotificationManagerType {
-    static var shared: NotificationManager = NotificationManager()
-    
+class NotificationManager: NSObject, NotificationManagerType {
+    // thread-safe
+    static let shared: NotificationManagerType = NotificationManager()
+
+    ///
+    /// ⚠️⚠️⚠️ DO NOT CALL THE CONSTRUCTOR DIRECTLY.
+    /// Instead, access the instace through the `shared`.
+    ///
     override init() {
         super.init()
         UNUserNotificationCenter.current().delegate = self
