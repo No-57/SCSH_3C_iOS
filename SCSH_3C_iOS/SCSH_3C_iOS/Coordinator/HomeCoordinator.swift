@@ -12,6 +12,12 @@ import Networking
 
 class HomeCoordinator: HomeCoordinatorType {
     
+    private let notificationManager: NotificationManagerType
+    
+    init(notificationManager: NotificationManagerType = NotificationManager.shared) {
+        self.notificationManager = notificationManager
+    }
+    
     func start() -> HomeView {
         let productRepository = ProductRepository(productMapper: ProductModelMapper(),
                                                   moyaNetworkFacade: MoyaNetworkFacade(),
@@ -19,5 +25,13 @@ class HomeCoordinator: HomeCoordinatorType {
         let viewModel = HomeViewModel(coordinator: self, productRepository: productRepository)
         
         return HomeView(viewModel: viewModel)
+    }
+    
+    func presentNotificationPermissionDailog(completion: (Bool) -> Void) {
+        notificationManager.requestAuthorization()
+    }
+    
+    func addNotification(title: String) {
+        notificationManager.addNotification(title: "\(title) is tapped!! " , body: "local notification")
     }
 }

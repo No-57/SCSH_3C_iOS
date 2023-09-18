@@ -10,4 +10,6 @@ import SwiftUI
 
 protocol HomeCoordinatorType {
     func start() -> HomeView
+    func presentNotificationPermissionDailog(completion: (Bool) -> Void)
+    func addNotification(title: String)
 }
