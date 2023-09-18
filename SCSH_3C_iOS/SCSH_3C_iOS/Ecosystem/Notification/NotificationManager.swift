@@ -15,22 +15,26 @@ protocol NotificationManagerType {
 
 class NotificationManager: NSObject, NotificationManagerType {
     // thread-safe
-    static let shared: NotificationManagerType = NotificationManager(factory: NotificationFactory())
+    static let shared: NotificationManagerType = NotificationManager(factory: NotificationFactory(),
+                                                                     notificationCenter: UNUserNotificationCenter.current())
 
     private let factory: NotificationFactoryType
+    private var notificationCenterProxy: NotificationCenterProxyType
     
     ///
     /// ⚠️⚠️⚠️ DO NOT CALL THE CONSTRUCTOR DIRECTLY.
     /// Instead, access the instace through the `shared`.
     ///
-    init(factory: NotificationFactoryType) {
+    init(factory: NotificationFactoryType, notificationCenter: NotificationCenterProxyType) {
         self.factory = factory
+        self.notificationCenterProxy = notificationCenter
         super.init()
-        UNUserNotificationCenter.current().delegate = self
+        
+        self.notificationCenterProxy.delegate = self
     }
     
     func requestAuthorization() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (isSuccessful, error) in
+        notificationCenterProxy.requestAuthorization(options: [.alert, .sound, .badge]) { (isSuccessful, error) in
             // TODO: Error handeling
         }
     }
@@ -38,7 +42,7 @@ class NotificationManager: NSObject, NotificationManagerType {
     func addNotification(title: String, body: String) {
         let notificationRequest = factory.generate(title: title, body: body)
         
-        UNUserNotificationCenter.current().add(notificationRequest)
+        notificationCenterProxy.add(notificationRequest)
     }
 }
 
