@@ -22,6 +22,7 @@
 		6177F6DB2A91CDE3007CB220 /* ProductInterface_MoyaNetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F5F1D62A777B7700ACE03B /* ProductInterface_MoyaNetworkServiceTests.swift */; };
 		6177F6DC2A91CDE7007CB220 /* HealthApiInterface_MoyaNetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F5EFB52A70CB3300ACE03B /* HealthApiInterface_MoyaNetworkServiceTests.swift */; };
 		6190D9062AB6EF2A00276557 /* NotificationFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6190D9052AB6EF2A00276557 /* NotificationFactory.swift */; };
+		6190D90A2AB6FBAE00276557 /* NotificationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6190D9092AB6FBAE00276557 /* NotificationManagerTests.swift */; };
 		6190D90C2AB83F3B00276557 /* NotificationCenterProxyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6190D90B2AB83F3B00276557 /* NotificationCenterProxyType.swift */; };
 		61A5CAFB2A827CD10035950B /* ProductCoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614E94432A80EAC30024A9AE /* ProductCoreDataService.swift */; };
 		61A5CAFC2A827CD50035950B /* ProductCoreDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61784D922A81FEC700E0B96D /* ProductCoreDataMapper.swift */; };
@@ -129,6 +130,7 @@
 		6190D7F52AB1DEDB00276557 /* PersistenceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PersistenceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6190D7F62AB1DEDB00276557 /* NetworkingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6190D9052AB6EF2A00276557 /* NotificationFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationFactory.swift; sourceTree = "<group>"; };
+		6190D9092AB6FBAE00276557 /* NotificationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManagerTests.swift; sourceTree = "<group>"; };
 		6190D90B2AB83F3B00276557 /* NotificationCenterProxyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterProxyType.swift; sourceTree = "<group>"; };
 		61A95C172A77EB18005BB895 /* ProductRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRepository.swift; sourceTree = "<group>"; };
 		61A95C1A2A77F00B005BB895 /* ProductModelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModelMapper.swift; sourceTree = "<group>"; };
@@ -335,6 +337,22 @@
 			path = Product;
 			sourceTree = "<group>";
 		};
+		6190D9072AB6FB6B00276557 /* Ecosystem */ = {
+			isa = PBXGroup;
+			children = (
+				6190D9082AB6FB7F00276557 /* Notification */,
+			);
+			path = Ecosystem;
+			sourceTree = "<group>";
+		};
+		6190D9082AB6FB7F00276557 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				6190D9092AB6FBAE00276557 /* NotificationManagerTests.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
 		61A95C192A77EFF1005BB895 /* Mapper */ = {
 			isa = PBXGroup;
 			children = (
@@ -420,6 +438,7 @@
 		61C54E4A2A13A2B800EF39C3 /* SCSH_3C_iOSTests */ = {
 			isa = PBXGroup;
 			children = (
+				6190D9072AB6FB6B00276557 /* Ecosystem */,
 				61A95C1F2A77F904005BB895 /* Repository */,
 			);
 			path = SCSH_3C_iOSTests;
@@ -773,6 +792,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6190D90A2AB6FBAE00276557 /* NotificationManagerTests.swift in Sources */,
 				61A95C222A77F94C005BB895 /* ProductRepositoryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
