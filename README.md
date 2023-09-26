@@ -24,15 +24,15 @@
 ### Prerequisites
 - Install Fastlane: https://docs.fastlane.tools/getting-started/ios/setup/
 - Set up Environment Variables: Environment variables are required by the CI script, Ensure that these are set up in your CI environment before running the script.
-  ``` console
+  ``` sh
   // Create a file named `.env`
-  vi .env
+  $ vi .env
 
   // Add all the variables you need.
   // ...
 
   // export all variables on the terminal session.
-  source .env
+  $ source .env
   ```
 
 ### Environment variables
@@ -41,7 +41,7 @@
 3. `XCODE_PROJECT_PATH`: The path to the Xcode project file within the cloned repository.
 
 ### Execution
-- run the lane named 'ci_build' on platform 'ios'
-  ``` console
-  fastlane ios ci_build`
+- Run the lane named `ci_build` on platform `ios`.
+  ``` sh
+  $ fastlane ios ci_build
   ```
