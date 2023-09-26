@@ -36,11 +36,16 @@
   ```
 
 ### Environment variables
-1. `GIT_REPO_URL`: The URL of the Git repository.
-2. `GIT_PROJECT_PATH`: The local directory path where the Git repo will be cloned.
-3. `XCODE_PROJECT_PATH`: The path to the Xcode project file within the cloned repository.
+- `PROJECT_PATH`: The local directory path where the Git repo will be cloned.
+  ``` sh
+  PROJECT_PATH=/Users/Work/iOS/CI
+  ```
 
 ### Execution
+- Navigate to the directory where the CI Script (Fastfile) is.
+  ``` sh
+  $ cd /....
+  ``` 
 - Run the lane named `ci_build` on platform `ios`.
   ``` sh
   $ fastlane ios ci_build
