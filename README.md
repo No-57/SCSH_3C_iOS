@@ -20,4 +20,33 @@
 
 <img width="200" alt="Screenshot 2023-07-10 at 7 43 22 PM" src="https://github.com/No-57/SCSH_3C_iOS/assets/38306406/de6eb523-6b43-40ce-8bf5-afeb0c836aec">
 
+## CI
+### Prerequisites
+- Install Fastlane: https://docs.fastlane.tools/getting-started/ios/setup/
+- Set up Environment Variables: Environment variables are required by the CI script, Ensure that these are set up in your CI environment before running the script.
+  ``` sh
+  // Create a file named `.env`
+  $ vi .env
 
+  // Add all the variables you need.
+  // ...
+
+  // export all variables on the terminal session.
+  $ source .env
+  ```
+
+### Environment variables
+- `PROJECT_PATH`: The local directory path where the Git repo will be cloned.
+  ``` sh
+  PROJECT_PATH=/Users/Work/iOS/CI
+  ```
+
+### Execution
+- Navigate to the directory where the CI Script (Fastfile) is.
+  ``` sh
+  $ cd /....
+  ``` 
+- Run the lane named `ci_build` on platform `ios`.
+  ``` sh
+  $ fastlane ios ci_build
+  ```

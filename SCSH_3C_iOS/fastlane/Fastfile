@@ -1,0 +1,46 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+require 'date'
+
+default_platform(:ios)
+
+platform :ios do
+  desc "CI build script for SCSH_3C_iOS"
+
+  lane :ci_build do
+    project_path = ENV['PROJECT_PATH'] + '/' + Date.today.to_s
+
+    # 0. clean if needed
+    sh("rm -rf #{project_path}")
+
+    # 1. Git Clone
+    sh("git clone git@github.com:No-57/SCSH_3C_iOS.git #{project_path}")
+    
+    # 2. Git Checkout Branch
+    sh("cd #{project_path}/SCSH_3C_iOS && git checkout main")
+    
+    # 3: Resolve SPM dependencies
+    sh("xcodebuild -project #{project_path}/SCSH_3C_iOS/SCSH_3C_iOS.xcodeproj -resolvePackageDependencies")
+
+    # 4: Match certificate in every target
+    # No need for Free Apple developer account.
+
+    # 4. Build the code using gym
+    gym(project: "#{project_path}/SCSH_3C_iOS/SCSH_3C_iOS.xcodeproj", export_method: 'development')
+
+    # 5. Run Unit Tests using scan
+    scan(project: "#{project_path}/SCSH_3C_iOS/SCSH_3C_iOS.xcodeproj")
+
+  end
+end
+
