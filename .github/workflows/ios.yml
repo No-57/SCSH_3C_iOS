@@ -26,3 +26,7 @@ jobs:
       run: |
         gem install bundler
         bundle install
+
+    - name: Run the CI script
+      run: |
+        bundle exec fastlane ios ci_tests_github_action

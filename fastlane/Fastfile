@@ -42,5 +42,16 @@ platform :ios do
     scan(project: "#{project_path}/SCSH_3C_iOS/SCSH_3C_iOS.xcodeproj")
 
   end
+
+  desc "running all the unit tests in project SCSH_3C_iOS (GitHub Action use)"
+
+  lane :ci_tests_github_action do
+
+    # Run Unit Tests using scan
+    scan(project: "SCSH_3C_iOS/SCSH_3C_iOS.xcodeproj")
+
+  end
+
+  
 end
 

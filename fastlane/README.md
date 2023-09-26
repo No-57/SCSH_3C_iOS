@@ -23,6 +23,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 CI build script for SCSH_3C_iOS
 
+### ios ci_build_github_action
+
+```sh
+[bundle exec] fastlane ios ci_build_github_action
+```
+
+
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
