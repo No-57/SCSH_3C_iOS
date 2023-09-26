@@ -1,0 +1,36 @@
+name: Run Fastlane
+
+on:
+  push:
+    branches:
+      - main # or the name of your default branch
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: macos-latest # Fastlane is often used for iOS projects, hence macos. Adjust as needed.
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.1.2 # adjust this to the version you need
+
+    - name: Install dependencies
+      run: |
+        gem install bundler
+        bundle install
+
+    - name: Build
+      run: |
+        bundle exec fastlane run scan project:"SCSH_3C_iOS/SCSH_3C_iOS.xcodeproj" scheme:"SCSH_3C_iOS" configuration:"Debug" build_for_testing:"true"
+
+    - name: Test
+      run: |
+        bundle exec fastlane run scan project:"SCSH_3C_iOS/SCSH_3C_iOS.xcodeproj" scheme:"SCSH_3C_iOS" configuration:"Debug" test_without_building:"true"
