@@ -10,14 +10,37 @@
 #     https://docs.fastlane.tools/plugins/available-plugins
 #
 
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 default_platform(:ios)
 
 platform :ios do
-  desc "Description of what the lane does"
-  lane :custom_lane do
-    # add actions here: https://docs.fastlane.tools/actions
+  desc "CI build script"
+
+  lane :ci_build do
+    git_repo_url = ENV['GIT_REPO_URL']
+    git_project_path = ENV['GIT_PROJECT_PATH']
+    xcode_project_path = ENV['XCODE_PROJECT_PATH']    
+
+    # 0. clean if needed
+    sh("rm -rf #{git_project_path}")
+
+    # 1. Git Clone
+    sh("git clone #{git_repo_url}")
+    
+    # 2. Git Checkout Branch
+    sh("cd #{git_project_path} && git checkout main")
+    
+    # 3: Resolve SPM dependencies
+    sh("xcodebuild -project #{xcode_project_path} -resolvePackageDependencies")
+
+    # 4: Match certificate in every target
+    # No need for Free Apple developer account.
+
+    # 4. Build the code using gym
+    gym(project: "#{xcode_project_path}")
+
+    # 5. Run Unit Tests using scan
+    scan(project: "#{xcode_project_path}")
+
   end
 end
+
