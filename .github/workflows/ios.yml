@@ -1,0 +1,32 @@
+name: Run Fastlane
+
+on:
+  pull_request:
+    types: [synchronize]
+  
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: macos-latest # Fastlane is often used for iOS projects, hence macos. Adjust as needed.
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.1.2 # adjust this to the version you need
+
+    - name: Install dependencies
+      run: |
+        gem install bundler
+        bundle install
+
+    - name: Run the CI script
+      run: |
+        bundle exec fastlane ios ci_tests_github_action
