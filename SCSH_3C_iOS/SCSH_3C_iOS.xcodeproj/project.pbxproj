@@ -42,6 +42,7 @@
 		61C9326B2A7825DD00EA7BD8 /* StartUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9326A2A7825DD00EA7BD8 /* StartUpCoordinator.swift */; };
 		61DC01372AC9AB9D00F4E3EF /* LoginApiInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC01362AC9AB9D00F4E3EF /* LoginApiInterface.swift */; };
 		61DC013A2AC9D3CE00F4E3EF /* LoginApiInterface_MoyaNetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC01392AC9D3CE00F4E3EF /* LoginApiInterface_MoyaNetworkServiceTests.swift */; };
+		61DC013C2AC9DA2B00F4E3EF /* TokenApiInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC013B2AC9DA2B00F4E3EF /* TokenApiInterface.swift */; };
 		61E930EF2A827BE5000D99AC /* Persistence.docc in Sources */ = {isa = PBXBuildFile; fileRef = 61E930EE2A827BE5000D99AC /* Persistence.docc */; };
 		61E930FD2A827BE5000D99AC /* Persistence.h in Headers */ = {isa = PBXBuildFile; fileRef = 61E930ED2A827BE5000D99AC /* Persistence.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		61E931082A827C55000D99AC /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 61C54E3F2A13A2B700EF39C3 /* CoreData.xcdatamodeld */; };
@@ -151,6 +152,7 @@
 		61C9326A2A7825DD00EA7BD8 /* StartUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartUpCoordinator.swift; sourceTree = "<group>"; };
 		61DC01362AC9AB9D00F4E3EF /* LoginApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginApiInterface.swift; sourceTree = "<group>"; };
 		61DC01392AC9D3CE00F4E3EF /* LoginApiInterface_MoyaNetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginApiInterface_MoyaNetworkServiceTests.swift; sourceTree = "<group>"; };
+		61DC013B2AC9DA2B00F4E3EF /* TokenApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenApiInterface.swift; sourceTree = "<group>"; };
 		61E930ED2A827BE5000D99AC /* Persistence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Persistence.h; sourceTree = "<group>"; };
 		61E930EE2A827BE5000D99AC /* Persistence.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Persistence.docc; sourceTree = "<group>"; };
 		61F5EFB52A70CB3300ACE03B /* HealthApiInterface_MoyaNetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthApiInterface_MoyaNetworkServiceTests.swift; sourceTree = "<group>"; };
@@ -463,6 +465,7 @@
 			isa = PBXGroup;
 			children = (
 				61DC01362AC9AB9D00F4E3EF /* LoginApiInterface.swift */,
+				61DC013B2AC9DA2B00F4E3EF /* TokenApiInterface.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -775,6 +778,7 @@
 				6177F6D62A91CCD1007CB220 /* HealthApiInterface.swift in Sources */,
 				6177F6D92A91CD7F007CB220 /* MoyaNetworkService.swift in Sources */,
 				6177F6D52A91CCAF007CB220 /* RemoteDataSourceType.swift in Sources */,
+				61DC013C2AC9DA2B00F4E3EF /* TokenApiInterface.swift in Sources */,
 				6177F6D42A91CCAF007CB220 /* NetworkConstants.swift in Sources */,
 				6177F6D82A91CD73007CB220 /* ProductApiInterface.swift in Sources */,
 				61DC01372AC9AB9D00F4E3EF /* LoginApiInterface.swift in Sources */,
