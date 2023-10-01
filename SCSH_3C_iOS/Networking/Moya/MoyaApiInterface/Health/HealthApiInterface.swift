@@ -11,8 +11,8 @@ import Moya
 struct HealthApiInterface: MoyaApiInterfaceType {
     typealias OutputModel = HealthApiModel
     
-    var baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost80)!
-    var path: String = "health"
+    var baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost8080)!
+    var path: String = "\(NetworkConstants.apiRootPath)/\(NetworkConstants.apiVersion)/health"
     var method: Moya.Method = .get
     var task: Moya.Task = .requestPlain
     var headers: [String : String]? = .none

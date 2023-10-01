@@ -19,8 +19,8 @@ public struct ProductApiInterface: MoyaApiInterfaceType {
         }
     }
     
-    public var baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost80)!
-    public var path: String = "devices"
+    public var baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost8080)!
+    public var path: String = "\(NetworkConstants.apiRootPath)/\(NetworkConstants.apiVersion)/devices"
     public var method: Moya.Method = .get
     public var task: Moya.Task
     public var headers: [String : String]? = .none
