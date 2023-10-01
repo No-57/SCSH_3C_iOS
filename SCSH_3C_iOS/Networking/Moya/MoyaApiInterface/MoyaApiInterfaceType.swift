@@ -10,12 +10,35 @@ import Moya
 
 public protocol MoyaApiInterfaceType: TargetType {
     associatedtype OutputModel: Decodable
+    associatedtype OutputError: Decodable & LocalizedError
     var jsonEncoder: JSONEncoder { get }
     var jsonDecoder: JSONDecoder { get }
 }
 
 public extension MoyaApiInterfaceType {
-    var jsonEncoder: JSONEncoder { JSONEncoder() }
-    var jsonDecoder: JSONDecoder { JSONDecoder() }
+    
+    var jsonEncoder: JSONEncoder {
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
+        return jsonEncoder
+    }
+    
+    var jsonDecoder: JSONDecoder {
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        return jsonDecoder
+    }
+    
     var validationType: ValidationType { .successAndRedirectCodes }
+}
+
+public struct ApiResponse<Data: Decodable>: Decodable {
+    public let code: Int
+    public let data: Data
+}
+
+public struct ApiError: Decodable, LocalizedError, Equatable {
+    public let code: Int
+    public let extra: String?
+    public let message: String
 }

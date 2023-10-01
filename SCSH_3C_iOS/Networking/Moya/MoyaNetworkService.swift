@@ -25,25 +25,48 @@ class MoyaNetworkService<T: MoyaApiInterfaceType> {
 
             switch result {
             case .success(let response):
-
-                do {
-                    let outputModel = try self.decode(jsonDecoder: self.moyaApiInterface.jsonDecoder, data: response.data)
-
-                    success(outputModel)
-
-                } catch (let error) {
-                    print("❌❌ \(error.localizedDescription)")
-                    failure(error)
-                }
+                self.handleSuccess(data: response.data, success: success, failure: failure)
+                
             case .failure(let error):
-                print("❌❌❌ \(error.localizedDescription)")
-                failure(error)
+                self.handleFailure(error: error, failure: failure)
             }
-            
         }
     }
     
-    private func decode(jsonDecoder: JSONDecoder, data: Data) throws -> T.OutputModel {
-        try jsonDecoder.decode(T.OutputModel.self, from: data)
+    private func handleSuccess(data: Data, success: @escaping (T.OutputModel) -> Void, failure: @escaping (Error) -> Void) {
+        do {
+            let outputModel = try moyaApiInterface.jsonDecoder.decode(T.OutputModel.self, from: data)
+
+            success(outputModel)
+
+        } catch (let error) {
+            print("❌❌ \(error.localizedDescription)")
+            failure(error)
+        }
+    }
+    
+    private func handleFailure(error: MoyaError, failure: @escaping (Error) -> Void) {
+        switch error {
+        case .underlying(let error, let response):
+            handleUnderlyingError(underlyingError: error, response: response, failure: failure)
+            
+        default:
+            print("❌❌❌ \(error.localizedDescription)")
+            failure(error)
+        }
+    }
+    
+    private func handleUnderlyingError(underlyingError: Error, response: Response?, failure: (Error) -> Void) {
+        guard let response = response else {
+            failure(underlyingError)
+            return
+        }
+        
+        do {
+            let outputError = try moyaApiInterface.jsonDecoder.decode(T.OutputError.self, from: response.data)
+            failure(outputError)
+        } catch {
+            failure(error)
+        }
     }
 }

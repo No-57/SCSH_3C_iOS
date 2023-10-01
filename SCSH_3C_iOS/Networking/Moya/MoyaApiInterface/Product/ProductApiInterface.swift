@@ -9,8 +9,10 @@ import Foundation
 import Moya
 
 public struct ProductApiInterface: MoyaApiInterfaceType {
-    public typealias OutputModel = ProductApiModel
     
+    public typealias OutputModel = ProductApiModel
+    public typealias OutputError = ApiError
+
     public init(name: String? = nil) {
         if let name = name {
             task = .requestParameters(parameters: ["name": name], encoding: URLEncoding.default)

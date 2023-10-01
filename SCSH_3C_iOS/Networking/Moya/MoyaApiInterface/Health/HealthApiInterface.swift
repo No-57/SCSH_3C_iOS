@@ -9,8 +9,10 @@ import Foundation
 import Moya
 
 struct HealthApiInterface: MoyaApiInterfaceType {
-    typealias OutputModel = HealthApiModel
     
+    typealias OutputModel = HealthApiModel
+    typealias OutputError = ApiError
+
     var baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost8080)!
     var path: String = "\(NetworkConstants.apiRootPath)/\(NetworkConstants.apiVersion)/health"
     var method: Moya.Method = .get
