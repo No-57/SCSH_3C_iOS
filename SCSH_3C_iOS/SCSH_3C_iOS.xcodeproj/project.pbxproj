@@ -40,6 +40,7 @@
 		61C931592A78225A00EA7BD8 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C931582A78225A00EA7BD8 /* HomeCoordinator.swift */; };
 		61C9315B2A78226300EA7BD8 /* HomeCoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9315A2A78226300EA7BD8 /* HomeCoordinatorType.swift */; };
 		61C9326B2A7825DD00EA7BD8 /* StartUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9326A2A7825DD00EA7BD8 /* StartUpCoordinator.swift */; };
+		61DC01372AC9AB9D00F4E3EF /* LoginApiInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC01362AC9AB9D00F4E3EF /* LoginApiInterface.swift */; };
 		61E930EF2A827BE5000D99AC /* Persistence.docc in Sources */ = {isa = PBXBuildFile; fileRef = 61E930EE2A827BE5000D99AC /* Persistence.docc */; };
 		61E930FD2A827BE5000D99AC /* Persistence.h in Headers */ = {isa = PBXBuildFile; fileRef = 61E930ED2A827BE5000D99AC /* Persistence.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		61E931082A827C55000D99AC /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 61C54E3F2A13A2B700EF39C3 /* CoreData.xcdatamodeld */; };
@@ -147,6 +148,7 @@
 		61C931582A78225A00EA7BD8 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		61C9315A2A78226300EA7BD8 /* HomeCoordinatorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinatorType.swift; sourceTree = "<group>"; };
 		61C9326A2A7825DD00EA7BD8 /* StartUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartUpCoordinator.swift; sourceTree = "<group>"; };
+		61DC01362AC9AB9D00F4E3EF /* LoginApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginApiInterface.swift; sourceTree = "<group>"; };
 		61E930ED2A827BE5000D99AC /* Persistence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Persistence.h; sourceTree = "<group>"; };
 		61E930EE2A827BE5000D99AC /* Persistence.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Persistence.docc; sourceTree = "<group>"; };
 		61F5EFB52A70CB3300ACE03B /* HealthApiInterface_MoyaNetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthApiInterface_MoyaNetworkServiceTests.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 		6169AC2E2A6E444D00F84AE5 /* MoyaApiInterface */ = {
 			isa = PBXGroup;
 			children = (
+				61DC01352AC9AB8400F4E3EF /* Auth */,
 				6169AE4F2A6E55C800F84AE5 /* Health */,
 				6169AE4D2A6E558F00F84AE5 /* MoyaApiInterfaceType.swift */,
 				6169AE522A6F8ECD00F84AE5 /* Product */,
@@ -452,6 +455,14 @@
 				61C9315A2A78226300EA7BD8 /* HomeCoordinatorType.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		61DC01352AC9AB8400F4E3EF /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				61DC01362AC9AB9D00F4E3EF /* LoginApiInterface.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		61E930EC2A827BE5000D99AC /* Persistence */ = {
@@ -755,6 +766,7 @@
 				6177F6D52A91CCAF007CB220 /* RemoteDataSourceType.swift in Sources */,
 				6177F6D42A91CCAF007CB220 /* NetworkConstants.swift in Sources */,
 				6177F6D82A91CD73007CB220 /* ProductApiInterface.swift in Sources */,
+				61DC01372AC9AB9D00F4E3EF /* LoginApiInterface.swift in Sources */,
 				6177F6DA2A91CD84007CB220 /* MoyaNetworkFacade.swift in Sources */,
 				6177F6B12A91CBBB007CB220 /* Networking.docc in Sources */,
 			);
