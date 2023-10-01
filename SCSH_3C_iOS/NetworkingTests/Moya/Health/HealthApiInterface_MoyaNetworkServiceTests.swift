@@ -23,23 +23,32 @@ final class HealthApiInterface_MoyaNetworkServiceTests: XCTestCase {
     ///
     /// Expect:
     ///     1. `success` is executed
-    ///     2. returns `HealthApiModel(message: "Service is Healthy !")`
+    ///     2. code = `123`
+    ///     3. data = `HealthApiModel(health: "kkk", time: "dateeee")`
     ///
     /// Condition:
-    ///     1. Status: `201`
-    ///     2. data: `{message: "Service is healthy !"}`
+    ///     1. statusCode: 201
+    ///     2. data: {
+    ///             code: 123,
+    ///             data: {
+    ///                 "health": "kkk",
+    ///                 "time": "dateeee"
+    ///             }
+    ///     }
     ///
-    func testHealthApiFetchesSuccessWithCode201AndCorrectData() {
+    func testHealthApiFetchesSuccessWithCode2XXAndCorrectData() {
         // sut
-        let mockData = makeMockData(jsonData: ["message": "Service is healthy !"])
+        let mockData = makeMockData(jsonData: ["code": 123, "data": ["health": "kkk", "time": "dateeee"]])
         makeSUT(statusCode: 201, data: mockData)
          
         let successIsExecuted = expectation(description: "success")
         
         sut.fetch(success: { outputModel in
             successIsExecuted.fulfill()
-            XCTAssertEqual(outputModel, HealthApiModel(message: "Service is healthy !"))
+            XCTAssertEqual(outputModel.code, 123)
+            XCTAssertEqual(outputModel.data, HealthApiModel(health: "kkk", time: "dateeee"))
         }, failure: { (error) in
+            print(error)
             XCTFail()
         })
         
@@ -50,14 +59,15 @@ final class HealthApiInterface_MoyaNetworkServiceTests: XCTestCase {
     /// Test API: `/health` returns successfully.
     ///
     /// Expect:
-    ///     1. `success` is executed
-    ///     2. returns `HealthApiModel(message: "Service is Healthy !")`
+    ///     1. `failure` is executed
     ///
     /// Condition:
-    ///     1. Status: `201`
-    ///     2. data: `{message2: "Service is healthy !"}`
+    ///     1. statusCode: 201
+    ///     2. data: {
+    ///         message2: "Service is healthy !"
+    ///     }
     ///
-    func testHealthApiFetchesFailureWithCode201AndWrongData() {
+    func testHealthApiFetchesFailureWithCode2XXAndWrongData() {
         // sut
         let mockData = makeMockData(jsonData: ["message2": "Service is healthy !"])
         makeSUT(statusCode: 201, data: mockData)
@@ -78,22 +88,30 @@ final class HealthApiInterface_MoyaNetworkServiceTests: XCTestCase {
     ///
     /// Expect:
     ///     1. `success` is executed
-    ///     2. returns `HealthApiModel(message: "Service is Healthy !")`
+    ///     2. code = `123`
+    ///     3. data = `HealthApiModel(health: "kkk", time: "dateeee")`
     ///
     /// Condition:
-    ///     1. Status: `301`
-    ///     2. data: `{message: "Service is healthy !"}`
+    ///     1. statusCode: 301
+    ///     2. data: {
+    ///             code: 123,
+    ///             data: {
+    ///                     "health": "kkk",
+    ///                     "time": "dateeee"
+    ///             }
+    ///     }
     ///
-    func testHealthApiFetchesSuccessWithCode301AndCorrectData() {
+    func testHealthApiFetchesSuccessWithCode3XXAndCorrectData() {
         // sut
-        let mockData = makeMockData(jsonData: ["message": "Service is healthy !"])
+        let mockData = makeMockData(jsonData: ["code": 123, "data": ["health": "kkk", "time": "dateeee"]])
         makeSUT(statusCode: 301, data: mockData)
          
         let successIsExecuted = expectation(description: "success")
         
         sut.fetch(success: { outputModel in
             successIsExecuted.fulfill()
-            XCTAssertEqual(outputModel, HealthApiModel(message: "Service is healthy !"))
+            XCTAssertEqual(outputModel.code, 123)
+            XCTAssertEqual(outputModel.data, HealthApiModel(health: "kkk", time: "dateeee"))
         }, failure: { (error) in
             XCTFail()
         })
@@ -106,14 +124,53 @@ final class HealthApiInterface_MoyaNetworkServiceTests: XCTestCase {
     ///
     /// Expect:
     ///     1. `failure` is executed
+    ///     2. data = `ApiError(code: 123, extra: "aaa", message: "whatever")`
     ///
     /// Condition:
-    ///     1. Status: `500`
-    ///     2. data: `{message: "Service is healthy !"}`
+    ///     1. statusCode: 422
+    ///     2. data: {
+    ///             code: 123,
+    ///             extra: "aaa",
+    ///             message: "whatever"
+    ///     }
     ///
-    func testHealthApiFetchesFailureWithCode500AndCorrectData() {
+    func testHealthApiFetchesFailureWithCode4XXAndCorrectData() {
         // sut
-        let mockData = makeMockData(jsonData: ["message": "Service is healthy !"])
+        let mockData = makeMockData(jsonData: ["code": 123, "extra": "aaa", "message": "whatever"])
+        makeSUT(statusCode: 422, data: mockData)
+
+        let failureIsExecuted = expectation(description: "failure")
+
+        sut.fetch(success: { _ in
+            XCTFail()
+        }, failure: { (error) in
+            failureIsExecuted.fulfill()
+            let apiError = error as? ApiError
+            XCTAssertNotNil(apiError)
+            XCTAssertEqual(apiError!, ApiError(code: 123, extra: "aaa", message: "whatever"))
+        })
+
+        XCTAssertEqual(XCTWaiter.wait(for: [failureIsExecuted], timeout: 1), .completed)
+    }
+    
+    ///
+    /// Test API: `/health` returns failure.
+    ///
+    /// Expect:
+    ///     1. `failure` is executed
+    ///     2. data = `ApiError(code: 123, extra: nil, message: "whatever")`
+    ///
+    /// Condition:
+    ///     1. statusCode: 500
+    ///     2. data: {
+    ///             code: 123,
+    ///             extra: nil,
+    ///             message: "whatever"
+    ///     }
+    ///
+    func testHealthApiFetchesFailureWithCode5XXAndCorrectData() {
+        // sut
+        let mockData = makeMockData(jsonData: ["code": 123, "extra": nil, "message": "whatever"])
         makeSUT(statusCode: 500, data: mockData)
 
         let failureIsExecuted = expectation(description: "failure")
@@ -122,6 +179,9 @@ final class HealthApiInterface_MoyaNetworkServiceTests: XCTestCase {
             XCTFail()
         }, failure: { (error) in
             failureIsExecuted.fulfill()
+            let apiError = error as? ApiError
+            XCTAssertNotNil(apiError)
+            XCTAssertEqual(apiError!, ApiError(code: 123, extra: nil, message: "whatever"))
         })
 
         XCTAssertEqual(XCTWaiter.wait(for: [failureIsExecuted], timeout: 1), .completed)
@@ -142,7 +202,7 @@ final class HealthApiInterface_MoyaNetworkServiceTests: XCTestCase {
         sut = MoyaNetworkService(moyaProvider: stubbingProvider, moyaApiInterface: healthApiInterface)
     }
     
-    private func makeMockData(jsonData: [String: String]) -> Data {
+    private func makeMockData(jsonData: [String: Any]) -> Data {
         try! JSONSerialization.data(withJSONObject: jsonData)
     }
 }
