@@ -8,16 +8,19 @@
 import Foundation
 import Moya
 
-struct HealthApiInterface: MoyaApiInterfaceType {
-    typealias OutputModel = HealthApiModel
-    
-    var baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost80)!
-    var path: String = "health"
-    var method: Moya.Method = .get
-    var task: Moya.Task = .requestPlain
-    var headers: [String : String]? = .none
+public struct HealthApiInterface: MoyaApiInterfaceType {
+    public typealias OutputModel = ApiResponse<HealthApiModel>
+    public typealias OutputError = ApiError
+
+    public init() {}
+    public var baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost8080)!
+    public var path: String = "\(NetworkConstants.apiRootPath)/\(NetworkConstants.apiVersion)/health"
+    public var method: Moya.Method = .get
+    public var task: Moya.Task = .requestPlain
+    public var headers: [String : String]? = .none
 }
 
-struct HealthApiModel: Decodable, Equatable {
-    let message: String
+public struct HealthApiModel: Decodable, Equatable {
+    public let health: String
+    public let time: String
 }

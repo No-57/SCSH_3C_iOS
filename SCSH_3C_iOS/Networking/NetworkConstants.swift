@@ -9,5 +9,7 @@ import Foundation
 
 struct NetworkConstants {
     static let httpUrlScheme = "http://"
-    static let localHost80 = "127.0.0.1:80"
+    static let localHost8080 = "127.0.0.1:8080"
+    static let apiRootPath = "api"
+    static let apiVersion = "v1"
 }
