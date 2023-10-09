@@ -15,20 +15,11 @@ class HomeViewModel: ObservableObject {
     // MARK: Input
     let viewDidAppear = PassthroughSubject<Int, Error>()
 
-    // TODO: remove legacy code
-    @Published var productNames: [String] = []
-    let productCellDidTap = PassthroughSubject<String, Error>()
-    let refreshButtonDidTap = PassthroughSubject<Void, Error>()
-    let refreshControlDidTrigger = PassthroughSubject<Void, Error>()
-    let searchTextDidChange = PassthroughSubject<String?, Error>()
-    
     private let coordinator: HomeCoordinatorType
-    private let productRepository: ProductRepositoryType
     
     private var cancellables = Set<AnyCancellable>()
     
-    init(coordinator: HomeCoordinatorType, productRepository: ProductRepositoryType) {
-        self.productRepository = productRepository
+    init(coordinator: HomeCoordinatorType) {
         self.coordinator = coordinator
         
         bindEvents()
@@ -54,47 +45,6 @@ class HomeViewModel: ObservableObject {
                 print("something went wrong in viewDidAppear")
             } receiveValue: { [weak self] _ in
                 self?.coordinator.presentNotificationPermissionDailog() { _ in }
-            }
-            .store(in: &cancellables)
-        
-        // TODO: remove legacy code
-        productCellDidTap
-            .sink { _ in
-                print("something went wrong in productCellDidTap")
-            } receiveValue: { [weak self] name in
-                self?.coordinator.addNotification(title: name)
-            }
-            .store(in: &cancellables)
-            
-        
-        Publishers.MergeMany(refreshControlDidTrigger, refreshButtonDidTap)
-            .flatMap { [weak self] _ -> AnyPublisher<[Product], Error> in
-                guard let self = self else {
-                    return Empty(completeImmediately: true).eraseToAnyPublisher()
-                }
-                return self.productRepository.getProducts(name: nil, isLatest: true)
-            }
-            .map { $0.map { $0.name } }
-            .sink { completion in
-                print("something went wrong in viewOnAppear")
-            } receiveValue: { [weak self] names in
-                self?.productNames = names
-            }
-            .store(in: &cancellables)
-
-        
-        searchTextDidChange
-            .flatMap { [weak self] searchText -> AnyPublisher<[Product], Error> in
-                guard let self = self else {
-                    return Empty(completeImmediately: true).eraseToAnyPublisher()
-                }
-                return self.productRepository.getProducts(name: searchText, isLatest: false)
-            }
-            .map { $0.map { $0.name } }
-            .sink { completion in
-                print("something went wrong in searchButtonDidTap")
-            } receiveValue: { [weak self] names in
-                self?.productNames = names
             }
             .store(in: &cancellables)
     }
