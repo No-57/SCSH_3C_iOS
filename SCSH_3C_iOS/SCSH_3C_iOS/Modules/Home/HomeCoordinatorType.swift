@@ -11,5 +11,6 @@ import SwiftUI
 protocol HomeCoordinatorType {
     func start() -> HomeView
     func presentNotificationPermissionDailog(completion: (Bool) -> Void)
+    // TODO: remove legacy code
     func addNotification(title: String)
 }

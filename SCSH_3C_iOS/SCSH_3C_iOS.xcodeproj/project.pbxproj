@@ -49,6 +49,9 @@
 		61DC013A2AC9D3CE00F4E3EF /* LoginApiInterface_MoyaNetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC01392AC9D3CE00F4E3EF /* LoginApiInterface_MoyaNetworkServiceTests.swift */; };
 		61DC013C2AC9DA2B00F4E3EF /* TokenApiInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC013B2AC9DA2B00F4E3EF /* TokenApiInterface.swift */; };
 		61DC013E2AC9DF0D00F4E3EF /* TokenApiInterface_MoyaNetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC013D2AC9DF0D00F4E3EF /* TokenApiInterface_MoyaNetworkServiceTests.swift */; };
+		61DC01402ACF618F00F4E3EF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC013F2ACF618F00F4E3EF /* HomeViewController.swift */; };
+		61DC035F2AD269E900F4E3EF /* HeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC035E2AD269E900F4E3EF /* HeaderCollectionViewCell.swift */; };
+		61DC03652AD3C22600F4E3EF /* BodyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC03642AD3C22600F4E3EF /* BodyCollectionViewCell.swift */; };
 		61E930EF2A827BE5000D99AC /* Persistence.docc in Sources */ = {isa = PBXBuildFile; fileRef = 61E930EE2A827BE5000D99AC /* Persistence.docc */; };
 		61E930FD2A827BE5000D99AC /* Persistence.h in Headers */ = {isa = PBXBuildFile; fileRef = 61E930ED2A827BE5000D99AC /* Persistence.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		61E931082A827C55000D99AC /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 61C54E3F2A13A2B700EF39C3 /* CoreData.xcdatamodeld */; };
@@ -163,6 +166,9 @@
 		61DC01392AC9D3CE00F4E3EF /* LoginApiInterface_MoyaNetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginApiInterface_MoyaNetworkServiceTests.swift; sourceTree = "<group>"; };
 		61DC013B2AC9DA2B00F4E3EF /* TokenApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenApiInterface.swift; sourceTree = "<group>"; };
 		61DC013D2AC9DF0D00F4E3EF /* TokenApiInterface_MoyaNetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenApiInterface_MoyaNetworkServiceTests.swift; sourceTree = "<group>"; };
+		61DC013F2ACF618F00F4E3EF /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		61DC035E2AD269E900F4E3EF /* HeaderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionViewCell.swift; sourceTree = "<group>"; };
+		61DC03642AD3C22600F4E3EF /* BodyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyCollectionViewCell.swift; sourceTree = "<group>"; };
 		61E930ED2A827BE5000D99AC /* Persistence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Persistence.h; sourceTree = "<group>"; };
 		61E930EE2A827BE5000D99AC /* Persistence.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Persistence.docc; sourceTree = "<group>"; };
 		61F5EFB52A70CB3300ACE03B /* HealthApiInterface_MoyaNetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthApiInterface_MoyaNetworkServiceTests.swift; sourceTree = "<group>"; };
@@ -475,7 +481,7 @@
 		61C931572A7821EE00EA7BD8 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				61C54E362A13A2B700EF39C3 /* HomeView.swift */,
+				61DC024F2AD04C9000F4E3EF /* View */,
 				6169AE552A6F9E7F00F84AE5 /* HomeViewModel.swift */,
 				61C9315A2A78226300EA7BD8 /* HomeCoordinatorType.swift */,
 			);
@@ -498,6 +504,17 @@
 				61DC013D2AC9DF0D00F4E3EF /* TokenApiInterface_MoyaNetworkServiceTests.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		61DC024F2AD04C9000F4E3EF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				61C54E362A13A2B700EF39C3 /* HomeView.swift */,
+				61DC013F2ACF618F00F4E3EF /* HomeViewController.swift */,
+				61DC035E2AD269E900F4E3EF /* HeaderCollectionViewCell.swift */,
+				61DC03642AD3C22600F4E3EF /* BodyCollectionViewCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		61E930EC2A827BE5000D99AC /* Persistence */ = {
@@ -833,10 +850,14 @@
 				61C54E372A13A2B700EF39C3 /* HomeView.swift in Sources */,
 				61C9315B2A78226300EA7BD8 /* HomeCoordinatorType.swift in Sources */,
 				6190D90C2AB83F3B00276557 /* NotificationCenterProxyType.swift in Sources */,
+				61DC035F2AD269E900F4E3EF /* HeaderCollectionViewCell.swift in Sources */,
 				61B185592A971EE90072F119 /* NotificationManager.swift in Sources */,
 				61C54E352A13A2B700EF39C3 /* MainApp.swift in Sources */,
 				615F95802ADA96510093166B /* FooterView.swift in Sources */,
+				61DC01402ACF618F00F4E3EF /* HomeViewController.swift in Sources */,
 				6190D9062AB6EF2A00276557 /* NotificationFactory.swift in Sources */,
+				61DC05982ADA8EFC00F4E3EF /* FooterView.swift in Sources */,
+				61DC03652AD3C22600F4E3EF /* BodyCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
