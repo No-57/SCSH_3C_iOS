@@ -9,8 +9,8 @@ import Foundation
 import Combine
 
 class HomeViewModel: ObservableObject {
-    @Published var subjects: [String] = ["AAA", "BBB", "CCC", "DDD", "EEE", "FFF", "GGG", "HHH", "III", "JJJ"]
     @Published var indexPath: IndexPath = .init(item: 0, section: 0)
+    @Published var subjects: [String] = ["Explore", "BBB", "CCC", "DDD", "EEE", "FFF", "GGG", "HHH", "III", "JJJ"]
 
     // MARK: Input
     let viewDidAppear = PassthroughSubject<Int, Error>()

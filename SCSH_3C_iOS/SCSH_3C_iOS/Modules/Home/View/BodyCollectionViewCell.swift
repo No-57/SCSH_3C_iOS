@@ -42,17 +42,10 @@ class BodyCollectionViewCell: UICollectionViewCell {
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
-
-    // temp
-    let titleLabel = {
-        let l = UILabel()
-        l.translatesAutoresizingMaskIntoConstraints = false
-        l.textAlignment = .center
-        l.font = .systemFont(ofSize: 18)
-        return l
-    }()
     
     private var currentIndexPath: IndexPath?
+    private weak var embeddedViewController: UIViewController?
+    
     weak var delegate: HomeViewContollerDelegate?
     
     override init(frame: CGRect) {
@@ -64,6 +57,15 @@ class BodyCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        // Remove the view controller when the cell is being reused
+        embeddedViewController?.willMove(toParent: nil)
+        embeddedViewController?.view.removeFromSuperview()
+        embeddedViewController?.removeFromParent()
+        embeddedViewController = nil
     }
     
     private func setupHeaderLayout() {
@@ -91,12 +93,6 @@ class BodyCollectionViewCell: UICollectionViewCell {
             bodyView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             bodyView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             bodyView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
-        
-        bodyView.addSubview(titleLabel)
-        NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ])
     }
     
@@ -129,8 +125,26 @@ class BodyCollectionViewCell: UICollectionViewCell {
         delegate?.scrollBodyCollectionView(at: nextIndexPath, animated: true)
     }
     
-    func update(title: String, indexPath: IndexPath) {
-        titleLabel.text = title
+    func setup(embeddedviewController: UIViewController, to parentViewController: UIViewController, indexPath: IndexPath) {
+        setup(indexPath: indexPath)
+        
+        // Store the reference to the view controller
+        self.embeddedViewController = embeddedviewController
+
+        // Add the view controller as a child view controller
+        parentViewController.addChild(embeddedviewController)
+
+        // Set the frame of the view controller's view
+        embeddedviewController.view.frame = self.bodyView.bounds
+
+        // Add the view controller's view to the cell's content view
+        self.bodyView.addSubview(embeddedviewController.view)
+
+        // Complete the addition
+        embeddedviewController.didMove(toParent: parentViewController)
+    }
+    
+    func setup(indexPath: IndexPath) {
         self.currentIndexPath = indexPath
     }
 }

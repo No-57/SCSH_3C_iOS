@@ -167,7 +167,15 @@ extension HomeViewController: UICollectionViewDataSource {
             let index = indexPath.item % viewModel.subjects.count
             
             let subject = viewModel.subjects[index]
-            cell.update(title: subject, indexPath: indexPath)
+            
+            switch subject {
+            case "Explore":
+                let exploreVC = ExploreViewController(viewModel: ExploreViewModel())
+                cell.setup(embeddedviewController: exploreVC, to: self, indexPath: indexPath)
+                
+            default:
+                cell.setup(indexPath: indexPath)
+            }
             
             return cell
             
