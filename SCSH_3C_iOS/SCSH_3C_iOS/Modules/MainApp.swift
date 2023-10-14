@@ -10,11 +10,24 @@ import Combine
 
 @main
 struct MainApp: App {
+    @Environment(\.scenePhase) private var scenePhase
+
     private let startUpCoordinator = StartUpCoordinator()
+    @State var selectedTab = 0
     
     var body: some Scene {
         WindowGroup {
-            startUpCoordinator.start()
+            startUpCoordinator.start(with: selectedTab)
+                .onChange(of: scenePhase) { newScenePhase in
+                    switch newScenePhase {
+                    case .active:
+                        print("App is in the foreground!")
+                    case .inactive, .background:
+                        break
+                    @unknown default:
+                        break
+                    }
+                }
         }
     }
 }

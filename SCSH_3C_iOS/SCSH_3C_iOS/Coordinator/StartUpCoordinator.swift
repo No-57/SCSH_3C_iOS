@@ -1,3 +1,4 @@
+
 //
 //  StartUpCoordinator.swift
 //  SCSH_3C_iOS
@@ -9,7 +10,7 @@ import Foundation
 import SwiftUI
 
 class StartUpCoordinator {
-    func start() -> HomeView {
-        HomeCoordinator().start()
+    func start(with tab: Int) -> some View {
+        FooterView(selectedTab: tab)
     }
 }
