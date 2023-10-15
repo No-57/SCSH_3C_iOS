@@ -17,6 +17,10 @@ class HomeViewModel: ObservableObject {
     // MARK: Input
     let viewWillAppear = PassthroughSubject<Int, Error>()
     let viewDidAppear = PassthroughSubject<Void, Error>()
+    let searchBarDidTap = PassthroughSubject<Void, Error>()
+    let logoButtonDidTap = PassthroughSubject<Void, Error>()
+    let messageButtonDidTap = PassthroughSubject<Void, Error>()
+    let cartButtonDidTap = PassthroughSubject<Void, Error>()
 
     private let coordinator: HomeCoordinatorType
     
@@ -62,5 +66,42 @@ class HomeViewModel: ObservableObject {
                 self?.coordinator.presentNotificationPermissionDailog() { _ in }
             }
             .store(in: &cancellables)
+        
+        searchBarDidTap
+            .print("searchBarDidTap")
+            .sink { _ in
+                print("something went wrong in searchBarDidTap")
+            } receiveValue: { [weak self] _ in
+                // TODO: implement.
+            }
+            .store(in: &cancellables)
+        
+        logoButtonDidTap
+            .print("logoButtonDidTap")
+            .sink { _ in
+                print("something went wrong in logoButtonDidTap")
+            } receiveValue: { [weak self] _ in
+                // TODO: implement.
+            }
+            .store(in: &cancellables)
+        
+        messageButtonDidTap
+            .print("messageButtonDidTap")
+            .sink { _ in
+                print("something went wrong in messageButtonDidTap")
+            } receiveValue: { [weak self] _ in
+                // TODO: implement.
+            }
+            .store(in: &cancellables)
+        
+        cartButtonDidTap
+            .print("cartButtonDidTap")
+            .sink { _ in
+                print("something went wrong in cartButtonDidTap")
+            } receiveValue: { [weak self] _ in
+                // TODO: implement.
+            }
+            .store(in: &cancellables)
+            
     }
 }

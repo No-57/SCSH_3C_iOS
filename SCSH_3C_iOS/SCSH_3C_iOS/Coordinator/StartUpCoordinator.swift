@@ -12,10 +12,7 @@ import SwiftUI
 class StartUpCoordinator {
     func start(with tab: Int) -> some View {
         NavigationView {
-            VStack(spacing: 5) {
-                HeaderView()
-                FooterView(selectedTab: tab)
-            }
+            FooterView(selectedTab: tab)
         }
     }
 }
