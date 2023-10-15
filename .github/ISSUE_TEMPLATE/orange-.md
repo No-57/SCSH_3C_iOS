@@ -1,5 +1,5 @@
 ---
-name: iOS xxx
+name: 'Orange '
 about: Describe this issue template's purpose here.
 title: ''
 labels: ''
