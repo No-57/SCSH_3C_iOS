@@ -125,22 +125,15 @@ class BodyCollectionViewCell: UICollectionViewCell {
         delegate?.scrollBodyCollectionView(at: nextIndexPath, animated: true)
     }
     
+    // Sets up and embeds a child view controller into a parent view controller.
     func setup(embeddedviewController: UIViewController, to parentViewController: UIViewController, indexPath: IndexPath) {
         setup(indexPath: indexPath)
         
-        // Store the reference to the view controller
         self.embeddedViewController = embeddedviewController
 
-        // Add the view controller as a child view controller
         parentViewController.addChild(embeddedviewController)
-
-        // Set the frame of the view controller's view
         embeddedviewController.view.frame = self.bodyView.bounds
-
-        // Add the view controller's view to the cell's content view
         self.bodyView.addSubview(embeddedviewController.view)
-
-        // Complete the addition
         embeddedviewController.didMove(toParent: parentViewController)
     }
     
