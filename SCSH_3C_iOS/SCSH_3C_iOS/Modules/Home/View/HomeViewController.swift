@@ -17,6 +17,10 @@ class HomeViewController: UIViewController {
     
     // Infinite scroll items number.
     private let infinitScrollItems = 1000
+
+    // The scroll (per page) offset ratio between header and body
+    private let headerToBodyScrollRatio: CGFloat = 2.0 / 5.0
+
     private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: HomeViewModel) {
@@ -100,7 +104,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     ///
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard scrollView == bodyCollectionView else { return }
-        headerCollectionView.contentOffset.x = scrollView.contentOffset.x * (2 / 5)
+        headerCollectionView.contentOffset.x = scrollView.contentOffset.x * self.headerToBodyScrollRatio
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
