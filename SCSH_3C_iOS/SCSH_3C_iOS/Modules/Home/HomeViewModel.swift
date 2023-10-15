@@ -9,21 +9,17 @@ import Foundation
 import Combine
 
 class HomeViewModel: ObservableObject {
-    @Published var productNames: [String] = []
+    @Published var indexPath: IndexPath = .init(item: 0, section: 0)
+    @Published var subjects: [String] = ["Explore", "BBB", "CCC", "DDD", "EEE", "FFF", "GGG", "HHH", "III", "JJJ"]
 
-    let viewDidAppear = PassthroughSubject<Void, Error>()
-    let productCellDidTap = PassthroughSubject<String, Error>()
-    let refreshButtonDidTap = PassthroughSubject<Void, Error>()
-    let refreshControlDidTrigger = PassthroughSubject<Void, Error>()
-    let searchTextDidChange = PassthroughSubject<String?, Error>()
-    
+    // MARK: Input
+    let viewDidAppear = PassthroughSubject<Int, Error>()
+
     private let coordinator: HomeCoordinatorType
-    private let productRepository: ProductRepositoryType
     
     private var cancellables = Set<AnyCancellable>()
     
-    init(coordinator: HomeCoordinatorType, productRepository: ProductRepositoryType) {
-        self.productRepository = productRepository
+    init(coordinator: HomeCoordinatorType) {
         self.coordinator = coordinator
         
         bindEvents()
@@ -31,50 +27,24 @@ class HomeViewModel: ObservableObject {
     
     private func bindEvents() {
         viewDidAppear
+            .compactMap { [weak self] infinitScrollItems -> IndexPath? in
+                guard let self = self else { return nil }
+                
+                let firstItem = (infinitScrollItems / 2) - (infinitScrollItems / 2 % self.subjects.count)
+                return IndexPath(item: firstItem, section: 0)
+            }
+            .sink { _ in
+                print("something went wrong in viewDidAppear")
+            } receiveValue: { [weak self] indexPath in
+                self?.indexPath = indexPath
+            }
+            .store(in: &cancellables)
+        
+        viewDidAppear
             .sink { _ in
                 print("something went wrong in viewDidAppear")
             } receiveValue: { [weak self] _ in
                 self?.coordinator.presentNotificationPermissionDailog() { _ in }
-            }
-            .store(in: &cancellables)
-        
-        productCellDidTap
-            .sink { _ in
-                print("something went wrong in productCellDidTap")
-            } receiveValue: { [weak self] name in
-                self?.coordinator.addNotification(title: name)
-            }
-            .store(in: &cancellables)
-            
-        
-        Publishers.MergeMany(viewDidAppear, refreshControlDidTrigger, refreshButtonDidTap)
-            .flatMap { [weak self] _ -> AnyPublisher<[Product], Error> in
-                guard let self = self else {
-                    return Empty(completeImmediately: true).eraseToAnyPublisher()
-                }
-                return self.productRepository.getProducts(name: nil, isLatest: true)
-            }
-            .map { $0.map { $0.name } }
-            .sink { completion in
-                print("something went wrong in viewOnAppear")
-            } receiveValue: { [weak self] names in
-                self?.productNames = names
-            }
-            .store(in: &cancellables)
-
-        
-        searchTextDidChange
-            .flatMap { [weak self] searchText -> AnyPublisher<[Product], Error> in
-                guard let self = self else {
-                    return Empty(completeImmediately: true).eraseToAnyPublisher()
-                }
-                return self.productRepository.getProducts(name: searchText, isLatest: false)
-            }
-            .map { $0.map { $0.name } }
-            .sink { completion in
-                print("something went wrong in searchButtonDidTap")
-            } receiveValue: { [weak self] names in
-                self?.productNames = names
             }
             .store(in: &cancellables)
     }

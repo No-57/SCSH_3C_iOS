@@ -19,10 +19,7 @@ class HomeCoordinator: HomeCoordinatorType {
     }
     
     func start() -> HomeView {
-        let productRepository = ProductRepository(productMapper: ProductModelMapper(),
-                                                  moyaNetworkFacade: MoyaNetworkFacade(),
-                                                  productCoreDataService: ProductCoreDataService())
-        let viewModel = HomeViewModel(coordinator: self, productRepository: productRepository)
+        let viewModel = HomeViewModel(coordinator: self)
         
         return HomeView(viewModel: viewModel)
     }
