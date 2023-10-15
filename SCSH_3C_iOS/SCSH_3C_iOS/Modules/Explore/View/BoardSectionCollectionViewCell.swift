@@ -190,11 +190,12 @@ extension BoardSectionCollectionViewCell: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BoardCollectionViewCell", for: indexPath) as! BoardCollectionViewCell
 
         // TODO: implement it.
+        cell.contentView.backgroundColor = .black
+        
         if indexPath.item % items.count == 0 {
             cell.contentView.backgroundColor = .red
-        } else {
-            cell.contentView.backgroundColor = .black
         }
+        
         return cell
     }
 }
