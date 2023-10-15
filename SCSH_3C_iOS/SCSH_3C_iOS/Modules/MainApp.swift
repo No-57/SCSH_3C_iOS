@@ -18,6 +18,7 @@ struct MainApp: App {
     var body: some Scene {
         WindowGroup {
             startUpCoordinator.start(with: selectedTab)
+                .environment(\.colorScheme, .light)
                 .onChange(of: scenePhase) { newScenePhase in
                     switch newScenePhase {
                     case .active:

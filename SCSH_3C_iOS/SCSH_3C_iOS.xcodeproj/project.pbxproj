@@ -11,8 +11,9 @@
 		6113505D2ADBBE1D00F65943 /* Networking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6190D7F32AB1DEDB00276557 /* Networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		611350602ADBBE1D00F65943 /* Persistence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6190D7F22AB1DEDB00276557 /* Persistence.framework */; };
 		611350612ADBBE1D00F65943 /* Persistence.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6190D7F22AB1DEDB00276557 /* Persistence.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		615F95802ADA96510093166B /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615F957F2ADA96510093166B /* FooterView.swift */; };
-		615F95852ADAA4680093166B /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615F95842ADAA4680093166B /* HeaderView.swift */; };
+		611350652ADC520100F65943 /* HomeViewControllerAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611350642ADC520100F65943 /* HomeViewControllerAdapter.swift */; };
+		615F95802ADA96510093166B /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615F957F2ADA96510093166B /* MainView.swift */; };
+		615F95852ADAA4680093166B /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615F95842ADAA4680093166B /* HomeHeaderView.swift */; };
 		6169AE562A6F9E7F00F84AE5 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169AE552A6F9E7F00F84AE5 /* HomeViewModel.swift */; };
 		6177F6B12A91CBBB007CB220 /* Networking.docc in Sources */ = {isa = PBXBuildFile; fileRef = 6177F6B02A91CBBB007CB220 /* Networking.docc */; };
 		6177F6BF2A91CBBB007CB220 /* Networking.h in Headers */ = {isa = PBXBuildFile; fileRef = 6177F6AF2A91CBBB007CB220 /* Networking.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -134,10 +135,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		611350642ADC520100F65943 /* HomeViewControllerAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewControllerAdapter.swift; sourceTree = "<group>"; };
 		614E94432A80EAC30024A9AE /* ProductCoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCoreDataService.swift; sourceTree = "<group>"; };
 		614E94452A80EBB50024A9AE /* ProductCoreDataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCoreDataServiceTests.swift; sourceTree = "<group>"; };
-		615F957F2ADA96510093166B /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
-		615F95842ADAA4680093166B /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		615F957F2ADA96510093166B /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		615F95842ADAA4680093166B /* HomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
 		6169AC282A6E435E00F84AE5 /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
 		6169AC2A2A6E437600F84AE5 /* RemoteDataSourceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDataSourceType.swift; sourceTree = "<group>"; };
 		6169AC2C2A6E440E00F84AE5 /* HealthApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthApiInterface.swift; sourceTree = "<group>"; };
@@ -265,7 +267,7 @@
 				61DC04742AD3CECF00F4E3EF /* Explore */,
 				61C931572A7821EE00EA7BD8 /* Home */,
 				61C54E342A13A2B700EF39C3 /* MainApp.swift */,
-				615F957F2ADA96510093166B /* FooterView.swift */,
+				615F957F2ADA96510093166B /* MainView.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -504,7 +506,6 @@
 				61DC024F2AD04C9000F4E3EF /* View */,
 				6169AE552A6F9E7F00F84AE5 /* HomeViewModel.swift */,
 				61C9315A2A78226300EA7BD8 /* HomeCoordinatorType.swift */,
-				615F95842ADAA4680093166B /* HeaderView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -530,6 +531,8 @@
 		61DC024F2AD04C9000F4E3EF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				611350642ADC520100F65943 /* HomeViewControllerAdapter.swift */,
+				615F95842ADAA4680093166B /* HomeHeaderView.swift */,
 				61C54E362A13A2B700EF39C3 /* HomeView.swift */,
 				61DC013F2ACF618F00F4E3EF /* HomeViewController.swift */,
 				61DC035E2AD269E900F4E3EF /* HeaderCollectionViewCell.swift */,
@@ -907,12 +910,13 @@
 				61C9315B2A78226300EA7BD8 /* HomeCoordinatorType.swift in Sources */,
 				61DC047F2AD4086A00F4E3EF /* BrandSectionCollectionViewCell.swift in Sources */,
 				61DC04792AD3F27400F4E3EF /* ExploreViewModel.swift in Sources */,
-				615F95852ADAA4680093166B /* HeaderView.swift in Sources */,
+				615F95852ADAA4680093166B /* HomeHeaderView.swift in Sources */,
 				6190D90C2AB83F3B00276557 /* NotificationCenterProxyType.swift in Sources */,
+				611350652ADC520100F65943 /* HomeViewControllerAdapter.swift in Sources */,
 				61DC035F2AD269E900F4E3EF /* HeaderCollectionViewCell.swift in Sources */,
 				61B185592A971EE90072F119 /* NotificationManager.swift in Sources */,
 				61C54E352A13A2B700EF39C3 /* MainApp.swift in Sources */,
-				615F95802ADA96510093166B /* FooterView.swift in Sources */,
+				615F95802ADA96510093166B /* MainView.swift in Sources */,
 				61DC01402ACF618F00F4E3EF /* HomeViewController.swift in Sources */,
 				6190D9062AB6EF2A00276557 /* NotificationFactory.swift in Sources */,
 				61DC047D2AD4082B00F4E3EF /* RecentSectionCollectionViewCell.swift in Sources */,

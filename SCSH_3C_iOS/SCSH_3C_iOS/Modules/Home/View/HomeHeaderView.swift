@@ -1,5 +1,5 @@
 //
-//  HeaderView.swift
+//  HomeHeaderView.swift
 //  SCSH_3C_iOS
 //
 //  Created by 辜敬閎 on 2023/10/14.
@@ -7,12 +7,19 @@
 
 import SwiftUI
 
-struct HeaderView: View {
+struct HomeHeaderView: View {
+    
+    private let viewModel: HomeViewModel
+    
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
+    }
+    
     var body: some View {
         VStack {
             HStack(spacing: 5) {
                 Button(action: {
-                    print("icon")
+                    viewModel.logoButtonDidTap.send(())
                 }) {
                     Text("Orange")
                         .font(.headline)
@@ -23,7 +30,7 @@ struct HeaderView: View {
                 .padding(10)
                 
                 Button(action: {
-                    print("搜尋")
+                    viewModel.searchBarDidTap.send(())
                 }) {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
@@ -36,7 +43,7 @@ struct HeaderView: View {
                 .cornerRadius(8)
                 
                 Button(action: {
-                    print("訊息")
+                    viewModel.messageButtonDidTap.send(())
                 }) {
                     Image(systemName: "message")
                         .foregroundColor(.black)
@@ -44,7 +51,7 @@ struct HeaderView: View {
                 }
                 
                 Button(action: {
-                    print("購物車")
+                    viewModel.cartButtonDidTap.send(())
                 }) {
                     Image(systemName: "cart")
                         .foregroundColor(.black)
@@ -57,6 +64,6 @@ struct HeaderView: View {
 
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        HeaderView()
+        HomeHeaderView(viewModel: HomeViewModel(coordinator: HomeCoordinator()))
     }
 }

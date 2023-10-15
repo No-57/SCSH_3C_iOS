@@ -78,7 +78,7 @@ class BodyCollectionViewCell: UICollectionViewCell {
             transparentButtonsHeaderStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             transparentButtonsHeaderStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             transparentButtonsHeaderStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            transparentButtonsHeaderStackView.heightAnchor.constraint(equalToConstant: 50),
+            transparentButtonsHeaderStackView.heightAnchor.constraint(equalToConstant: 40),
             
             previousButton.widthAnchor.constraint(equalTo: nextButton.widthAnchor),
             previousButton.widthAnchor.constraint(equalTo: centerButton.widthAnchor, multiplier: 0.5)

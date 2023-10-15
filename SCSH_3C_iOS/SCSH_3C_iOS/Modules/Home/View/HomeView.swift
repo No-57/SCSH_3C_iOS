@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  HomeView.swift
 //  SCSH_3C_iOS
 //
 //  Created by 辜敬閎 on 2023/5/16.
@@ -7,21 +7,24 @@
 
 import SwiftUI
 
-struct HomeView: UIViewControllerRepresentable {
-    
-    typealias UIViewControllerType = HomeViewController
-    
+struct HomeView: View {
+
     private let viewModel: HomeViewModel
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
     }
     
-    func makeUIViewController(context: Context) -> HomeViewController {
-        HomeViewController(viewModel: viewModel)
+    var body: some View {
+        VStack(spacing: 0) {
+            HomeHeaderView(viewModel: viewModel)
+            HomeViewControllerAdapter(viewModel: viewModel)
+        }
     }
-    
-    func updateUIViewController(_ uiViewController: HomeViewController, context: Context) {
-        // update if needed
+}
+
+struct HomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        HomeView(viewModel: HomeViewModel(coordinator: HomeCoordinator()))
     }
 }

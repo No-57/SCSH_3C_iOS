@@ -1,5 +1,5 @@
 //
-//  FooterView.swift
+//  MainView.swift
 //  SCSH_3C_iOS
 //
 //  Created by 辜敬閎 on 2023/10/14.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FooterView: View {
+struct MainView: View {
     @State private var selectedTab: Int
 
     init(selectedTab: Int) {
@@ -62,8 +62,8 @@ struct FooterView: View {
     }
 }
 
-struct FooterView_Previews: PreviewProvider {
+struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        FooterView(selectedTab: 2)
+        MainView(selectedTab: 2)
     }
 }
