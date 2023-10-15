@@ -38,9 +38,14 @@ class HomeViewController: UIViewController {
         setupEvents()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.viewWillAppear.send(infinitScrollItems)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        viewModel.viewDidAppear.send(infinitScrollItems)
+        viewModel.viewDidAppear.send(())
     }
     
     private func setupEvents() {
@@ -49,12 +54,25 @@ class HomeViewController: UIViewController {
         bodyCollectionView.delegate = self
         bodyCollectionView.dataSource = self
         
-        viewModel.$indexPath
+        viewModel.$firstHeaderIndexPath
+            .receive(on: DispatchQueue.main)
             .sink { _ in
-                print("something went wrong in scrollCollectionView")
+                print("something went wrong in $firstHeaderIndexPath")
             } receiveValue: { [weak self] indexPath in
                 self?.headerCollectionView.scrollToItem(at: indexPath, at: .left, animated: false)
                 self?.bodyCollectionView.scrollToItem(at: indexPath, at: .left, animated: false)
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$hightLightHeaderIndexPath
+            .receive(on: DispatchQueue.main)
+            .compactMap { [weak self] indexPath in
+                self?.headerCollectionView.cellForItem(at: indexPath) as? HeaderCollectionViewCell
+            }
+            .sink { _ in
+                print("something went wrong in $hightLightHeaderIndexPath")
+            } receiveValue: { headerCell in
+                headerCell.hightLightTitle(alpha: 0.7)
             }
             .store(in: &cancellables)
     }
@@ -71,7 +89,7 @@ class HomeViewController: UIViewController {
             headerCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
             headerCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerCollectionView.heightAnchor.constraint(equalToConstant: 50)
+            headerCollectionView.heightAnchor.constraint(equalToConstant: 40)
         ])
         
         // body

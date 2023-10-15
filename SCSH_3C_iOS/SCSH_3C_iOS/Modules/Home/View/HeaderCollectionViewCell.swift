@@ -13,7 +13,9 @@ class HeaderCollectionViewCell: UICollectionViewCell {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
         l.textAlignment = .center
-        l.font = .systemFont(ofSize: 18)
+        l.font = .systemFont(ofSize: 14, weight: .medium)
+        l.textColor = .black
+        l.alpha = 0.3
         return l
     }()
     
@@ -40,14 +42,18 @@ class HeaderCollectionViewCell: UICollectionViewCell {
     func update(title: String) {
         titleLabel.text = title
     }
+    
+    func hightLightTitle(alpha: CGFloat) {
+        titleLabel.alpha = 0.3 + alpha
+    }
 }
 
 class ZoomAndSnapFlowLayout: UICollectionViewFlowLayout {
     // Threshold for activating the zoom animation, based on the distance from the center.
     let activeDistance: CGFloat = 200
     
-    // zoom ratio
-    let zoomRatio: CGFloat = 0.5
+    let zoomRatio: CGFloat = 0.3
+    let hightLightAlpha: CGFloat = 0.5
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         guard let collectionView = collectionView else { return nil }
@@ -65,6 +71,10 @@ class ZoomAndSnapFlowLayout: UICollectionViewFlowLayout {
                 let zoom = 1 + zoomRatio * (1 - transformPrecentage.magnitude)
                 layoutAttribute.transform3D = CATransform3DMakeScale(zoom, zoom, 1)
                 layoutAttribute.zIndex = Int(zoom.rounded())
+                
+                if let cell = collectionView.cellForItem(at: layoutAttribute.indexPath) as? HeaderCollectionViewCell {
+                    cell.hightLightTitle(alpha: hightLightAlpha * (1 - transformPrecentage.magnitude))
+                }
             }
         }
 
