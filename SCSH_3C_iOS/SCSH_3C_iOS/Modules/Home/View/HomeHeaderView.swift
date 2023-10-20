@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import Combine
 
 struct HomeHeaderView: View {
-    
-    private let viewModel: HomeViewModel
+    @ObservedObject
+    private var viewModel: HomeViewModel
+    private let coordinator = HomeCoordinator()
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -41,6 +43,9 @@ struct HomeHeaderView: View {
                 .padding(10)
                 .background(Color(uiColor: UIColor(red: 222/255, green: 222/255, blue: 222/255, alpha: 0.3)))
                 .cornerRadius(8)
+                .navigationDestination(for: Route.self) { route in
+                    CoordinatorFacade.view(for: route)
+                }
                 
                 Button(action: {
                     viewModel.messageButtonDidTap.send(())
@@ -49,6 +54,9 @@ struct HomeHeaderView: View {
                         .foregroundColor(.black)
                         .padding(5)
                 }
+                .navigationDestination(for: Route.self) { route in
+                    CoordinatorFacade.view(for: route)
+                }
                 
                 Button(action: {
                     viewModel.cartButtonDidTap.send(())
@@ -56,6 +64,9 @@ struct HomeHeaderView: View {
                     Image(systemName: "cart")
                         .foregroundColor(.black)
                         .padding(.trailing)
+                }
+                .navigationDestination(for: Route.self) { route in
+                    CoordinatorFacade.view(for: route)
                 }
             }
         }

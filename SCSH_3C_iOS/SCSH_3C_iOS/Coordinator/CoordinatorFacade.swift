@@ -15,6 +15,18 @@ class CoordinatorFacade {
             
         case .home:
             return HomeCoordinator().start()
+            
+        case .search:
+            // TODO: implement search module.
+            return AnyView(Text("Search View!"))
+            
+        case .cart:
+            // TODO: implement cart module.
+            return AnyView(Text("Cart View!"))
+            
+        case .message:
+            // TODO: implement message module.
+            return AnyView(Text("Message View!"))
         }
     }
 }

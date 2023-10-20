@@ -7,7 +7,10 @@
 
 import Foundation
 
-enum Route {
+enum Route: Hashable {
     case main(selectedTab: Int)
     case home
+    case search
+    case cart
+    case message
 }

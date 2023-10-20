@@ -9,8 +9,12 @@ import Foundation
 import SwiftUI
 import Persistence
 import Networking
+import Combine
 
 class HomeCoordinator: HomeCoordinatorType {
+    
+    var navigate = PassthroughSubject<Route, Error>()
+
     private let notificationManager: NotificationManagerType
     
     init(notificationManager: NotificationManagerType = NotificationManager.shared) {
@@ -29,5 +33,17 @@ class HomeCoordinator: HomeCoordinatorType {
     
     func addNotification(title: String) {
         notificationManager.addNotification(title: "\(title) is tapped!! " , body: "local notification")
+    }
+    
+    func requestSearchNavigation() {
+        navigate.send(.search)
+    }
+
+    func requestCartNavigation() {
+        navigate.send(.cart)
+    }
+    
+    func requestMessageNavigation() {
+        navigate.send(.message)
     }
 }
