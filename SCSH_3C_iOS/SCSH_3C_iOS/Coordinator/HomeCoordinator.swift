@@ -11,17 +11,16 @@ import Persistence
 import Networking
 
 class HomeCoordinator: HomeCoordinatorType {
-    
     private let notificationManager: NotificationManagerType
     
     init(notificationManager: NotificationManagerType = NotificationManager.shared) {
         self.notificationManager = notificationManager
     }
     
-    func start() -> HomeView {
+    func start() -> AnyView {
         let viewModel = HomeViewModel(coordinator: self)
         
-        return HomeView(viewModel: viewModel)
+        return AnyView(HomeView(viewModel: viewModel))
     }
     
     func presentNotificationPermissionDailog(completion: (Bool) -> Void) {

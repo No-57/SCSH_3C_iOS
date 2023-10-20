@@ -12,12 +12,11 @@ import Combine
 struct MainApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
-    private let startUpCoordinator = StartUpCoordinator()
     @State var selectedTab = 0
     
     var body: some Scene {
         WindowGroup {
-            startUpCoordinator.start(with: selectedTab)
+            CoordinatorFacade.view(for: .main(selectedTab: selectedTab))
                 .environment(\.colorScheme, .light)
                 .onChange(of: scenePhase) { newScenePhase in
                     switch newScenePhase {

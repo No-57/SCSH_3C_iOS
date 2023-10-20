@@ -16,7 +16,7 @@ struct MainView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            HomeCoordinator().start()
+            CoordinatorFacade.view(for: .home)
                 .tabItem {
                     Image(systemName: "house")
                     Text("去比價")

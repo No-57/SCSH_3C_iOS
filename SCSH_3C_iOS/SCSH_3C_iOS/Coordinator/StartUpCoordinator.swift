@@ -9,10 +9,14 @@
 import Foundation
 import SwiftUI
 
-class StartUpCoordinator {
-    func start(with tab: Int) -> some View {
-        NavigationView {
-            MainView(selectedTab: tab)
-        }
+class StartUpCoordinator: CoordinatorType {
+    private let selectedTab: Int
+    
+    init(selectedTab: Int) {
+        self.selectedTab = selectedTab
+    }
+    
+    func start() -> AnyView {
+        AnyView(MainView(selectedTab: selectedTab))
     }
 }

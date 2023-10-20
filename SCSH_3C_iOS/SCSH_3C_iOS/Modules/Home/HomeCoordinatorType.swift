@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 
-protocol HomeCoordinatorType {
-    func start() -> HomeView
+protocol HomeCoordinatorType: CoordinatorType {
     func presentNotificationPermissionDailog(completion: (Bool) -> Void)
 }
