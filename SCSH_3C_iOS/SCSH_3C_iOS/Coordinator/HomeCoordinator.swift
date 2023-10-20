@@ -21,7 +21,7 @@ class HomeCoordinator: HomeCoordinatorType {
         self.notificationManager = notificationManager
     }
     
-    func start() -> AnyView {
+    func startSwiftUI() -> AnyView {
         let viewModel = HomeViewModel(coordinator: self)
         
         return AnyView(HomeView(viewModel: viewModel))

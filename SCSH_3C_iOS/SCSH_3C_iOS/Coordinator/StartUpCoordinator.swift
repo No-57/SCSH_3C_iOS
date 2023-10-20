@@ -16,7 +16,7 @@ class StartUpCoordinator: CoordinatorType {
         self.selectedTab = selectedTab
     }
     
-    func start() -> AnyView {
+    func startSwiftUI() -> AnyView {
         AnyView(MainView(selectedTab: selectedTab))
     }
 }

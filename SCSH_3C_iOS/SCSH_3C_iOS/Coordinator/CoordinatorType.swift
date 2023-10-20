@@ -6,7 +6,19 @@
 //
 
 import SwiftUI
+import UIKit
 
 protocol CoordinatorType {
-    func start() -> AnyView
+    func startSwiftUI() -> AnyView
+    func startUIKit() -> UIViewController
+}
+
+extension CoordinatorType {
+    func startSwiftUI() -> AnyView {
+        fatalError("SwiftUI is not supported")
+    }
+    
+    func startUIKit() -> UIViewController {
+        fatalError("UIKit is not supported")
+    }
 }
