@@ -7,8 +7,13 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
-protocol HomeCoordinatorType {
-    func start() -> HomeView
+protocol HomeCoordinatorType: CoordinatorType {
+    var navigate: PassthroughSubject<Route, Error> { get set }
+    
     func presentNotificationPermissionDailog(completion: (Bool) -> Void)
+    func requestSearchNavigation()
+    func requestCartNavigation()
+    func requestMessageNavigation()
 }

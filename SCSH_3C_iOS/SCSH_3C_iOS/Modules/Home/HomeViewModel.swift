@@ -7,12 +7,15 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 class HomeViewModel: ObservableObject {
     // MARK: Output
     @Published var firstHeaderIndexPath: IndexPath = .init(item: 0, section: 0)
     @Published var hightLightHeaderIndexPath: IndexPath = .init(item: 1, section: 0)
     @Published var subjects: [String] = ["Explore", "BBB", "CCC", "DDD", "EEE", "FFF", "GGG", "HHH", "III", "JJJ"]
+    
+    @Published var navigationPath = NavigationPath()
 
     // MARK: Input
     let viewWillAppear = PassthroughSubject<Int, Error>()
@@ -29,10 +32,12 @@ class HomeViewModel: ObservableObject {
     init(coordinator: HomeCoordinatorType) {
         self.coordinator = coordinator
         
-        bindEvents()
+        bindViewStateEvents()
+        bindUserInteractionEvents()
+        bindTransitionEvents()
     }
     
-    private func bindEvents() {
+    private func bindViewStateEvents() {
         viewWillAppear
             .compactMap { [weak self] infinitScrollItems -> IndexPath? in
                 guard let self = self else { return nil }
@@ -43,6 +48,7 @@ class HomeViewModel: ObservableObject {
             .sink { _ in
                 print("something went wrong in viewWillAppear")
             } receiveValue: { [weak self] indexPath in
+                // TODO: unknown warning, fix it
                 self?.firstHeaderIndexPath = indexPath
             }
             .store(in: &cancellables)
@@ -66,13 +72,15 @@ class HomeViewModel: ObservableObject {
                 self?.coordinator.presentNotificationPermissionDailog() { _ in }
             }
             .store(in: &cancellables)
-        
+    }
+    
+    private func bindUserInteractionEvents() {
         searchBarDidTap
             .print("searchBarDidTap")
             .sink { _ in
                 print("something went wrong in searchBarDidTap")
             } receiveValue: { [weak self] _ in
-                // TODO: implement.
+                self?.coordinator.requestSearchNavigation()
             }
             .store(in: &cancellables)
         
@@ -90,18 +98,26 @@ class HomeViewModel: ObservableObject {
             .sink { _ in
                 print("something went wrong in messageButtonDidTap")
             } receiveValue: { [weak self] _ in
-                // TODO: implement.
+                self?.coordinator.requestMessageNavigation()
             }
             .store(in: &cancellables)
         
         cartButtonDidTap
-            .print("cartButtonDidTap")
             .sink { _ in
                 print("something went wrong in cartButtonDidTap")
             } receiveValue: { [weak self] _ in
-                // TODO: implement.
+                self?.coordinator.requestCartNavigation()
             }
             .store(in: &cancellables)
-            
+    }
+    
+    private func bindTransitionEvents() {
+        coordinator.navigate
+            .sink { _ in
+                print("something went wrong in navigate")
+            } receiveValue: { [weak self] in
+                self?.navigationPath.append($0)
+            }
+            .store(in: &cancellables)
     }
 }

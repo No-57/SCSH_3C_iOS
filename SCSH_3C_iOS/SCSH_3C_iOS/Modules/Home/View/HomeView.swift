@@ -6,19 +6,23 @@
 //
 
 import SwiftUI
+import Combine
 
 struct HomeView: View {
 
-    private let viewModel: HomeViewModel
+    @ObservedObject
+    private var viewModel: HomeViewModel
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
     }
     
     var body: some View {
-        VStack(spacing: 0) {
-            HomeHeaderView(viewModel: viewModel)
-            HomeViewControllerAdapter(viewModel: viewModel)
+        NavigationStack(path: $viewModel.navigationPath) {
+            VStack(spacing: 0) {
+                HomeHeaderView(viewModel: viewModel)
+                HomeViewControllerAdapter(viewModel: viewModel)
+            }
         }
     }
 }
