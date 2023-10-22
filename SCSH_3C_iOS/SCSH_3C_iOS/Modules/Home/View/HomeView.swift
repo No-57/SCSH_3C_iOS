@@ -23,6 +23,9 @@ struct HomeView: View {
                 HomeHeaderView(viewModel: viewModel)
                 HomeViewControllerAdapter(viewModel: viewModel)
             }
+            .navigationDestination(for: Route.self) { route in
+                CoordinatorFacade.view(for: route)
+            }
         }
     }
 }

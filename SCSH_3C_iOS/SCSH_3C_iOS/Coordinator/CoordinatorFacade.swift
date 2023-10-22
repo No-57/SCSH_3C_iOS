@@ -9,12 +9,14 @@ import SwiftUI
 
 class CoordinatorFacade {
     static func view(for route: Route) -> AnyView {
+        let coordinator: CoordinatorType
+        
         switch route {
         case .main(let selectedTab):
-            return StartUpCoordinator(selectedTab: selectedTab).start()
+            coordinator = StartUpCoordinator(selectedTab: selectedTab)
             
         case .home:
-            return HomeCoordinator().start()
+            coordinator = HomeCoordinator()
             
         case .search:
             // TODO: implement search module.
@@ -28,5 +30,7 @@ class CoordinatorFacade {
             // TODO: implement message module.
             return AnyView(Text("Message View!"))
         }
+        
+        return coordinator.startSwiftUI()
     }
 }
