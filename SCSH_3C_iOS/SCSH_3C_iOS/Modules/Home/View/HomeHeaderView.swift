@@ -66,6 +66,7 @@ struct HomeHeaderView: View {
 
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeHeaderView(viewModel: HomeViewModel(coordinator: HomeCoordinator()))
+        HomeHeaderView(viewModel: HomeViewModel(coordinator: HomeCoordinator(),
+                                                themeRepository: ThemeRepository()))
     }
 }

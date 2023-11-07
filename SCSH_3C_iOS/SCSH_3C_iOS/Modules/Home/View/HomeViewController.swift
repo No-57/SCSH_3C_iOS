@@ -15,13 +15,14 @@ class HomeViewController: UIViewController {
     private let headerCollectionView = UICollectionView(frame: .zero, collectionViewLayout: ZoomAndSnapFlowLayout())
     private let bodyCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    // Infinite scroll items number.
-    private let infinitScrollItems = 1000
-
     // The scroll (per page) offset ratio between header and body
     private let headerToBodyScrollRatio: CGFloat = 2.0 / 5.0
 
     private var cancellables = Set<AnyCancellable>()
+    
+    private enum HomeViewControllerError: Error {
+        case uiNotLoaded
+    }
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -35,12 +36,10 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
-        setupEvents()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.viewWillAppear.send(infinitScrollItems)
+        setupCollectionViews()
+        bindEvents()
+        
+        viewModel.viewDidLoad.send(())
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -48,33 +47,14 @@ class HomeViewController: UIViewController {
         viewModel.viewDidAppear.send(())
     }
     
-    private func setupEvents() {
+    private func setupCollectionViews() {
         headerCollectionView.delegate = self
         headerCollectionView.dataSource = self
+        headerCollectionView.register(HeaderCollectionViewCell.self, forCellWithReuseIdentifier: "HeaderCollectionViewCell")
+        
         bodyCollectionView.delegate = self
         bodyCollectionView.dataSource = self
-        
-        viewModel.$firstHeaderIndexPath
-            .receive(on: DispatchQueue.main)
-            .sink { _ in
-                print("something went wrong in $firstHeaderIndexPath")
-            } receiveValue: { [weak self] indexPath in
-                self?.headerCollectionView.scrollToItem(at: indexPath, at: .left, animated: false)
-                self?.bodyCollectionView.scrollToItem(at: indexPath, at: .left, animated: false)
-            }
-            .store(in: &cancellables)
-        
-        viewModel.$hightLightHeaderIndexPath
-            .receive(on: DispatchQueue.main)
-            .compactMap { [weak self] indexPath in
-                self?.headerCollectionView.cellForItem(at: indexPath) as? HeaderCollectionViewCell
-            }
-            .sink { _ in
-                print("something went wrong in $hightLightHeaderIndexPath")
-            } receiveValue: { headerCell in
-                headerCell.hightLightTitle(alpha: 0.7)
-            }
-            .store(in: &cancellables)
+        bodyCollectionView.register(BodyCollectionViewCell.self, forCellWithReuseIdentifier: "BodyCollectionViewCell")
     }
     
     private func setupLayout() {
@@ -83,7 +63,6 @@ class HomeViewController: UIViewController {
         headerCollectionView.isUserInteractionEnabled = false
         view.addSubview(headerCollectionView)
         (headerCollectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.scrollDirection = .horizontal
-        headerCollectionView.register(HeaderCollectionViewCell.self, forCellWithReuseIdentifier: "HeaderCollectionViewCell")
         
         NSLayoutConstraint.activate([
             headerCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -98,7 +77,6 @@ class HomeViewController: UIViewController {
         bodyCollectionView.backgroundColor = .clear
         view.addSubview(bodyCollectionView)
         (bodyCollectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.scrollDirection = .horizontal
-        bodyCollectionView.register(BodyCollectionViewCell.self, forCellWithReuseIdentifier: "BodyCollectionViewCell")
         
         NSLayoutConstraint.activate([
             bodyCollectionView.topAnchor.constraint(equalTo: headerCollectionView.topAnchor),
@@ -106,6 +84,46 @@ class HomeViewController: UIViewController {
             bodyCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bodyCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func bindEvents() {
+        viewModel.themes
+            .zip(viewModel.firstHeaderIndex)
+            .throttle(for: .milliseconds(100), scheduler: DispatchQueue.main, latest: true)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _, firstIndex in
+                self?.headerCollectionView.reloadData()
+                self?.bodyCollectionView.reloadData()
+                
+                self?.headerCollectionView.scrollToItem(at: .init(item: firstIndex, section: 0), at: .left, animated: false)
+                self?.bodyCollectionView.scrollToItem(at: .init(item: firstIndex, section: 0), at: .left, animated: false)
+            }
+            .store(in: &cancellables)
+        
+        viewModel.hightLightHeaderIndex
+            .receive(on: DispatchQueue.main)
+            .tryCompactMap { [weak self] index -> HeaderCollectionViewCell? in
+                guard let cell = self?.headerCollectionView.cellForItem(at: .init(item: index, section: 0)) as? HeaderCollectionViewCell else {
+                    throw HomeViewControllerError.uiNotLoaded
+                }
+                return cell
+            }
+            .retry(1)
+            .sink { _ in
+                print("something went wrong in $hightLightHeaderIndexPath")
+            } receiveValue: { [weak self] headerCell in
+                self?.hightLightHeaderTitle(cell: headerCell)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func hightLightHeaderTitle(cell: HeaderCollectionViewCell) {
+        // cancel hightlight others
+        for visibleCell in headerCollectionView.visibleCells.filter({ $0 is HeaderCollectionViewCell }) as? [HeaderCollectionViewCell] ?? [] {
+            visibleCell.hightLightTitle(alpha: 0)
+        }
+
+        cell.hightLightTitle(alpha: 0.7)
     }
 }
 
@@ -131,7 +149,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        infinitScrollItems
+        viewModel.infinitScrollItems
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -161,37 +179,47 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+        let themes = viewModel.themes.value
+
         switch collectionView {
         case headerCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HeaderCollectionViewCell", for: indexPath) as! HeaderCollectionViewCell
             
-            // get the actual index for subjects array
-            var index = indexPath.item % viewModel.subjects.count
+            guard themes.count > 0 else {
+                return cell
+            }
+            
+            // get the actual index for themes array
+            var index = indexPath.item % themes.count
             
             // Since one page contains three header cells, the primary cell should be centered on the page.
             if index == 0 {
-                index = viewModel.subjects.count - 1
+                index = themes.count - 1
             } else {
                 index -= 1
             }
             
-            let subject = viewModel.subjects[index]
+            let theme = themes[index]
             
-            cell.update(title: subject)
+            cell.update(theme: theme)
             return cell
             
         case bodyCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BodyCollectionViewCell", for: indexPath) as! BodyCollectionViewCell
+            
+            guard themes.count > 0 else {
+                return cell
+            }
+            
             cell.delegate = self
             
             // get the actual index for items array
-            let index = indexPath.item % viewModel.subjects.count
+            let index = indexPath.item % themes.count
             
-            let subject = viewModel.subjects[index]
+            let theme = themes[index]
             
-            switch subject {
-            case "Explore":
+            switch theme {
+            case .Explore:
                 let exploreVC = ExploreViewController(viewModel: ExploreViewModel())
                 cell.setup(embeddedviewController: exploreVC, to: self, indexPath: indexPath)
                 

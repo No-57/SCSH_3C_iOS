@@ -32,6 +32,7 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(viewModel: HomeViewModel(coordinator: HomeCoordinator()))
+        HomeView(viewModel: HomeViewModel(coordinator: HomeCoordinator(),
+                                          themeRepository: ThemeRepository()))
     }
 }

@@ -11,103 +11,107 @@ import SwiftUI
 
 class HomeViewModel: ObservableObject {
     // MARK: Output
-    @Published var firstHeaderIndexPath: IndexPath = .init(item: 0, section: 0)
-    @Published var hightLightHeaderIndexPath: IndexPath = .init(item: 1, section: 0)
-    @Published var subjects: [String] = ["Explore", "BBB", "CCC", "DDD", "EEE", "FFF", "GGG", "HHH", "III", "JJJ"]
+    let firstHeaderIndex = CurrentValueSubject<Int, Never>(0)
+    let hightLightHeaderIndex = CurrentValueSubject<Int, Never>(0)
+    let themes = CurrentValueSubject<[HomeTheme], Never>([])
     
     @Published var navigationPath = NavigationPath()
 
+    // Infinite scroll items number.
+    let infinitScrollItems = 1000
+    
     // MARK: Input
-    let viewWillAppear = PassthroughSubject<Int, Error>()
-    let viewDidAppear = PassthroughSubject<Void, Error>()
-    let searchBarDidTap = PassthroughSubject<Void, Error>()
-    let logoButtonDidTap = PassthroughSubject<Void, Error>()
-    let messageButtonDidTap = PassthroughSubject<Void, Error>()
-    let cartButtonDidTap = PassthroughSubject<Void, Error>()
+    let viewDidLoad = PassthroughSubject<Void, Never>()
+    let viewDidAppear = PassthroughSubject<Void, Never>()
+    let searchBarDidTap = PassthroughSubject<Void, Never>()
+    let logoButtonDidTap = PassthroughSubject<Void, Never>()
+    let messageButtonDidTap = PassthroughSubject<Void, Never>()
+    let cartButtonDidTap = PassthroughSubject<Void, Never>()
 
     private let coordinator: HomeCoordinatorType
+    private let themeRepository: ThemeRepositoryType
     
     private var cancellables = Set<AnyCancellable>()
     
-    init(coordinator: HomeCoordinatorType) {
+    init(coordinator: HomeCoordinatorType, themeRepository: ThemeRepositoryType) {
         self.coordinator = coordinator
-        
+        self.themeRepository = themeRepository
+
         bindViewStateEvents()
         bindUserInteractionEvents()
         bindTransitionEvents()
     }
     
     private func bindViewStateEvents() {
-        viewWillAppear
-            .compactMap { [weak self] infinitScrollItems -> IndexPath? in
-                guard let self = self else { return nil }
+        viewDidLoad
+            .flatMap { [weak self] _ -> AnyPublisher<[HomeTheme], Error> in
+                guard let self = self else {
+                    return Empty().eraseToAnyPublisher()
+                }
                 
-                let firstHeaderIndexPath = (infinitScrollItems / 2) - (infinitScrollItems / 2 % self.subjects.count)
-                return IndexPath(item: firstHeaderIndexPath, section: 0)
+                return self.themeRepository.getHomeThemes(isLatest: false)
             }
-            .sink { _ in
-                print("something went wrong in viewWillAppear")
-            } receiveValue: { [weak self] indexPath in
-                // TODO: unknown warning, fix it
-                self?.firstHeaderIndexPath = indexPath
+            .sink(receiveCompletion: { _ in
+                // TODO: Error handling
+            }, receiveValue: { [weak self] themes in
+                self?.themes.send(themes)
+            })
+            .store(in: &cancellables)
+        
+        themes
+            .map { [weak self] themes -> Int in
+                guard let self = self, themes.count > 0 else { return 0 }
+
+                return (self.infinitScrollItems / 2) - (self.infinitScrollItems / 2 % themes.count)
             }
+            .sink(receiveValue: { [weak self] index in
+                self?.firstHeaderIndex.send(index)
+            })
+            .store(in: &cancellables)
+        
+        viewDidAppear.prefix(1)
+            .combineLatest(firstHeaderIndex)
+            .map { _ ,firstHeaderIndexPath -> Int in
+                firstHeaderIndexPath + 1
+            }
+            .sink(receiveValue: { [weak self] index in
+                self?.hightLightHeaderIndex.send(index)
+            })
             .store(in: &cancellables)
         
         viewDidAppear
-            .compactMap { [weak self] in
-                guard let firstHeaderIndexPath = self?.firstHeaderIndexPath else { return nil }
-                return IndexPath(item: firstHeaderIndexPath.item + 1, section: firstHeaderIndexPath.section)
-            }
-            .sink { _ in
-                print("something went wrong in viewDidAppear")
-            } receiveValue: { [weak self] indexPath in
-                self?.hightLightHeaderIndexPath = indexPath
-            }
-            .store(in: &cancellables)
-        
-        viewDidAppear
-            .sink { _ in
-                print("something went wrong in viewDidAppear")
-            } receiveValue: { [weak self] _ in
+            .sink(receiveValue: { [weak self] _ in
                 self?.coordinator.presentNotificationPermissionDailog() { _ in }
-            }
+            })
             .store(in: &cancellables)
     }
     
     private func bindUserInteractionEvents() {
         searchBarDidTap
             .print("searchBarDidTap")
-            .sink { _ in
-                print("something went wrong in searchBarDidTap")
-            } receiveValue: { [weak self] _ in
+            .sink(receiveValue: { [weak self] _ in
                 self?.coordinator.requestSearchNavigation()
-            }
+            })
             .store(in: &cancellables)
         
         logoButtonDidTap
             .print("logoButtonDidTap")
-            .sink { _ in
-                print("something went wrong in logoButtonDidTap")
-            } receiveValue: { [weak self] _ in
+            .sink(receiveValue: { [weak self] _ in
                 // TODO: implement.
-            }
+            })
             .store(in: &cancellables)
         
         messageButtonDidTap
             .print("messageButtonDidTap")
-            .sink { _ in
-                print("something went wrong in messageButtonDidTap")
-            } receiveValue: { [weak self] _ in
+            .sink(receiveValue: { [weak self] _ in
                 self?.coordinator.requestMessageNavigation()
-            }
+            })
             .store(in: &cancellables)
         
         cartButtonDidTap
-            .sink { _ in
-                print("something went wrong in cartButtonDidTap")
-            } receiveValue: { [weak self] _ in
+            .sink(receiveValue: { [weak self] _ in
                 self?.coordinator.requestCartNavigation()
-            }
+            })
             .store(in: &cancellables)
     }
     

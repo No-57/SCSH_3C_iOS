@@ -39,8 +39,21 @@ class HeaderCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func update(title: String) {
-        titleLabel.text = title
+    func update(theme: HomeTheme) {
+        switch theme {
+        case .Explore:
+            titleLabel.text = "探索"
+        case .Subject:
+            titleLabel.text = "主題館"
+        case .GamePoint:
+            titleLabel.text = "點數卡"
+        case ._3C:
+            titleLabel.text = "3C用品"
+        case .Speacial:
+            titleLabel.text = "特殊企劃"
+        case .Distributor(let name):
+            titleLabel.text = name
+        }
     }
     
     func hightLightTitle(alpha: CGFloat) {
