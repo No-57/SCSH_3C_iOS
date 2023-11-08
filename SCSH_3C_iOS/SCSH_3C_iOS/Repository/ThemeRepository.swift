@@ -17,12 +17,18 @@ class ThemeRepository: ThemeRepositoryType {
     
     // TODO: API design is required.
     
-    /// API
-    /// Endpoint: `/theme?type=home`
+    ///
+    /// ```
+    /// GET https://{domainhost}/theme/home
+    /// ```
+    ///
     /// Response: {
-    ///     "data": {
-    ///         "fields": ["explore", "subject", "special", "3c", "game_point", "distributor_pchome"]
-    ///     }
+    /// ```
+    ///     "fields": [
+    ///         { "id": ...,
+    ///           "name": ...},
+    ///     ]
+    /// ```
     /// }
     ///
     func getHomeThemes(isLatest: Bool) -> AnyPublisher<[HomeTheme], Error> {
@@ -41,12 +47,18 @@ class ThemeRepository: ThemeRepositoryType {
     
     // TODO: API design is required.
     
-    /// API
-    /// Endpoint: `/theme?type=explore`
+    ///
+    /// ```
+    /// GET https://{domainhost}/theme/explore
+    /// ```
+    ///
     /// Response: {
-    ///     "data": {
-    ///         "fields": ["board", "recent", "brand", "popular", "explore"]
-    ///     }
+    /// ```
+    ///     "fields": [
+    ///         { "id": ...,
+    ///           "name": ...},
+    ///     ]
+    /// ```
     /// }
     ///
     func getExploreThemes(isLatest: Bool) -> AnyPublisher<[ExploreTheme], Error> {

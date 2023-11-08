@@ -12,5 +12,5 @@ struct ExploreBoard {
     let imageUrl: URL?
     
     // TODO: web link or universal link or deeplink.
-    let destination: URL?
+    let action: URL?
 }
