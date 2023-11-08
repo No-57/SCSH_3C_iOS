@@ -9,17 +9,11 @@ import UIKit
 import Combine
 
 class ExploreViewController: UIViewController {
-
-    private enum SectionName: Int {
-        case Board
-        case Recent
-        case Brand
-        case Popular
-        case Explore
-    }
     
     private let viewModel: ExploreViewModel
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
+    private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: ExploreViewModel) {
         self.viewModel = viewModel
@@ -34,14 +28,25 @@ class ExploreViewController: UIViewController {
         super.viewDidLoad()
         setupLayout()
         setupCollectionView()
+        bindViewStateEvents()
+        bindTransitionEvents()
+        
+        viewModel.viewDidLoad.send(())
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.viewWillDisappear.send(())
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.viewWillAppear.send(())
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if let cell = collectionView.cellForItem(at: .init(row: 0, section: 0)) as? BoardSectionCollectionViewCell {
-            cell.setupInfiniteScroll()
-        }
+        viewModel.viewDidAppear.send(())
     }
     
     private func setupLayout() {
@@ -66,16 +71,88 @@ class ExploreViewController: UIViewController {
         collectionView.register(PopularSectionCollectionViewCell.self, forCellWithReuseIdentifier: "PopularSectionCollectionViewCell")
         collectionView.register(ExploreSectionCollectionViewCell.self, forCellWithReuseIdentifier: "ExploreSectionCollectionViewCell")
     }
+    
+    private func bindViewStateEvents() {
+        // TODO: loading effect implement.
+        viewModel.$themes
+            .throttle(for: .milliseconds(100), scheduler: DispatchQueue.main, latest: true)
+            .sink(receiveValue: { [weak self] _ in
+                self?.collectionView.reloadData()
+                self?.collectionView.layoutIfNeeded()
+            })
+            .store(in: &cancellables)
+        
+        viewModel.$boards
+            .zip(viewModel.$firstBoardSectionIndex)
+            .throttle(for: .milliseconds(100), scheduler: DispatchQueue.main, latest: true)
+            .compactMap { [weak self] (boards, firstIndex) -> ([ExploreBoard], Int , BoardSectionCollectionViewCell)? in
+                guard let index = self?.viewModel.themes.firstIndex(of: .Board) else {
+                    return nil
+                }
+                
+                guard let boardSectionCell = self?.getSection(indexPath: .init(item: 0, section: index)) as? BoardSectionCollectionViewCell else {
+                    return nil
+                }
+                
+                return (boards, firstIndex, boardSectionCell)
+
+            }
+            .sink(receiveValue: { [weak self] boards, firstIndex , boardSectionCell in
+                guard let self = self else { return }
+                
+                boardSectionCell.setup(boards: boards, infiniteScrollItems: self.viewModel.infiniteScrollItems)
+                boardSectionCell.scrollToItem(at: firstIndex, animated: false)
+            })
+            .store(in: &cancellables)
+        
+        viewModel.$boardSectionIsActive
+            .throttle(for: .milliseconds(100), scheduler: DispatchQueue.main, latest: true)
+            .compactMap { [weak self] isActive -> (Bool , BoardSectionCollectionViewCell)? in
+                guard let index = self?.viewModel.themes.firstIndex(of: .Board) else {
+                    return nil
+                }
+                
+                guard let boardSectionCell = self?.getSection(indexPath: .init(item: 0, section: index)) as? BoardSectionCollectionViewCell else {
+                    return nil
+                }
+                
+                return (isActive, boardSectionCell)
+
+            }
+            .sink(receiveValue: { isActive, boardSectionCell in
+                if isActive {
+                    boardSectionCell.activate()
+                } else {
+                    boardSectionCell.inactivate()
+                }
+            })
+            .store(in: &cancellables)
+    }
+    
+    private func bindTransitionEvents() {
+        viewModel.$route
+            .compactMap {
+                CoordinatorFacade.viewController(for: $0)
+            }
+            .sink(receiveValue: { [weak self] in
+                self?.present($0, animated: true)
+            })
+            .store(in: &cancellables)
+    }
+    
+    private func getSection(indexPath: IndexPath) -> UICollectionViewCell? {
+        collectionView.cellForItem(at: indexPath)
+    }
 }
 
 extension ExploreViewController: UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        viewModel.sections.count
+        viewModel.themes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch section {
-        case SectionName.Board.rawValue, SectionName.Recent.rawValue, SectionName.Brand.rawValue, SectionName.Popular.rawValue:
+        switch viewModel.themes[section] {
+        case .Board, .Recent, .Brand, .Popular:
             return 1
         default:
             return 15
@@ -83,8 +160,8 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        switch section {
-        case SectionName.Board.rawValue:
+        switch viewModel.themes[section] {
+        case .Board:
             return .zero
 
         default:
@@ -93,17 +170,18 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        switch indexPath.section {
-        case SectionName.Board.rawValue:
+        
+        switch viewModel.themes[indexPath.section] {
+        case .Board:
             return CGSize(width: collectionView.bounds.width, height: 220)
             
-        case SectionName.Recent.rawValue:
+        case .Recent:
             return CGSize(width: collectionView.bounds.width, height: 200)
 
-        case SectionName.Brand.rawValue:
+        case .Brand:
             return CGSize(width: collectionView.bounds.width, height: 300)
 
-        case SectionName.Popular.rawValue:
+        case .Popular:
             return CGSize(width: collectionView.bounds.width, height: 150)
 
         default:
@@ -116,30 +194,39 @@ extension ExploreViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        switch indexPath.section {
-        case SectionName.Board.rawValue:
+        switch viewModel.themes[indexPath.section] {
+        case .Board:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BoardSectionCollectionViewCell", for: indexPath) as! BoardSectionCollectionViewCell
+            cell.setup(boards: viewModel.boards, infiniteScrollItems: viewModel.infiniteScrollItems)
+            cell.delegate = self
             return cell
             
-        case SectionName.Recent.rawValue:
+        case .Recent:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecentSectionCollectionViewCell", for: indexPath) as! RecentSectionCollectionViewCell
             return cell
             
-        case SectionName.Brand.rawValue:
+        case .Brand:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrandSectionCollectionViewCell", for: indexPath) as! BrandSectionCollectionViewCell
             return cell
             
-        case SectionName.Popular.rawValue:
+        case .Popular:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PopularSectionCollectionViewCell", for: indexPath) as! PopularSectionCollectionViewCell
             return cell
             
-        case SectionName.Explore.rawValue:
+        case .Explore:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExploreSectionCollectionViewCell", for: indexPath) as! ExploreSectionCollectionViewCell
             cell.contentView.backgroundColor = .blue
             return cell
-            
-        default:
-            return UICollectionViewCell()
         }
+    }
+}
+
+protocol ExploreViewControllerDelegate: AnyObject {
+    func boardCellDidTap(board: ExploreBoard)
+}
+
+extension ExploreViewController: ExploreViewControllerDelegate {
+    func boardCellDidTap(board: ExploreBoard) {
+        viewModel.boardCellDidTap.send(board)
     }
 }

@@ -9,10 +9,14 @@ import UIKit
 
 class BoardSectionCollectionViewCell: UICollectionViewCell {
 
-    // TODO: replace with actual data in ExploreViewModel.
-    private let items = ["A", "B", "C", "E", "F", "G"]
+    private var boards: [ExploreBoard] = []
+    
     // Infinite scroll items number.
-    private let infiniteScrollItems = 1000
+    private var infiniteScrollItems = 1000
+    
+    // This timer interval determines how frequently the collectionView will automatically scroll to the next page.
+    private let interval: TimeInterval = 5
+    private var timer: Timer?
     
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let pageControl = UIPageControl()
@@ -25,6 +29,8 @@ class BoardSectionCollectionViewCell: UICollectionViewCell {
         case next // move to next page
         case back // back to previous page
     }
+    
+    weak var delegate: ExploreViewControllerDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -90,7 +96,7 @@ class BoardSectionCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupPageControl() {
-        pageControl.numberOfPages = items.count
+        pageControl.numberOfPages = boards.count
         pageControl.currentPage = 0
         pageControl.isUserInteractionEnabled = false
     }
@@ -150,22 +156,57 @@ class BoardSectionCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func setupInfiniteScroll() {
-        // get the first item from `items` where close to the center in the infinite scroll UICollectionView.
-        let firstItem = (infiniteScrollItems / 2) - ((infiniteScrollItems / 2) % items.count)
-        collectionView.scrollToItem(at: IndexPath(item: firstItem, section: 0), at: .centeredHorizontally, animated: false)
+    private func turnOnTimer() {
+        turnOffTimer()
+        timer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(nextButtonDidTap), userInfo: nil, repeats: true)
+    }
+    
+    private func turnOffTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+
+    func setup(boards: [ExploreBoard], infiniteScrollItems: Int) {
+        self.boards = boards
+        self.infiniteScrollItems = infiniteScrollItems
+        
+        pageControl.numberOfPages = boards.count
+
+        collectionView.reloadData()
+    }
+
+    func scrollToItem(at index: Int, animated: Bool) {
+        collectionView.scrollToItem(at: .init(item: index, section: 0), at: .centeredHorizontally, animated: animated)
+    }
+    
+    func activate() {
+        turnOnTimer()
+    }
+    
+    func inactivate() {
+        turnOffTimer()
     }
 }
 
 extension BoardSectionCollectionViewCell: UICollectionViewDelegateFlowLayout {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !boards.isEmpty else { return }
+        
         let itemWidth = collectionView.frame.width
         let currentItem = round(collectionView.contentOffset.x / itemWidth)
         
         // update page
-        pageControl.currentPage = Int(currentItem) % items.count
+        pageControl.currentPage = Int(currentItem) % boards.count
     }
 
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        turnOffTimer()
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        turnOnTimer()
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         infiniteScrollItems
     }
@@ -179,8 +220,8 @@ extension BoardSectionCollectionViewCell: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // TODO: implement it.
-        print("BoardSectionCollectionViewCell didSelectItemAt \(indexPath)")
+        guard let cell = collectionView.cellForItem(at: indexPath) as? BoardCollectionViewCell else { return }
+        delegate?.boardCellDidTap(board: cell.getBoard())
     }
 }
 
@@ -189,15 +230,14 @@ extension BoardSectionCollectionViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BoardCollectionViewCell", for: indexPath) as! BoardCollectionViewCell
 
-        // TODO: implement it.
-        cell.contentView.backgroundColor = .black
-        
-        if indexPath.item % items.count == 0 {
-            cell.contentView.backgroundColor = .red
+        guard !boards.isEmpty else {
+            return cell
         }
+        
+        let index = indexPath.item % boards.count
+        let board = boards[index]
+        cell.setup(board: board)
         
         return cell
     }
 }
-
-class BoardCollectionViewCell: UICollectionViewCell {}

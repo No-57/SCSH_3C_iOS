@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import UIKit
 
 class CoordinatorFacade {
-    static func view(for route: Route) -> AnyView {
+
+    static func view(for route: Route) -> AnyView? {
         let coordinator: CoordinatorType
         
         switch route {
@@ -29,8 +31,31 @@ class CoordinatorFacade {
         case .message:
             // TODO: implement message module.
             return AnyView(Text("Message View!"))
+
+        default:
+            return nil
         }
         
         return coordinator.startSwiftUI()
+    }
+    
+    static func viewController(for route: Route) -> UIViewController? {
+        let coordinator: CoordinatorType
+        
+        switch route {
+        case .explore:
+            coordinator = ExploreCoordinator()
+            
+        case .web(let url):
+            // TODO: implement web view module.
+            let alert = UIAlertController(title: "Open Web", message: url.absoluteString, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "881", style: .cancel))
+            return alert
+            
+        default:
+            return nil
+        }
+        
+        return coordinator.startUIKit()
     }
 }
