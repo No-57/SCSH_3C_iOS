@@ -22,7 +22,8 @@ class HomeCoordinator: HomeCoordinatorType {
     }
     
     func startSwiftUI() -> AnyView {
-        let viewModel = HomeViewModel(coordinator: self)
+        let themeRepository = ThemeRepository()
+        let viewModel = HomeViewModel(coordinator: self, themeRepository: themeRepository)
         
         return AnyView(HomeView(viewModel: viewModel))
     }
