@@ -47,7 +47,7 @@ class HeaderCollectionViewCell: UICollectionViewCell {
             titleLabel.text = "主題館"
         case .GamePoint:
             titleLabel.text = "點數卡"
-        case ._3C:
+        case .Product3C:
             titleLabel.text = "3C用品"
         case .Speacial:
             titleLabel.text = "特殊企劃"
