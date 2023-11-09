@@ -220,8 +220,9 @@ extension HomeViewController: UICollectionViewDataSource {
             
             switch theme {
             case .Explore:
-                let exploreVC = ExploreViewController(viewModel: ExploreViewModel())
-                cell.setup(embeddedviewController: exploreVC, to: self, indexPath: indexPath)
+                if let exploreVC = CoordinatorFacade.viewController(for: .explore) {
+                    cell.setup(embeddedviewController: exploreVC, to: self, indexPath: indexPath)
+                }
                 
             default:
                 cell.setup(indexPath: indexPath)

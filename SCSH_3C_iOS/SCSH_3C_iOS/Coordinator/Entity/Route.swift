@@ -8,9 +8,12 @@
 import Foundation
 
 enum Route: Hashable {
+    case none // empty object
     case main(selectedTab: Int)
     case home
     case search
     case cart
     case message
+    case explore
+    case web(url: URL)
 }

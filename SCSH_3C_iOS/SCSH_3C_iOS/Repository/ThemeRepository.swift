@@ -37,7 +37,7 @@ class ThemeRepository: ThemeRepositoryType {
                 .Explore,
                 .Subject,
                 .Speacial,
-                ._3C,
+                .Product3C,
                 .GamePoint,
                 .Distributor(name: "PChome")
             ]))

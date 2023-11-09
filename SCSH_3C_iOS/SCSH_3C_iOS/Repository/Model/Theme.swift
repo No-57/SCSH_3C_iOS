@@ -12,7 +12,7 @@ protocol ThemeType {}
 enum HomeTheme: ThemeType {
     case Explore
     case Subject
-    case _3C
+    case Product3C
     case Speacial
     case GamePoint
     case Distributor(name: String)
