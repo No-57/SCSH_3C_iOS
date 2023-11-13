@@ -21,7 +21,7 @@ enum HomeTheme: ThemeType {
 enum ExploreTheme: ThemeType {
     case Board
     case Recent
-    case Brand
+    case Distributor
     case Popular
     case Explore
 }

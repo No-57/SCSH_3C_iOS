@@ -1,5 +1,5 @@
 //
-//  BrandSectionCollectionViewCell.swift
+//  DistributorSectionCollectionViewCell.swift
 //  SCSH_3C_iOS
 //
 //  Created by 辜敬閎 on 2023/10/9.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BrandSectionCollectionViewCell: UICollectionViewCell {
+class DistributorSectionCollectionViewCell: UICollectionViewCell {
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     override init(frame: CGRect) {
@@ -35,12 +35,12 @@ class BrandSectionCollectionViewCell: UICollectionViewCell {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        collectionView.register(BrandCollectionViewCell.self, forCellWithReuseIdentifier: "BrandCollectionViewCell")
+        collectionView.register(DistributorCollectionViewCell.self, forCellWithReuseIdentifier: "DistributorCollectionViewCell")
         (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.scrollDirection = .horizontal
     }
 }
 
-extension BrandSectionCollectionViewCell: UICollectionViewDelegateFlowLayout {
+extension DistributorSectionCollectionViewCell: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         5
@@ -51,14 +51,11 @@ extension BrandSectionCollectionViewCell: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension BrandSectionCollectionViewCell: UICollectionViewDataSource {
+extension DistributorSectionCollectionViewCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrandCollectionViewCell", for: indexPath) as! BrandCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DistributorCollectionViewCell", for: indexPath) as! DistributorCollectionViewCell
         cell.contentView.backgroundColor = .yellow
         return cell
     }
 }
-
-class BrandCollectionViewCell: UICollectionViewCell {}
-

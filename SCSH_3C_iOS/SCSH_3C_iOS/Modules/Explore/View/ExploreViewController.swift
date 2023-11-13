@@ -67,7 +67,7 @@ class ExploreViewController: UIViewController {
         (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.scrollDirection = .vertical
         collectionView.register(BoardSectionCollectionViewCell.self, forCellWithReuseIdentifier: "BoardSectionCollectionViewCell")
         collectionView.register(RecentSectionCollectionViewCell.self, forCellWithReuseIdentifier: "RecentSectionCollectionViewCell")
-        collectionView.register(BrandSectionCollectionViewCell.self, forCellWithReuseIdentifier: "BrandSectionCollectionViewCell")
+        collectionView.register(DistributorSectionCollectionViewCell.self, forCellWithReuseIdentifier: "DistributorSectionCollectionViewCell")
         collectionView.register(PopularSectionCollectionViewCell.self, forCellWithReuseIdentifier: "PopularSectionCollectionViewCell")
         collectionView.register(ExploreSectionCollectionViewCell.self, forCellWithReuseIdentifier: "ExploreSectionCollectionViewCell")
     }
@@ -152,7 +152,7 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch viewModel.themes[section] {
-        case .Board, .Recent, .Brand, .Popular:
+        case .Board, .Recent, .Distributor, .Popular:
             return 1
         default:
             return 15
@@ -178,7 +178,7 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
         case .Recent:
             return CGSize(width: collectionView.bounds.width, height: 200)
 
-        case .Brand:
+        case .Distributor:
             return CGSize(width: collectionView.bounds.width, height: 300)
 
         case .Popular:
@@ -205,8 +205,8 @@ extension ExploreViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecentSectionCollectionViewCell", for: indexPath) as! RecentSectionCollectionViewCell
             return cell
             
-        case .Brand:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrandSectionCollectionViewCell", for: indexPath) as! BrandSectionCollectionViewCell
+        case .Distributor:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DistributorSectionCollectionViewCell", for: indexPath) as! DistributorSectionCollectionViewCell
             return cell
             
         case .Popular:

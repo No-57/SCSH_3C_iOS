@@ -66,7 +66,7 @@ class ThemeRepository: ThemeRepositoryType {
             promise(.success([
                 .Board,
                 .Recent,
-                .Brand,
+                .Distributor,
                 .Popular,
                 .Explore,
             ]))
