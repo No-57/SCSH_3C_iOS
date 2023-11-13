@@ -16,7 +16,9 @@ class ExploreCoordinator: ExploreCoordinatorType {
         let coordinator = ExploreCoordinator()
         let boardRepository = BoardRepository()
         let themeRepository = ThemeRepository()
-        let viewModel = ExploreViewModel(coordinator: coordinator, boardRepository: boardRepository, themeRepository: themeRepository)
+        let distributorRepository = DistributorRepository()
+        
+        let viewModel = ExploreViewModel(coordinator: coordinator, boardRepository: boardRepository, themeRepository: themeRepository, distributorRepository: distributorRepository)
         return ExploreViewController(viewModel: viewModel)
     }
     

@@ -16,6 +16,8 @@ class ExploreViewModel: ObservableObject {
     @Published var firstBoardSectionIndex: Int = 0
     @Published var boardSectionIsActive = false
     @Published var boards: [ExploreBoard] = []
+    
+    @Published var distributors: [Distributor] = []
 
     @Published var route = Route.none
 
@@ -27,39 +29,52 @@ class ExploreViewModel: ObservableObject {
     let viewWillAppear = PassthroughSubject<Void, Never>()
     let viewDidAppear = PassthroughSubject<Void, Never>()
     let viewWillDisappear = PassthroughSubject<Void, Never>()
+    
     let boardCellDidTap = PassthroughSubject<ExploreBoard, Never>()
+    
+    let distributorCellDidTap = PassthroughSubject<Distributor, Never>()
+    let distributorMainProductGestureDidTap = PassthroughSubject<String, Never>()
+    let distributorSubProduct1GestureDidTap = PassthroughSubject<String, Never>()
+    let distributorSubProduct2GestureDidTap = PassthroughSubject<String, Never>()
+    let distributorLikeButtonDidTap = PassthroughSubject<Distributor, Never>()
+    let distributorExploreButtonDidTap = PassthroughSubject<Distributor, Never>()
     
     private let coordinator: ExploreCoordinatorType
     private let boardRepository: BoardRepositoryType
     private let themeRepository: ThemeRepositoryType
+    private let distributorRepository: DistributorRepositoryType
     private var cancellables = Set<AnyCancellable>()
     
-    init(coordinator: ExploreCoordinatorType, boardRepository: BoardRepositoryType, themeRepository: ThemeRepositoryType) {
+    init(coordinator: ExploreCoordinatorType, boardRepository: BoardRepositoryType, themeRepository: ThemeRepositoryType, distributorRepository: DistributorRepositoryType) {
         self.coordinator = coordinator
         self.boardRepository = boardRepository
         self.themeRepository = themeRepository
+        self.distributorRepository = distributorRepository
         
         bindExploreEvents()
         bindBoardEvents()
+        bindDistributorEvents()
         bindTransitionEvents()
     }
 
     private func bindExploreEvents() {
         viewDidLoad
-            .flatMap { [weak self] _ -> AnyPublisher<([ExploreTheme], [ExploreBoard]), Error> in
+            .flatMap { [weak self] _ -> AnyPublisher<([ExploreTheme], [ExploreBoard], [Distributor]), Error> in
                 guard let self = self else {
-                    return Empty<([ExploreTheme], [ExploreBoard]), Error>().eraseToAnyPublisher()
+                    return Empty<([ExploreTheme], [ExploreBoard], [Distributor]), Error>().eraseToAnyPublisher()
                 }
                 
                 return self.themeRepository.getExploreThemes(isLatest: false)
-                    .combineLatest(self.boardRepository.getExploreBoards(isLatest: false))
+                    .combineLatest(self.boardRepository.getExploreBoards(isLatest: false),
+                                   self.distributorRepository.getDistributors(isLatest: false))
                     .eraseToAnyPublisher()
             }
             .sink(receiveCompletion: { _ in
                 // TODO: Error handling
-            }, receiveValue: { [weak self] (themes, boards) in
+            }, receiveValue: { [weak self] (themes, boards, distributors) in
                 self?.themes = themes
                 self?.boards = boards
+                self?.distributors = distributors
             })
             .store(in: &cancellables)
     }
@@ -90,6 +105,45 @@ class ExploreViewModel: ObservableObject {
             .compactMap(\.action)
             .sink(receiveValue: { [weak self] in
                 self?.coordinator.requestWebNavigation(url: $0)
+            })
+            .store(in: &cancellables)
+    }
+    
+    //TODO: handle user interaction.
+    private func bindDistributorEvents() {
+        distributorCellDidTap
+            .print("distributorCellDidTap")
+            .sink(receiveValue: { [weak self] _ in
+            })
+            .store(in: &cancellables)
+        
+        distributorLikeButtonDidTap
+            .print("distributorLikeButtonDidTap")
+            .sink(receiveValue: { [weak self] _ in
+            })
+            .store(in: &cancellables)
+        
+        distributorExploreButtonDidTap
+            .print("distributorExploreButtonDidTap")
+            .sink(receiveValue: { [weak self] _ in
+            })
+            .store(in: &cancellables)
+        
+        distributorMainProductGestureDidTap
+            .print("distributorMainProductGestureDidTap")
+            .sink(receiveValue: { [weak self] _ in
+            })
+            .store(in: &cancellables)
+        
+        distributorSubProduct1GestureDidTap
+            .print("distributorSubProduct1GestureDidTap")
+            .sink(receiveValue: { [weak self] _ in
+            })
+            .store(in: &cancellables)
+        
+        distributorSubProduct2GestureDidTap
+            .print("distributorSubProduct2GestureDidTap")
+            .sink(receiveValue: { [weak self] _ in
             })
             .store(in: &cancellables)
     }
