@@ -25,4 +25,12 @@ class ExploreCoordinator: ExploreCoordinatorType {
     func requestWebNavigation(url: URL) {
         navigate.send(.web(url: url))
     }
+    
+    func requestDistributorNavigation(id: String) {
+        navigate.send(.distributor(id: id))
+    }
+    
+    func requestProductNavigation(id: String) {
+        navigate.send(.product(id: id))
+    }
 }

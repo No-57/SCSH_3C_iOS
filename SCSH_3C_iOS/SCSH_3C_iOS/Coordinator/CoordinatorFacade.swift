@@ -46,10 +46,22 @@ class CoordinatorFacade {
         case .explore:
             coordinator = ExploreCoordinator()
             
+        case .product(let id):
+            // TODO: implement product module.
+            let alert = UIAlertController(title: "打開 product 模組", message: id, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "關閉", style: .cancel))
+            return alert
+            
+        case .distributor(let id):
+            // TODO: implement distributor module.
+            let alert = UIAlertController(title: "打開 Distributor 模組", message: id, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "關閉", style: .cancel))
+            return alert
+            
         case .web(let url):
             // TODO: implement web view module.
-            let alert = UIAlertController(title: "Open Web", message: url.absoluteString, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "881", style: .cancel))
+            let alert = UIAlertController(title: "打開 Web 模組", message: url.absoluteString, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "關閉", style: .cancel))
             return alert
             
         default:

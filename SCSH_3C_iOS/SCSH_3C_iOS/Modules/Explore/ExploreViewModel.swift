@@ -109,41 +109,26 @@ class ExploreViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    //TODO: handle user interaction.
     private func bindDistributorEvents() {
-        distributorCellDidTap
-            .print("distributorCellDidTap")
-            .sink(receiveValue: { [weak self] _ in
-            })
-            .store(in: &cancellables)
-        
         distributorLikeButtonDidTap
             .print("distributorLikeButtonDidTap")
             .sink(receiveValue: { [weak self] _ in
+                //TODO: implement like button bahavior.
             })
             .store(in: &cancellables)
         
         distributorExploreButtonDidTap
-            .print("distributorExploreButtonDidTap")
-            .sink(receiveValue: { [weak self] _ in
+            .merge(with: distributorCellDidTap)
+            .map(\.id)
+            .sink(receiveValue: { [weak self] in
+                self?.coordinator.requestDistributorNavigation(id: $0)
             })
             .store(in: &cancellables)
         
         distributorMainProductGestureDidTap
-            .print("distributorMainProductGestureDidTap")
-            .sink(receiveValue: { [weak self] _ in
-            })
-            .store(in: &cancellables)
-        
-        distributorSubProduct1GestureDidTap
-            .print("distributorSubProduct1GestureDidTap")
-            .sink(receiveValue: { [weak self] _ in
-            })
-            .store(in: &cancellables)
-        
-        distributorSubProduct2GestureDidTap
-            .print("distributorSubProduct2GestureDidTap")
-            .sink(receiveValue: { [weak self] _ in
+            .merge(with: distributorSubProduct1GestureDidTap, distributorSubProduct2GestureDidTap)
+            .sink(receiveValue: { [weak self] in
+                self?.coordinator.requestProductNavigation(id: $0)
             })
             .store(in: &cancellables)
     }

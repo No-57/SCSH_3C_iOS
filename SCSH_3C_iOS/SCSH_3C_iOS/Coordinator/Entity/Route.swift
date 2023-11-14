@@ -11,6 +11,8 @@ enum Route: Hashable {
     case none // empty object
     case main(selectedTab: Int)
     case home
+    case product(id: String)
+    case distributor(id: String)
     case search
     case cart
     case message
