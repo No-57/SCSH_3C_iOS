@@ -65,9 +65,12 @@ class ExploreViewController: UIViewController {
         collectionView.dataSource = self
         
         (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.scrollDirection = .vertical
+        
+        collectionView.register(DistributorSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "DistributorSectionHeaderView")
+        
         collectionView.register(BoardSectionCollectionViewCell.self, forCellWithReuseIdentifier: "BoardSectionCollectionViewCell")
         collectionView.register(RecentSectionCollectionViewCell.self, forCellWithReuseIdentifier: "RecentSectionCollectionViewCell")
-        collectionView.register(BrandSectionCollectionViewCell.self, forCellWithReuseIdentifier: "BrandSectionCollectionViewCell")
+        collectionView.register(DistributorSectionCollectionViewCell.self, forCellWithReuseIdentifier: "DistributorSectionCollectionViewCell")
         collectionView.register(PopularSectionCollectionViewCell.self, forCellWithReuseIdentifier: "PopularSectionCollectionViewCell")
         collectionView.register(ExploreSectionCollectionViewCell.self, forCellWithReuseIdentifier: "ExploreSectionCollectionViewCell")
     }
@@ -127,6 +130,8 @@ class ExploreViewController: UIViewController {
                 }
             })
             .store(in: &cancellables)
+        
+        
     }
     
     private func bindTransitionEvents() {
@@ -152,7 +157,7 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch viewModel.themes[section] {
-        case .Board, .Recent, .Brand, .Popular:
+        case .Board, .Recent, .Distributor, .Popular:
             return 1
         default:
             return 15
@@ -169,6 +174,17 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        switch viewModel.themes[section] {
+        case .Distributor:
+            return CGSize(width: collectionView.frame.width, height: 50)
+
+        default:
+            return .zero
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         switch viewModel.themes[indexPath.section] {
@@ -178,8 +194,8 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
         case .Recent:
             return CGSize(width: collectionView.bounds.width, height: 200)
 
-        case .Brand:
-            return CGSize(width: collectionView.bounds.width, height: 300)
+        case .Distributor:
+            return CGSize(width: collectionView.bounds.width, height: 350)
 
         case .Popular:
             return CGSize(width: collectionView.bounds.width, height: 150)
@@ -191,6 +207,21 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension ExploreViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader else {
+            return UICollectionReusableView()
+        }
+
+        switch viewModel.themes[indexPath.section] {
+        case .Distributor:
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "DistributorSectionHeaderView", for: indexPath) as! DistributorSectionHeaderView
+            return headerView
+            
+        default:
+            return UICollectionReusableView()
+        }
+    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -205,8 +236,10 @@ extension ExploreViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecentSectionCollectionViewCell", for: indexPath) as! RecentSectionCollectionViewCell
             return cell
             
-        case .Brand:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrandSectionCollectionViewCell", for: indexPath) as! BrandSectionCollectionViewCell
+        case .Distributor:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DistributorSectionCollectionViewCell", for: indexPath) as! DistributorSectionCollectionViewCell
+            cell.setup(distributors: viewModel.distributors)
+            cell.delegate = self
             return cell
             
         case .Popular:
@@ -223,10 +256,41 @@ extension ExploreViewController: UICollectionViewDataSource {
 
 protocol ExploreViewControllerDelegate: AnyObject {
     func boardCellDidTap(board: ExploreBoard)
+    
+    func distributorCellDidTap(distributor: Distributor)
+    func distributorMainProductGestureDidTap(productId: String)
+    func distributorSubProduct1GestureDidTap(productId: String)
+    func distributorSubProduct2GestureDidTap(productId: String)
+    func distributorLikeButtonDidTap(distributor: Distributor)
+    func distributorExploreButtonDidTap(distributor: Distributor)
 }
 
 extension ExploreViewController: ExploreViewControllerDelegate {
     func boardCellDidTap(board: ExploreBoard) {
         viewModel.boardCellDidTap.send(board)
+    }
+    
+    func distributorCellDidTap(distributor: Distributor) {
+        viewModel.distributorCellDidTap.send(distributor)
+    }
+
+    func distributorMainProductGestureDidTap(productId: String) {
+        viewModel.distributorMainProductGestureDidTap.send(productId)
+    }
+
+    func distributorSubProduct1GestureDidTap(productId: String) {
+        viewModel.distributorSubProduct1GestureDidTap.send(productId)
+    }
+
+    func distributorSubProduct2GestureDidTap(productId: String) {
+        viewModel.distributorSubProduct2GestureDidTap.send(productId)
+    }
+    
+    func distributorLikeButtonDidTap(distributor: Distributor) {
+        viewModel.distributorLikeButtonDidTap.send(distributor)
+    }
+
+    func distributorExploreButtonDidTap(distributor: Distributor) {
+        viewModel.distributorExploreButtonDidTap.send(distributor)
     }
 }

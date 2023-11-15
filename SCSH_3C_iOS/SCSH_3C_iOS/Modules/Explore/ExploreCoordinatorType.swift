@@ -11,4 +11,6 @@ import Combine
 protocol ExploreCoordinatorType: CoordinatorType {
     var navigate: PassthroughSubject<Route, Never> { get set }
     func requestWebNavigation(url: URL)
+    func requestDistributorNavigation(id: String)
+    func requestProductNavigation(id: String)
 }

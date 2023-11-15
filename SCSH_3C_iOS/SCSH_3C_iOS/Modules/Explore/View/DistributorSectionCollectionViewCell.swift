@@ -1,5 +1,5 @@
 //
-//  BrandSectionCollectionViewCell.swift
+//  DistributorSectionCollectionViewCell.swift
 //  SCSH_3C_iOS
 //
 //  Created by 辜敬閎 on 2023/10/9.
@@ -7,8 +7,12 @@
 
 import UIKit
 
-class BrandSectionCollectionViewCell: UICollectionViewCell {
+class DistributorSectionCollectionViewCell: UICollectionViewCell {
+    private var distributors: [Distributor] = []
+    
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
+    weak var delegate: ExploreViewControllerDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,30 +39,41 @@ class BrandSectionCollectionViewCell: UICollectionViewCell {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        collectionView.register(BrandCollectionViewCell.self, forCellWithReuseIdentifier: "BrandCollectionViewCell")
+        collectionView.register(DistributorCollectionViewCell.self, forCellWithReuseIdentifier: "DistributorCollectionViewCell")
         (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.scrollDirection = .horizontal
+        collectionView.showsHorizontalScrollIndicator = false
+    }
+    
+    func setup(distributors: [Distributor]) {
+        self.distributors = distributors
     }
 }
 
-extension BrandSectionCollectionViewCell: UICollectionViewDelegateFlowLayout {
+extension DistributorSectionCollectionViewCell: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        5
+        distributors.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        .init(top: 0, left: 10, bottom: 5, right: 10)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: 200, height: collectionView.bounds.height)
+        CGSize(width: 300, height: collectionView.bounds.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.distributorCellDidTap(distributor: distributors[indexPath.item])
     }
 }
 
-extension BrandSectionCollectionViewCell: UICollectionViewDataSource {
+extension DistributorSectionCollectionViewCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrandCollectionViewCell", for: indexPath) as! BrandCollectionViewCell
-        cell.contentView.backgroundColor = .yellow
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DistributorCollectionViewCell", for: indexPath) as! DistributorCollectionViewCell
+        cell.setup(distributor: distributors[indexPath.item])
+        cell.delegate = delegate
         return cell
     }
 }
-
-class BrandCollectionViewCell: UICollectionViewCell {}
-
