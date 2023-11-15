@@ -247,12 +247,36 @@ class DistributorCollectionViewCell: UICollectionViewCell {
         delegate?.distributorSubProduct2GestureDidTap(productId: productId)
     }
     
+    private func setupProductImages() {
+        var mainProductImage: URL?
+        var subProductImage_1: URL?
+        var subProductImage_2: URL?
+        
+        for (index, product) in self.distributor.products.enumerated() {
+            switch index {
+            case 0:
+                mainProductImage = product.image
+                
+            case 1:
+                subProductImage_1 = product.image
+
+            case 2:
+                subProductImage_2 = product.image
+                
+            default:
+                break
+            }
+        }
+        
+        mainProductImageView.kf.setImage(with: mainProductImage, placeholder: UIImage(systemName: "photo.fill"))
+        subProductImageView_1.kf.setImage(with: subProductImage_1, placeholder: UIImage(systemName: "photo.fill"))
+        subProductImageView_2.kf.setImage(with: subProductImage_2, placeholder: UIImage(systemName: "photo.fill"))
+    }
+    
     func setup(distributor: Distributor) {
         self.distributor = distributor
         
-        mainProductImageView.kf.setImage(with: self.distributor.products.first?.image, placeholder: UIImage(systemName: "photo.fill"))
-        subProductImageView_1.kf.setImage(with: self.distributor.products[1].image, placeholder: UIImage(systemName: "photo.fill"))
-        subProductImageView_2.kf.setImage(with: self.distributor.products.last?.image, placeholder: UIImage(systemName: "photo.fill"))
+        setupProductImages()
         
         brandImageView.kf.setImage(with: self.distributor.brandImage, placeholder: UIImage(systemName: "photo.fill"))
         
