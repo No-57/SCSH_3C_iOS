@@ -7,10 +7,10 @@
 
 import CoreData
 
-class CoreDataController {
-    static let shared = CoreDataController()
+public class CoreDataController {
+    public static let shared = CoreDataController()
 
-    let container: NSPersistentCloudKitContainer
+    public let container: NSPersistentCloudKitContainer
 
     init(inMemory: Bool = false) {
         // in order to load core data more accuratly, correspond to `CoreData.xcdatamodeld`
