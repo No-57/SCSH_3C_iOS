@@ -416,6 +416,14 @@
 			path = Board;
 			sourceTree = "<group>";
 		};
+		617301C32B1784C300D5B624 /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				617301C42B1784E100D5B624 /* BoardCoreDataServiceTests.swift */,
+			);
+			path = Board;
+			sourceTree = "<group>";
+		};
 		6177F6AE2A91CBBB007CB220 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -459,6 +467,7 @@
 		61784D902A81F87A00E0B96D /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				617301C32B1784C300D5B624 /* Board */,
 				61784D912A81F90900E0B96D /* Product */,
 			);
 			path = CoreData;
@@ -1058,6 +1067,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				61A5CAFE2A827CE40035950B /* ProductCoreDataServiceTests.swift in Sources */,
+				617301C52B1784E100D5B624 /* BoardCoreDataServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
