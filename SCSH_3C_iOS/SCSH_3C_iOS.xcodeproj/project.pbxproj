@@ -33,8 +33,8 @@
 		615F95852ADAA4680093166B /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615F95842ADAA4680093166B /* HomeHeaderView.swift */; };
 		6169AE562A6F9E7F00F84AE5 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169AE552A6F9E7F00F84AE5 /* HomeViewModel.swift */; };
 		617301C02B176BC500D5B624 /* BoardCoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301BF2B176BC500D5B624 /* BoardCoreDataService.swift */; };
-		617301C22B17794D00D5B624 /* BoardCoreDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301C12B17794D00D5B624 /* BoardCoreDataMapper.swift */; };
 		617301C52B1784E100D5B624 /* BoardCoreDataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301C42B1784E100D5B624 /* BoardCoreDataServiceTests.swift */; };
+		617301C72B17BD5F00D5B624 /* ExploreBoardMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301C62B17BD5F00D5B624 /* ExploreBoardMapper.swift */; };
 		6177F6B12A91CBBB007CB220 /* Networking.docc in Sources */ = {isa = PBXBuildFile; fileRef = 6177F6B02A91CBBB007CB220 /* Networking.docc */; };
 		6177F6BF2A91CBBB007CB220 /* Networking.h in Headers */ = {isa = PBXBuildFile; fileRef = 6177F6AF2A91CBBB007CB220 /* Networking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6177F6D12A91CBFB007CB220 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 6177F6D02A91CBFB007CB220 /* CombineMoya */; };
@@ -184,8 +184,8 @@
 		6169AE532A6F8EDE00F84AE5 /* ProductApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductApiInterface.swift; sourceTree = "<group>"; };
 		6169AE552A6F9E7F00F84AE5 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		617301BF2B176BC500D5B624 /* BoardCoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCoreDataService.swift; sourceTree = "<group>"; };
-		617301C12B17794D00D5B624 /* BoardCoreDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCoreDataMapper.swift; sourceTree = "<group>"; };
 		617301C42B1784E100D5B624 /* BoardCoreDataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCoreDataServiceTests.swift; sourceTree = "<group>"; };
+		617301C62B17BD5F00D5B624 /* ExploreBoardMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreBoardMapper.swift; sourceTree = "<group>"; };
 		6177F6AF2A91CBBB007CB220 /* Networking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Networking.h; sourceTree = "<group>"; };
 		6177F6B02A91CBBB007CB220 /* Networking.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Networking.docc; sourceTree = "<group>"; };
 		61784D922A81FEC700E0B96D /* ProductCoreDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCoreDataMapper.swift; sourceTree = "<group>"; };
@@ -501,6 +501,7 @@
 			isa = PBXGroup;
 			children = (
 				61A95C1A2A77F00B005BB895 /* ProductModelMapper.swift */,
+				617301C62B17BD5F00D5B624 /* ExploreBoardMapper.swift */,
 			);
 			path = Mapper;
 			sourceTree = "<group>";
@@ -1023,6 +1024,7 @@
 				61DC04792AD3F27400F4E3EF /* ExploreViewModel.swift in Sources */,
 				615F95852ADAA4680093166B /* HomeHeaderView.swift in Sources */,
 				612B00E42B02278C00CB0C06 /* DistributorRepository.swift in Sources */,
+				617301C72B17BD5F00D5B624 /* ExploreBoardMapper.swift in Sources */,
 				6190D90C2AB83F3B00276557 /* NotificationCenterProxyType.swift in Sources */,
 				611350652ADC520100F65943 /* HomeViewControllerAdapter.swift in Sources */,
 				61DC035F2AD269E900F4E3EF /* HeaderCollectionViewCell.swift in Sources */,

@@ -14,3 +14,8 @@ struct ExploreBoard {
     // TODO: web link or universal link or deeplink.
     let action: URL?
 }
+
+extension ExploreBoard {
+    // Use for save, query, filter in `Persistence` and `Network` modules.
+    static let code = "explore_carousel_board"
+}

@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import Persistence
 
 protocol BoardRepositoryType {
     func getExploreBoards(isLatest: Bool) -> AnyPublisher<[ExploreBoard], Error>
@@ -14,8 +15,46 @@ protocol BoardRepositoryType {
 
 class BoardRepository: BoardRepositoryType {
     
-    // TODO: API design is required.
+    private let mapper: ExploreBoardMapperType
+    private let boardCoreDataService: BoardCoreDataServiceType
+    
+    private let coreDataBackgroundContext = Persistence.CoreDataController.shared.container.newBackgroundContext()
 
+    init(boardCoreDataService: BoardCoreDataServiceType, mapper: ExploreBoardMapperType) {
+        self.mapper = mapper
+        self.boardCoreDataService = boardCoreDataService
+    }
+
+    func getExploreBoards(isLatest: Bool) -> AnyPublisher<[ExploreBoard], Error> {
+        if isLatest {
+            return fetchExploreBoards()
+                .flatMap { [weak self] _ -> AnyPublisher<[ExploreBoard], Error> in
+                    guard let self = self else {
+                        return Empty<[ExploreBoard], Error>().eraseToAnyPublisher()
+                    }
+                    
+                    return self.getExploreBoards()
+                }
+                .eraseToAnyPublisher()
+        } else {
+            return getExploreBoards()
+        }
+    }
+    
+    private func getExploreBoards() -> AnyPublisher<[ExploreBoard], Error> {
+        boardCoreDataService.get(code: ExploreBoard.code)
+            .compactMap { [weak self] boards -> [ExploreBoard]? in
+                guard let self = self else {
+                    return nil
+                }
+                
+                return self.mapper.transform(from: boards)
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    // TODO: API integration is required.
+    
     ///
     /// ```
     /// GET https://{domainhost}/boards
@@ -32,9 +71,10 @@ class BoardRepository: BoardRepositoryType {
     /// ```
     /// }
     ///
-    func getExploreBoards(isLatest: Bool) -> AnyPublisher<[ExploreBoard], Error> {
+    private func fetchExploreBoards() -> AnyPublisher<Void, Error> {
         Future { promise in
             promise(.success([
+                // TODO: Use Network.Board Model instead.
                 ExploreBoard(id: "山跟海",
                       imageUrl: URL(string: "https://images.pexels.com/photos/15484171/pexels-photo-15484171/free-photo-of-a-black-and-white-photo-of-the-ocean.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"),
                       action: URL(string: "https://images.pexels.com/photos/15484171/pexels-photo-15484171/free-photo-of-a-black-and-white-photo-of-the-ocean.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")),
@@ -55,6 +95,20 @@ class BoardRepository: BoardRepositoryType {
                       imageUrl: URL(string: "https://cdn.pixabay.com/photo/2023/08/29/19/42/goose-8222013_1280.jpg"),
                       action: nil),
             ]))
+        }
+        .compactMap { [weak self] boards -> [Persistence.Board]? in
+            guard let self = self else {
+                return nil
+            }
+            
+            return self.mapper.transform(from: boards, context: self.coreDataBackgroundContext)
+        }
+        .flatMap { [weak self] boards -> AnyPublisher<Void, Error> in
+            guard let self = self else {
+                return Empty<Void, Error>().eraseToAnyPublisher()
+            }
+            
+            return self.boardCoreDataService.saveAll(boards: boards)
         }
         .eraseToAnyPublisher()
     }
