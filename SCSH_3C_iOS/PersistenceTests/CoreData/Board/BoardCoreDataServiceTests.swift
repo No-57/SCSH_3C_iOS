@@ -222,7 +222,7 @@ final class BoardCoreDataServiceTests: XCTestCase {
             .store(in: &cancellables)
     }
     
-    private func get(id: Int32, code: String, imageURL: URL?, actionType: String, action: String, context: NSManagedObjectContext) -> Board {
+    private func get(id: Int64, code: String, imageURL: URL?, actionType: String, action: String, context: NSManagedObjectContext) -> Board {
         let board = Board(context: context)
         board.id = id
         board.code = code

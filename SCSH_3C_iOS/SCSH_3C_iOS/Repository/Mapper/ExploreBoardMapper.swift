@@ -9,33 +9,33 @@ import Foundation
 import Combine
 import Persistence
 import CoreData
+import Networking
 
 protocol ExploreBoardMapperType {
-    // TODO: add Network.Board transformation.
-    
-    func transform(from boards: [Persistence.Board]) -> [ExploreBoard]
-    func transform(from exploreBoards: [ExploreBoard], context: NSManagedObjectContext) -> [Persistence.Board]
+    func transform(networkBoards boards: [Networking.Board], context: NSManagedObjectContext) -> [Persistence.Board]
+    func transform(persistenceBaords boards: [Persistence.Board]) -> [ExploreBoard]
 }
 
 class ExploreBoardMapper: ExploreBoardMapperType {
-    func transform(from boards: [Persistence.Board]) -> [ExploreBoard] {
+    func transform(persistenceBaords boards: [Persistence.Board]) -> [ExploreBoard] {
         boards.map { board in
             ExploreBoard(id: String(board.id),
                          imageUrl: board.image_url,
+                         actionType: board.action_type,
                          action: URL(string: board.action ?? ""))
         }
     }
     
-    func transform(from exploreBoards: [ExploreBoard], context: NSManagedObjectContext) -> [Persistence.Board] {
-        exploreBoards.map { exploreBoard in
-            let board = Persistence.Board(context: context)
-            board.id = Int64(exploreBoard.id) ?? 0
-            board.code = ExploreBoard.code
-            board.image_url = exploreBoard.imageUrl
-            board.action_type = "" // TODO: adjust `ExploreBoard` model
-            board.action = exploreBoard.action?.absoluteString
+    func transform(networkBoards boards: [Networking.Board], context: NSManagedObjectContext) -> [Persistence.Board] {
+        boards.map { board in
+            let persistenceBoard = Persistence.Board(context: context)
+            persistenceBoard.id = Int64(board.id)
+            persistenceBoard.code = board.code
+            persistenceBoard.image_url = URL(string: board.imageUrl)
+            persistenceBoard.action_type = board.actionType
+            persistenceBoard.action = board.action
             
-            return board
+            return persistenceBoard
         }
     }
 }

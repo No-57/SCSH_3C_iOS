@@ -10,7 +10,7 @@ import Kingfisher
 
 class BoardCollectionViewCell: UICollectionViewCell {
     
-    private var baord: ExploreBoard = ExploreBoard(id: UUID().uuidString, imageUrl: nil, action: nil)
+    private var baord: ExploreBoard = ExploreBoard(id: UUID().uuidString, imageUrl: nil, actionType: nil, action: nil)
     
     private let imageView: UIImageView = {
         let v = UIImageView()
