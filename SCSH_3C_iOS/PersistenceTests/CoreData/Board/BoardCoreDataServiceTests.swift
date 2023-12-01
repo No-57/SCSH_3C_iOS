@@ -42,7 +42,7 @@ final class BoardCoreDataServiceTests: XCTestCase {
                             action: "orange://main_page",
                             context: context)
 
-        sut.save(board: mockBoard)
+        sut.upsert(board: mockBoard)
             .flatMap { _ -> AnyPublisher<[Board], Error> in
                 self.sut.get(code: mockQueryCode)
             }
@@ -200,7 +200,7 @@ final class BoardCoreDataServiceTests: XCTestCase {
                             context: context)
 
 
-        sut.save(board: mockBoard)
+        sut.upsert(board: mockBoard)
             .flatMap { _ -> AnyPublisher<[Board], Error> in
                 self.sut.get(code: mockQueryCode)
             }

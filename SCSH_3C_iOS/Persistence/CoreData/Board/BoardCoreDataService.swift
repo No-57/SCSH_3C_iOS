@@ -14,7 +14,7 @@ public protocol BoardCoreDataServiceType {
     ///
     /// if data exists then update, otherwise insert.
     ///
-    func save(board: Board) -> AnyPublisher<Void, Error>
+    func upsert(board: Board) -> AnyPublisher<Void, Error>
     
     ///
     /// truncate and then insert.
@@ -35,11 +35,11 @@ public class BoardCoreDataService: BoardCoreDataServiceType {
         .eraseToAnyPublisher()
     }
 
-    public func save(board: Board) -> AnyPublisher<Void, Error> {
+    public func upsert(board: Board) -> AnyPublisher<Void, Error> {
         Future<Void, Error> { [weak self] promise in
             guard let self = self else { return }
             
-            promise(self.save(board: board))
+            promise(self.upsert(board: board))
         }
         .eraseToAnyPublisher()
     }
@@ -72,7 +72,7 @@ public class BoardCoreDataService: BoardCoreDataServiceType {
         }
     }
     
-    private func save(board: Board) -> Result<Void, Error> {
+    private func upsert(board: Board) -> Result<Void, Error> {
         guard let code = board.code else {
             // TODO: Error handling
             return .failure(NSError(domain: "", code: 0))

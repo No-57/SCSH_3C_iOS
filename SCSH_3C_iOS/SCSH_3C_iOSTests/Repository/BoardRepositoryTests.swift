@@ -58,7 +58,7 @@ final class BoardRepositoryTests: XCTestCase {
         
         let mockBoardMapper = MockExploreBoardMapper(mockExploreBoards: mockExploreBaords, mockPersistenceBoards: [])
         let mockBoardCoreDataService = MockBoardCoreDataService(getResult: .success(mockBoardCoreData),
-                                                                saveResult: .failure(NSError(domain: "Ignore", code: 0)),
+                                                                upsertResult: .failure(NSError(domain: "Ignore", code: 0)),
                                                                 saveAllResult: .failure(NSError(domain: "Ignore", code: 0)))
         
         let receiveValueIsCalled = XCTestExpectation(description: "receiveValueIsCalled")
@@ -162,12 +162,12 @@ final class BoardRepositoryTests: XCTestCase {
 class MockBoardCoreDataService: BoardCoreDataServiceType {
     
     private let getResult: Result<[Persistence.Board], Error>
-    private let saveResult: Result<Void, Error>
+    private let upsertResult: Result<Void, Error>
     private let saveAllResult: Result<Void, Error>
     
-    init(getResult: Result<[Persistence.Board], Error>, saveResult: Result<Void, Error>, saveAllResult: Result<Void, Error>) {
+    init(getResult: Result<[Persistence.Board], Error>, upsertResult: Result<Void, Error>, saveAllResult: Result<Void, Error>) {
         self.getResult = getResult
-        self.saveResult = saveResult
+        self.upsertResult = upsertResult
         self.saveAllResult = saveAllResult
     }
     
@@ -178,9 +178,9 @@ class MockBoardCoreDataService: BoardCoreDataServiceType {
         .eraseToAnyPublisher()
     }
     
-    func save(board: Persistence.Board) -> AnyPublisher<Void, Error> {
+    func upsert(board: Persistence.Board) -> AnyPublisher<Void, Error> {
         Future { promise in
-            promise(self.saveResult)
+            promise(self.upsertResult)
         }
         .eraseToAnyPublisher()
     }
