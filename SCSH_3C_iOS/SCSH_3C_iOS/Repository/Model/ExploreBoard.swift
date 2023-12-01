@@ -11,6 +11,14 @@ struct ExploreBoard {
     let id: String
     let imageUrl: URL?
     
-    // TODO: web link or universal link or deeplink.
+    // TODO: refactor to enum in Action Module.
+    let actionType: String?
+
+    // TODO: refactor to `Action`.
     let action: URL?
+}
+
+extension ExploreBoard {
+    // Use for save, query, filter in `Persistence` and `Network` modules.
+    static let code = "explore_carousel_board"
 }

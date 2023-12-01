@@ -7,6 +7,8 @@
 
 import SwiftUI
 import Combine
+import Persistence
+import Networking
 
 class ExploreCoordinator: ExploreCoordinatorType {
     
@@ -14,7 +16,7 @@ class ExploreCoordinator: ExploreCoordinatorType {
     
     func startUIKit() -> UIViewController {
         let coordinator = ExploreCoordinator()
-        let boardRepository = BoardRepository()
+        let boardRepository = BoardRepository(boardCoreDataService: Persistence.BoardCoreDataService(), moyaNetworkFacade: MoyaNetworkFacade(), mapper: ExploreBoardMapper())
         let themeRepository = ThemeRepository()
         let distributorRepository = DistributorRepository()
         

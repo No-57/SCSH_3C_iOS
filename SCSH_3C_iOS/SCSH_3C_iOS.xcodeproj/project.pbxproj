@@ -32,6 +32,11 @@
 		615F95802ADA96510093166B /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615F957F2ADA96510093166B /* MainView.swift */; };
 		615F95852ADAA4680093166B /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615F95842ADAA4680093166B /* HomeHeaderView.swift */; };
 		6169AE562A6F9E7F00F84AE5 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169AE552A6F9E7F00F84AE5 /* HomeViewModel.swift */; };
+		617301C02B176BC500D5B624 /* BoardCoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301BF2B176BC500D5B624 /* BoardCoreDataService.swift */; };
+		617301C52B1784E100D5B624 /* BoardCoreDataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301C42B1784E100D5B624 /* BoardCoreDataServiceTests.swift */; };
+		617301C72B17BD5F00D5B624 /* ExploreBoardMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301C62B17BD5F00D5B624 /* ExploreBoardMapper.swift */; };
+		617301CA2B18518E00D5B624 /* BoardApiInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301C92B18518E00D5B624 /* BoardApiInterface.swift */; };
+		617301CC2B189A9B00D5B624 /* BoardRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301CB2B189A9B00D5B624 /* BoardRepositoryTests.swift */; };
 		6177F6B12A91CBBB007CB220 /* Networking.docc in Sources */ = {isa = PBXBuildFile; fileRef = 6177F6B02A91CBBB007CB220 /* Networking.docc */; };
 		6177F6BF2A91CBBB007CB220 /* Networking.h in Headers */ = {isa = PBXBuildFile; fileRef = 6177F6AF2A91CBBB007CB220 /* Networking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6177F6D12A91CBFB007CB220 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 6177F6D02A91CBFB007CB220 /* CombineMoya */; };
@@ -180,6 +185,11 @@
 		6169AE4D2A6E558F00F84AE5 /* MoyaApiInterfaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaApiInterfaceType.swift; sourceTree = "<group>"; };
 		6169AE532A6F8EDE00F84AE5 /* ProductApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductApiInterface.swift; sourceTree = "<group>"; };
 		6169AE552A6F9E7F00F84AE5 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		617301BF2B176BC500D5B624 /* BoardCoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCoreDataService.swift; sourceTree = "<group>"; };
+		617301C42B1784E100D5B624 /* BoardCoreDataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCoreDataServiceTests.swift; sourceTree = "<group>"; };
+		617301C62B17BD5F00D5B624 /* ExploreBoardMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreBoardMapper.swift; sourceTree = "<group>"; };
+		617301C92B18518E00D5B624 /* BoardApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardApiInterface.swift; sourceTree = "<group>"; };
+		617301CB2B189A9B00D5B624 /* BoardRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardRepositoryTests.swift; sourceTree = "<group>"; };
 		6177F6AF2A91CBBB007CB220 /* Networking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Networking.h; sourceTree = "<group>"; };
 		6177F6B02A91CBBB007CB220 /* Networking.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Networking.docc; sourceTree = "<group>"; };
 		61784D922A81FEC700E0B96D /* ProductCoreDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCoreDataMapper.swift; sourceTree = "<group>"; };
@@ -379,6 +389,7 @@
 			isa = PBXGroup;
 			children = (
 				61DC01352AC9AB8400F4E3EF /* Auth */,
+				617301C82B18517300D5B624 /* Board */,
 				6169AE4F2A6E55C800F84AE5 /* Health */,
 				6169AE4D2A6E558F00F84AE5 /* MoyaApiInterfaceType.swift */,
 				6169AE522A6F8ECD00F84AE5 /* Product */,
@@ -400,6 +411,30 @@
 				6169AE532A6F8EDE00F84AE5 /* ProductApiInterface.swift */,
 			);
 			path = Product;
+			sourceTree = "<group>";
+		};
+		617301BE2B176BB200D5B624 /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				617301BF2B176BC500D5B624 /* BoardCoreDataService.swift */,
+			);
+			path = Board;
+			sourceTree = "<group>";
+		};
+		617301C32B1784C300D5B624 /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				617301C42B1784E100D5B624 /* BoardCoreDataServiceTests.swift */,
+			);
+			path = Board;
+			sourceTree = "<group>";
+		};
+		617301C82B18517300D5B624 /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				617301C92B18518E00D5B624 /* BoardApiInterface.swift */,
+			);
+			path = Board;
 			sourceTree = "<group>";
 		};
 		6177F6AE2A91CBBB007CB220 /* Networking */ = {
@@ -434,6 +469,7 @@
 		61784D8F2A81F86E00E0B96D /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				617301BE2B176BB200D5B624 /* Board */,
 				61784D3F2A81EBCB00E0B96D /* Product */,
 				61C54E3D2A13A2B700EF39C3 /* CoreDataController.swift */,
 				61C54E3F2A13A2B700EF39C3 /* CoreData.xcdatamodeld */,
@@ -444,6 +480,7 @@
 		61784D902A81F87A00E0B96D /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				617301C32B1784C300D5B624 /* Board */,
 				61784D912A81F90900E0B96D /* Product */,
 			);
 			path = CoreData;
@@ -477,6 +514,7 @@
 			isa = PBXGroup;
 			children = (
 				61A95C1A2A77F00B005BB895 /* ProductModelMapper.swift */,
+				617301C62B17BD5F00D5B624 /* ExploreBoardMapper.swift */,
 			);
 			path = Mapper;
 			sourceTree = "<group>";
@@ -496,6 +534,7 @@
 			isa = PBXGroup;
 			children = (
 				61A95C212A77F94C005BB895 /* ProductRepositoryTests.swift */,
+				617301CB2B189A9B00D5B624 /* BoardRepositoryTests.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -952,6 +991,7 @@
 				6177F6D82A91CD73007CB220 /* ProductApiInterface.swift in Sources */,
 				61DC01372AC9AB9D00F4E3EF /* LoginApiInterface.swift in Sources */,
 				6177F6DA2A91CD84007CB220 /* MoyaNetworkFacade.swift in Sources */,
+				617301CA2B18518E00D5B624 /* BoardApiInterface.swift in Sources */,
 				6177F6B12A91CBBB007CB220 /* Networking.docc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -999,6 +1039,7 @@
 				61DC04792AD3F27400F4E3EF /* ExploreViewModel.swift in Sources */,
 				615F95852ADAA4680093166B /* HomeHeaderView.swift in Sources */,
 				612B00E42B02278C00CB0C06 /* DistributorRepository.swift in Sources */,
+				617301C72B17BD5F00D5B624 /* ExploreBoardMapper.swift in Sources */,
 				6190D90C2AB83F3B00276557 /* NotificationCenterProxyType.swift in Sources */,
 				611350652ADC520100F65943 /* HomeViewControllerAdapter.swift in Sources */,
 				61DC035F2AD269E900F4E3EF /* HeaderCollectionViewCell.swift in Sources */,
@@ -1022,6 +1063,7 @@
 			files = (
 				6190D90A2AB6FBAE00276557 /* NotificationManagerTests.swift in Sources */,
 				61A95C222A77F94C005BB895 /* ProductRepositoryTests.swift in Sources */,
+				617301CC2B189A9B00D5B624 /* BoardRepositoryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1034,6 +1076,7 @@
 				61A5CAFD2A827CD80035950B /* CoreDataController.swift in Sources */,
 				61E930EF2A827BE5000D99AC /* Persistence.docc in Sources */,
 				61A5CAFC2A827CD50035950B /* ProductCoreDataMapper.swift in Sources */,
+				617301C02B176BC500D5B624 /* BoardCoreDataService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1042,6 +1085,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				61A5CAFE2A827CE40035950B /* ProductCoreDataServiceTests.swift in Sources */,
+				617301C52B1784E100D5B624 /* BoardCoreDataServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

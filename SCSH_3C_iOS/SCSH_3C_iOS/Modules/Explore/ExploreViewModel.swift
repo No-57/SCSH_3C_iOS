@@ -65,7 +65,7 @@ class ExploreViewModel: ObservableObject {
                 }
                 
                 return self.themeRepository.getExploreThemes(isLatest: false)
-                    .combineLatest(self.boardRepository.getExploreBoards(isLatest: false),
+                    .combineLatest(self.boardRepository.getExploreBoards(isLatest: true),
                                    self.distributorRepository.getDistributors(isLatest: false))
                     .eraseToAnyPublisher()
             }
