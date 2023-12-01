@@ -84,7 +84,7 @@ public class BoardCoreDataService: BoardCoreDataServiceType {
         case .success(let existingBoards):
             
             if let existingBoard = existingBoards.first {
-                update(existingBoard: existingBoard, newBoard: board)
+                update(existing: existingBoard, new: board)
                 context.delete(board)
             } else {
                 context.insert(board)
@@ -109,12 +109,12 @@ public class BoardCoreDataService: BoardCoreDataServiceType {
         }
     }
     
-    private func update(existingBoard: Board, newBoard: Board) {
-        existingBoard.id = newBoard.id
-        existingBoard.code = newBoard.code
-        existingBoard.action_type = newBoard.action_type
-        existingBoard.action = newBoard.action
-        existingBoard.image_url = newBoard.image_url
+    private func update(existing: Board, new: Board) {
+        existing.id = new.id
+        existing.code = new.code
+        existing.action_type = new.action_type
+        existing.action = new.action
+        existing.image_url = new.image_url
     }
     
     private func saveAll(boards: [Board]) -> Result<Void, Error> {
