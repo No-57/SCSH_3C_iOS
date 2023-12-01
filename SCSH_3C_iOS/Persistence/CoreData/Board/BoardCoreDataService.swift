@@ -121,9 +121,8 @@ public class BoardCoreDataService: BoardCoreDataServiceType {
         
         let context = boards.first?.managedObjectContext ?? CoreDataController.shared.container.newBackgroundContext()
         
-        truncate(context: context)
-
         do {
+            try truncate(context: context)
             try context.save()
 
             return .success(())
@@ -136,7 +135,7 @@ public class BoardCoreDataService: BoardCoreDataServiceType {
         }
     }
     
-    private func truncate(context: NSManagedObjectContext) {
+    private func truncate(context: NSManagedObjectContext) throws {
         let truncateRequest = NSBatchDeleteRequest(fetchRequest: Board.fetchRequest())
         
         do {
@@ -146,6 +145,7 @@ public class BoardCoreDataService: BoardCoreDataServiceType {
         } catch {
             print("❌❌❌ BoardCoreDataService truncate fail !")
             print(error.localizedDescription)
+            throw error
         }
     }
 }
