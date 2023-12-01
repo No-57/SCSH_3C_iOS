@@ -39,9 +39,9 @@ class BoardRepository: BoardRepositoryType {
                     return self.getExploreBoards()
                 }
                 .eraseToAnyPublisher()
-        } else {
-            return getExploreBoards()
         }
+        
+        return getExploreBoards()
     }
     
     private func getExploreBoards() -> AnyPublisher<[ExploreBoard], Error> {
