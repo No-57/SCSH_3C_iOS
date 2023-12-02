@@ -37,6 +37,7 @@
 		617301C72B17BD5F00D5B624 /* ExploreBoardMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301C62B17BD5F00D5B624 /* ExploreBoardMapper.swift */; };
 		617301CA2B18518E00D5B624 /* BoardApiInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301C92B18518E00D5B624 /* BoardApiInterface.swift */; };
 		617301CC2B189A9B00D5B624 /* BoardRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301CB2B189A9B00D5B624 /* BoardRepositoryTests.swift */; };
+		617301D52B19D58F00D5B624 /* BoardCoreDataFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301D42B19D58F00D5B624 /* BoardCoreDataFacade.swift */; };
 		6177F6B12A91CBBB007CB220 /* Networking.docc in Sources */ = {isa = PBXBuildFile; fileRef = 6177F6B02A91CBBB007CB220 /* Networking.docc */; };
 		6177F6BF2A91CBBB007CB220 /* Networking.h in Headers */ = {isa = PBXBuildFile; fileRef = 6177F6AF2A91CBBB007CB220 /* Networking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6177F6D12A91CBFB007CB220 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 6177F6D02A91CBFB007CB220 /* CombineMoya */; };
@@ -190,6 +191,7 @@
 		617301C62B17BD5F00D5B624 /* ExploreBoardMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreBoardMapper.swift; sourceTree = "<group>"; };
 		617301C92B18518E00D5B624 /* BoardApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardApiInterface.swift; sourceTree = "<group>"; };
 		617301CB2B189A9B00D5B624 /* BoardRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardRepositoryTests.swift; sourceTree = "<group>"; };
+		617301D42B19D58F00D5B624 /* BoardCoreDataFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCoreDataFacade.swift; sourceTree = "<group>"; };
 		6177F6AF2A91CBBB007CB220 /* Networking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Networking.h; sourceTree = "<group>"; };
 		6177F6B02A91CBBB007CB220 /* Networking.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Networking.docc; sourceTree = "<group>"; };
 		61784D922A81FEC700E0B96D /* ProductCoreDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCoreDataMapper.swift; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 		617301BE2B176BB200D5B624 /* Board */ = {
 			isa = PBXGroup;
 			children = (
+				617301D42B19D58F00D5B624 /* BoardCoreDataFacade.swift */,
 				617301BF2B176BC500D5B624 /* BoardCoreDataService.swift */,
 			);
 			path = Board;
@@ -1075,6 +1078,7 @@
 				61E931082A827C55000D99AC /* CoreData.xcdatamodeld in Sources */,
 				61A5CAFD2A827CD80035950B /* CoreDataController.swift in Sources */,
 				61E930EF2A827BE5000D99AC /* Persistence.docc in Sources */,
+				617301D52B19D58F00D5B624 /* BoardCoreDataFacade.swift in Sources */,
 				61A5CAFC2A827CD50035950B /* ProductCoreDataMapper.swift in Sources */,
 				617301C02B176BC500D5B624 /* BoardCoreDataService.swift in Sources */,
 			);
