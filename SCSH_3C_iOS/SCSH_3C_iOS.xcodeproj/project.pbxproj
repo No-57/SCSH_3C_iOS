@@ -40,6 +40,7 @@
 		617301D52B19D58F00D5B624 /* BoardCoreDataFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301D42B19D58F00D5B624 /* BoardCoreDataFacade.swift */; };
 		617301D72B1A47BB00D5B624 /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301D62B1A47BB00D5B624 /* CoreDataError.swift */; };
 		617301D92B1A489100D5B624 /* BoardCoreDataDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301D82B1A489100D5B624 /* BoardCoreDataDao.swift */; };
+		617301DB2B1A4A4100D5B624 /* BoardCoreDataDaoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301DA2B1A4A4100D5B624 /* BoardCoreDataDaoTests.swift */; };
 		6177F6B12A91CBBB007CB220 /* Networking.docc in Sources */ = {isa = PBXBuildFile; fileRef = 6177F6B02A91CBBB007CB220 /* Networking.docc */; };
 		6177F6BF2A91CBBB007CB220 /* Networking.h in Headers */ = {isa = PBXBuildFile; fileRef = 6177F6AF2A91CBBB007CB220 /* Networking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6177F6D12A91CBFB007CB220 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 6177F6D02A91CBFB007CB220 /* CombineMoya */; };
@@ -196,6 +197,7 @@
 		617301D42B19D58F00D5B624 /* BoardCoreDataFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCoreDataFacade.swift; sourceTree = "<group>"; };
 		617301D62B1A47BB00D5B624 /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
 		617301D82B1A489100D5B624 /* BoardCoreDataDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCoreDataDao.swift; sourceTree = "<group>"; };
+		617301DA2B1A4A4100D5B624 /* BoardCoreDataDaoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCoreDataDaoTests.swift; sourceTree = "<group>"; };
 		6177F6AF2A91CBBB007CB220 /* Networking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Networking.h; sourceTree = "<group>"; };
 		6177F6B02A91CBBB007CB220 /* Networking.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Networking.docc; sourceTree = "<group>"; };
 		61784D922A81FEC700E0B96D /* ProductCoreDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCoreDataMapper.swift; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 			isa = PBXGroup;
 			children = (
 				617301C42B1784E100D5B624 /* BoardCoreDataServiceTests.swift */,
+				617301DA2B1A4A4100D5B624 /* BoardCoreDataDaoTests.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -1098,6 +1101,7 @@
 			files = (
 				61A5CAFE2A827CE40035950B /* ProductCoreDataServiceTests.swift in Sources */,
 				617301C52B1784E100D5B624 /* BoardCoreDataServiceTests.swift in Sources */,
+				617301DB2B1A4A4100D5B624 /* BoardCoreDataDaoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
