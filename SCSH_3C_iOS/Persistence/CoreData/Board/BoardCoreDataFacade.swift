@@ -24,7 +24,7 @@ public protocol BoardCoreDataFacadeType {
 
 public class BoardCoreDataFacade: BoardCoreDataFacadeType {
     
-    
+    private let boardCoreDataService: BoardCoreDataServiceType = BoardCoreDataService(boardCoreDataDao: BoardCoreDataDao())
     
     public init() {}
     
@@ -32,8 +32,7 @@ public class BoardCoreDataFacade: BoardCoreDataFacadeType {
         Future<[Board], Error> { [weak self] promise in
             guard let self = self else { return }
             
-            // TODO: implement
-            
+            promise(self.boardCoreDataService.get(code: code))
         }
         .eraseToAnyPublisher()
     }
@@ -42,8 +41,7 @@ public class BoardCoreDataFacade: BoardCoreDataFacadeType {
         Future<Void, Error> { [weak self] promise in
             guard let self = self else { return }
             
-            // TODO: implement
-            
+            promise(self.boardCoreDataService.upsert(board: board))
         }
         .eraseToAnyPublisher()
     }
@@ -52,8 +50,7 @@ public class BoardCoreDataFacade: BoardCoreDataFacadeType {
         Future<Void, Error> { [weak self] promise in
             guard let self = self else { return }
             
-            // TODO: implement
-            
+            promise(self.boardCoreDataService.saveAll(boards: boards))
         }
         .eraseToAnyPublisher()
     }

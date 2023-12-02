@@ -9,121 +9,68 @@ import Combine
 import CoreData
 
 public protocol BoardCoreDataServiceType {
-    func get(code: String?) -> AnyPublisher<[Board], Error>
+    func get(code: String?) -> Result<[Board], Error>
     
     ///
     /// if data exists then update, otherwise insert.
     ///
-    func upsert(board: Board) -> AnyPublisher<Void, Error>
+    func upsert(board: Board) -> Result<Void, Error>
     
     ///
     /// truncate and then insert.
     ///
-    func saveAll(boards: [Board]) -> AnyPublisher<Void, Error>
+    func saveAll(boards: [Board]) -> Result<Void, Error>
 }
 
-public class BoardCoreDataService: BoardCoreDataServiceType {
+class BoardCoreDataService: BoardCoreDataServiceType {
     
-    public init() {}
+    private let boardCoreDataDao: BoardCoreDataDaoType
     
-    public func get(code: String?) -> AnyPublisher<[Board], Error> {
-        Future<[Board], Error> { [weak self] promise in
-            guard let self = self else { return }
-            
-            promise(self.get(code: code))
-        }
-        .eraseToAnyPublisher()
-    }
-
-    public func upsert(board: Board) -> AnyPublisher<Void, Error> {
-        Future<Void, Error> { [weak self] promise in
-            guard let self = self else { return }
-            
-            promise(self.upsert(board: board))
-        }
-        .eraseToAnyPublisher()
-    }
-
-    public func saveAll(boards: [Board]) -> AnyPublisher<Void, Error> {
-        Future<Void, Error> { [weak self] promise in
-            guard let self = self else { return }
-            
-            promise(self.saveAll(boards: boards))
-        }
-        .eraseToAnyPublisher()
+    init(boardCoreDataDao: BoardCoreDataDaoType) {
+        self.boardCoreDataDao = boardCoreDataDao
     }
     
-    private func get(code: String?, context: NSManagedObjectContext = CoreDataController.shared.container.newBackgroundContext()) -> Result<[Board], Error> {
-        let fetchRequest = Board.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-        
-        if let code = code {
-            fetchRequest.predicate = NSPredicate(format: "code == %@", code)
-        }
-        
+    func get(code: String?) -> Result<[Board], Error> {
         do {
-            let results = try context.fetch(fetchRequest)
-            try context.save()
+            let result = try boardCoreDataDao.get(code: code)
             
-            return .success(results)
+            return .success(result)
             
         } catch {
-            return .failure(error)
-        }
-    }
-    
-    private func upsert(board: Board) -> Result<Void, Error> {
-        guard let code = board.code else {
-            // TODO: Error handling
-            return .failure(NSError(domain: "", code: 0))
-        }
-        let context = board.managedObjectContext ?? CoreDataController.shared.container.newBackgroundContext()
-        let result: Result<[Board], Error> = get(code: code)
-
-        switch result {
-        case .success(let existingBoards):
-            
-            if let existingBoard = existingBoards.first {
-                update(existing: existingBoard, new: board)
-                context.delete(board)
-            } else {
-                context.insert(board)
-            }
-
-            do {
-                try context.save()
-
-                return .success(())
-            } catch {
-                print("❌❌❌ BoardCoreDataService saveAll save fail !")
-                print(error.localizedDescription)
-
-                return .failure(error)
-            }
-            
-        case .failure(let error):
-            print("❌❌❌ BoardCoreDataService saveAll get fail !")
+            print("❌❌❌ BoardCoreDataService get fail !")
             print(error.localizedDescription)
             
             return .failure(error)
         }
     }
     
-    private func update(existing: Board, new: Board) {
-        existing.id = new.id
-        existing.code = new.code
-        existing.action_type = new.action_type
-        existing.action = new.action
-        existing.image_url = new.image_url
-    }
-    
-    private func saveAll(boards: [Board]) -> Result<Void, Error> {
-        
-        let context = boards.first?.managedObjectContext ?? CoreDataController.shared.container.newBackgroundContext()
+    func upsert(board: Board) -> Result<Void, Error> {
+        guard let code = board.code else {
+            return .failure(CoreDataError.invalidProperty)
+        }
         
         do {
-            try truncate(context: context)
-            try context.save()
+            let result = try boardCoreDataDao.get(code: code)
+            
+            if !result.isEmpty {
+                try boardCoreDataDao.delete(boards: result)
+            }
+
+            try boardCoreDataDao.insert(boards: [board])
+                
+            return .success(())
+        } catch {
+            print("❌❌❌ BoardCoreDataService upsert fail !")
+            print(error.localizedDescription)
+            
+            return .failure(error)
+        }
+    }
+    
+    func saveAll(boards: [Board]) -> Result<Void, Error> {
+        do {
+            try boardCoreDataDao.truncate()
+            try boardCoreDataDao.insert(boards: boards)
 
             return .success(())
             
@@ -134,19 +81,4 @@ public class BoardCoreDataService: BoardCoreDataServiceType {
             return .failure(error)
         }
     }
-    
-    private func truncate(context: NSManagedObjectContext) throws {
-        let truncateRequest = NSBatchDeleteRequest(fetchRequest: Board.fetchRequest())
-        
-        do {
-            try context.execute(truncateRequest)
-            try context.save()
-
-        } catch {
-            print("❌❌❌ BoardCoreDataService truncate fail !")
-            print(error.localizedDescription)
-            throw error
-        }
-    }
 }
-
