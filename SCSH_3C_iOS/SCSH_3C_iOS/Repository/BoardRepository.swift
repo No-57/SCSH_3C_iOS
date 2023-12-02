@@ -17,14 +17,14 @@ protocol BoardRepositoryType {
 class BoardRepository: BoardRepositoryType {
     
     private let mapper: ExploreBoardMapperType
-    private let boardCoreDataService: BoardCoreDataServiceType
+    private let boardCoreDataFacade: BoardCoreDataFacadeType
     private let moyaNetworkFacade: MoyaNetworkFacadeType
     
     private let coreDataBackgroundContext = Persistence.CoreDataController.shared.container.newBackgroundContext()
 
-    init(boardCoreDataService: BoardCoreDataServiceType, moyaNetworkFacade: MoyaNetworkFacadeType, mapper: ExploreBoardMapperType) {
+    init(boardCoreDataFacade: BoardCoreDataFacadeType, moyaNetworkFacade: MoyaNetworkFacadeType, mapper: ExploreBoardMapperType) {
         self.mapper = mapper
-        self.boardCoreDataService = boardCoreDataService
+        self.boardCoreDataFacade = boardCoreDataFacade
         self.moyaNetworkFacade = moyaNetworkFacade
     }
 
@@ -45,7 +45,7 @@ class BoardRepository: BoardRepositoryType {
     }
     
     private func getExploreBoards() -> AnyPublisher<[ExploreBoard], Error> {
-        boardCoreDataService.get(code: ExploreBoard.code)
+        boardCoreDataFacade.get(code: ExploreBoard.code)
             .compactMap { [weak self] boards -> [ExploreBoard]? in
                 guard let self = self else {
                     return nil
@@ -72,7 +72,7 @@ class BoardRepository: BoardRepositoryType {
                     return Empty<Void, Error>().eraseToAnyPublisher()
                 }
                 
-                return self.boardCoreDataService.saveAll(boards: boards)
+                return self.boardCoreDataFacade.saveAll(boards: boards)
             }
             .eraseToAnyPublisher()
     }

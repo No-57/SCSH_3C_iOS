@@ -54,15 +54,15 @@ final class BoardRepositoryTests: XCTestCase {
         let mockExploreBaords = [ExploreBoard(id: "123", imageUrl: URL(string: "https:example.example.jpg"), actionType: "web_link", action: URL(string: "https://example.open_product")),
                                  ExploreBoard(id: "456", imageUrl: URL(string: "https:example.example2.jpg"), actionType: "web_link", action: URL(string: "https://example.open_product2"))]
         let mockBoardCoreData = [makeMockCoreDataModel(id: "123", imageURL: "https:example.example.jpg", actionType: "web_link", action: "https://example.open_product"),
-                                   makeMockCoreDataModel(id: "456", imageURL: "https:example.example2.jpg", actionType: "web_link", action: "https://example.open_product2")]
+                                 makeMockCoreDataModel(id: "456", imageURL: "https:example.example2.jpg", actionType: "web_link", action: "https://example.open_product2")]
         
         let mockBoardMapper = MockExploreBoardMapper(mockExploreBoards: mockExploreBaords, mockPersistenceBoards: [])
-        let mockBoardCoreDataService = MockBoardCoreDataService(getResult: .success(mockBoardCoreData),
-                                                                upsertResult: .failure(NSError(domain: "Ignore", code: 0)),
-                                                                saveAllResult: .failure(NSError(domain: "Ignore", code: 0)))
+        let mockBoardCoreDataFacade = MockBoardCoreDataFacade(getResult: .success(mockBoardCoreData),
+                                                              upsertResult: .failure(NSError(domain: "Ignore", code: 0)),
+                                                              saveAllResult: .failure(NSError(domain: "Ignore", code: 0)))
         
         let receiveValueIsCalled = XCTestExpectation(description: "receiveValueIsCalled")
-        makeSUT(boardCoreDataService: mockBoardCoreDataService,
+        makeSUT(boardCoreDataFacade: mockBoardCoreDataFacade,
                 moyaNetworkFacade: MockMoyaNetworkFacade_Board(fetchResult: .failure(NSError(domain: "Ignore", code: 0))),
                 mapper: mockBoardMapper)
         
@@ -142,8 +142,8 @@ final class BoardRepositoryTests: XCTestCase {
         // TODO: impelement after Api is ready.
     }
     
-    private func makeSUT(boardCoreDataService: BoardCoreDataServiceType, moyaNetworkFacade: MoyaNetworkFacadeType, mapper: ExploreBoardMapperType) {
-       sut = BoardRepository(boardCoreDataService: boardCoreDataService, moyaNetworkFacade: moyaNetworkFacade, mapper: mapper)
+    private func makeSUT(boardCoreDataFacade: BoardCoreDataFacadeType, moyaNetworkFacade: MoyaNetworkFacadeType, mapper: ExploreBoardMapperType) {
+       sut = BoardRepository(boardCoreDataFacade: boardCoreDataFacade, moyaNetworkFacade: moyaNetworkFacade, mapper: mapper)
     }
     
     private func makeMockCoreDataModel(id: String, imageURL: String, actionType: String, action: String) -> Persistence.Board {
@@ -159,7 +159,7 @@ final class BoardRepositoryTests: XCTestCase {
     
 }
 
-class MockBoardCoreDataService: BoardCoreDataServiceType {
+class MockBoardCoreDataFacade: BoardCoreDataFacadeType {
     
     private let getResult: Result<[Persistence.Board], Error>
     private let upsertResult: Result<Void, Error>
