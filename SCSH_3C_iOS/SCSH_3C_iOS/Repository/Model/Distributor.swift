@@ -8,7 +8,7 @@
 import Foundation
 
 struct Distributor {
-    struct Porduct {
+    struct Product {
         let id: String
         let image: URL
     }
@@ -17,5 +17,5 @@ struct Distributor {
     let name: String
     let description: String
     let brandImage: URL
-    let products: [Porduct]
+    let products: [Product]
 }
