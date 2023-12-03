@@ -47,6 +47,7 @@
 		617301E12B1B972C00D5B624 /* ThemeCoreDataFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301E02B1B972C00D5B624 /* ThemeCoreDataFacade.swift */; };
 		617301E32B1B9E5B00D5B624 /* ThemeCoreDataDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301E22B1B9E5B00D5B624 /* ThemeCoreDataDao.swift */; };
 		617301E52B1BA6B800D5B624 /* ThemeCoreDataDaoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301E42B1BA6B800D5B624 /* ThemeCoreDataDaoTests.swift */; };
+		617301E72B1BB6A400D5B624 /* ThemeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617301E62B1BB6A400D5B624 /* ThemeMapper.swift */; };
 		6177F6B12A91CBBB007CB220 /* Networking.docc in Sources */ = {isa = PBXBuildFile; fileRef = 6177F6B02A91CBBB007CB220 /* Networking.docc */; };
 		6177F6BF2A91CBBB007CB220 /* Networking.h in Headers */ = {isa = PBXBuildFile; fileRef = 6177F6AF2A91CBBB007CB220 /* Networking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6177F6D12A91CBFB007CB220 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 6177F6D02A91CBFB007CB220 /* CombineMoya */; };
@@ -210,6 +211,7 @@
 		617301E02B1B972C00D5B624 /* ThemeCoreDataFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCoreDataFacade.swift; sourceTree = "<group>"; };
 		617301E22B1B9E5B00D5B624 /* ThemeCoreDataDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCoreDataDao.swift; sourceTree = "<group>"; };
 		617301E42B1BA6B800D5B624 /* ThemeCoreDataDaoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCoreDataDaoTests.swift; sourceTree = "<group>"; };
+		617301E62B1BB6A400D5B624 /* ThemeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeMapper.swift; sourceTree = "<group>"; };
 		6177F6AF2A91CBBB007CB220 /* Networking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Networking.h; sourceTree = "<group>"; };
 		6177F6B02A91CBBB007CB220 /* Networking.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Networking.docc; sourceTree = "<group>"; };
 		61784D922A81FEC700E0B96D /* ProductCoreDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCoreDataMapper.swift; sourceTree = "<group>"; };
@@ -569,6 +571,7 @@
 			children = (
 				61A95C1A2A77F00B005BB895 /* ProductModelMapper.swift */,
 				617301C62B17BD5F00D5B624 /* ExploreBoardMapper.swift */,
+				617301E62B1BB6A400D5B624 /* ThemeMapper.swift */,
 			);
 			path = Mapper;
 			sourceTree = "<group>";
@@ -1091,6 +1094,7 @@
 				61C9315B2A78226300EA7BD8 /* HomeCoordinatorType.swift in Sources */,
 				61DC047F2AD4086A00F4E3EF /* DistributorSectionCollectionViewCell.swift in Sources */,
 				612B00E62B025BC100CB0C06 /* DistributorSectionHeaderView.swift in Sources */,
+				617301E72B1BB6A400D5B624 /* ThemeMapper.swift in Sources */,
 				61DC04792AD3F27400F4E3EF /* ExploreViewModel.swift in Sources */,
 				615F95852ADAA4680093166B /* HomeHeaderView.swift in Sources */,
 				612B00E42B02278C00CB0C06 /* DistributorRepository.swift in Sources */,

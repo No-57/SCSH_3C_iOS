@@ -64,9 +64,15 @@ struct HomeHeaderView: View {
     }
 }
 
+// TODO: refactor preview DI issue.
+import Networking
+import Persistence
+
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
         HomeHeaderView(viewModel: HomeViewModel(coordinator: HomeCoordinator(),
-                                                themeRepository: ThemeRepository()))
+                                                themeRepository: ThemeRepository(mapper: ThemeMapper(),
+                                                                                 themeCoreDataFacade: ThemeCoreDataFacade(),
+                                                                                 moyaNetworkFacadeType: MoyaNetworkFacade())))
     }
 }

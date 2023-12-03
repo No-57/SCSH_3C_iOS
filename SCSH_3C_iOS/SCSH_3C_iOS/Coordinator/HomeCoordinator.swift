@@ -22,7 +22,7 @@ class HomeCoordinator: HomeCoordinatorType {
     }
     
     func startSwiftUI() -> AnyView {
-        let themeRepository = ThemeRepository()
+        let themeRepository = ThemeRepository(mapper: ThemeMapper(), themeCoreDataFacade: ThemeCoreDataFacade(), moyaNetworkFacadeType: MoyaNetworkFacade())
         let viewModel = HomeViewModel(coordinator: self, themeRepository: themeRepository)
         
         return AnyView(HomeView(viewModel: viewModel))

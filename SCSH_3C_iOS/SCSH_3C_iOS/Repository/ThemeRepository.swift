@@ -7,70 +7,75 @@
 
 import Foundation
 import Combine
+import Networking
+import Persistence
+import CoreData
 
 protocol ThemeRepositoryType {
-    func getHomeThemes(isLatest: Bool) -> AnyPublisher<[HomeTheme], Error>
-    func getExploreThemes(isLatest: Bool) -> AnyPublisher<[ExploreTheme], Error>
+    func getThemes<T: ThemeType>(isLatest: Bool) -> AnyPublisher<[T], Error>
 }
 
 class ThemeRepository: ThemeRepositoryType {
     
-    // TODO: API design is required.
+    private let mapper: ThemeMapperType
+    private let themeCoreDataFacade: ThemeCoreDataFacadeType
+    private let moyaNetworkFacadeType: MoyaNetworkFacadeType
     
-    ///
-    /// ```
-    /// GET https://{domainhost}/theme/home
-    /// ```
-    ///
-    /// Response: {
-    /// ```
-    ///     "fields": [
-    ///         { "id": ...,
-    ///           "name": ...},
-    ///     ]
-    /// ```
-    /// }
-    ///
-    func getHomeThemes(isLatest: Bool) -> AnyPublisher<[HomeTheme], Error> {
-        Future { promise in
-            promise(.success([
-                .Explore,
-                .Subject,
-                .Speacial,
-                .Product3C,
-                .GamePoint,
-                .Distributor(name: "PChome")
-            ]))
-        }
-        .eraseToAnyPublisher()
+    private let coreDataBackgroundContext = Persistence.CoreDataController.shared.container.newBackgroundContext()
+    
+    init(mapper: ThemeMapperType, themeCoreDataFacade: ThemeCoreDataFacadeType, moyaNetworkFacadeType: MoyaNetworkFacadeType) {
+        self.mapper = mapper
+        self.themeCoreDataFacade = themeCoreDataFacade
+        self.moyaNetworkFacadeType = moyaNetworkFacadeType
     }
     
-    // TODO: API design is required.
-    
-    ///
-    /// ```
-    /// GET https://{domainhost}/theme/explore
-    /// ```
-    ///
-    /// Response: {
-    /// ```
-    ///     "fields": [
-    ///         { "id": ...,
-    ///           "name": ...},
-    ///     ]
-    /// ```
-    /// }
-    ///
-    func getExploreThemes(isLatest: Bool) -> AnyPublisher<[ExploreTheme], Error> {
-        Future { promise in
-            promise(.success([
-                .Board,
-                .Recent,
-                .Distributor,
-                .Popular,
-                .Explore,
-            ]))
+    func getThemes<T: ThemeType>(isLatest: Bool) -> AnyPublisher<[T], Error> {
+        if isLatest {
+            return fetchThemes(type: T.type)
+                .flatMap { [weak self] _ -> AnyPublisher<[T], Error> in
+                    guard let self = self else {
+                        return Empty<[T], Error>().eraseToAnyPublisher()
+                    }
+
+                    return self.getThemes()
+                }
+                .eraseToAnyPublisher()
         }
-        .eraseToAnyPublisher()
+
+        return getThemes()
+    }
+
+    private func fetchThemes(type: String) -> AnyPublisher<Void, Error> {
+        // TODO: Use `fetch` when API `/theme/{type}` is ready
+        moyaNetworkFacadeType.stubFetch(apiInterface: ThemeApiInterface(type: type))
+            .map(\.data)
+            .map { [weak self] themes -> [Persistence.Theme] in
+                guard let self = self else {
+                    return []
+                }
+
+                return self.mapper.transform(networkThemes: themes, context: self.coreDataBackgroundContext)
+
+            }
+            .flatMap { [weak self] themes -> AnyPublisher<Void, Error> in
+                guard let self = self else {
+                    return Empty<Void, Error>().eraseToAnyPublisher()
+                }
+
+                return self.themeCoreDataFacade.save(themes: themes)
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private func getThemes<T: ThemeType>() -> AnyPublisher<[T], Error> {
+        return themeCoreDataFacade.get(type: T.type)
+            .map { [weak self] themes -> [T] in
+                guard let self = self else {
+                    return []
+                }
+
+                return self.mapper.transform(persistenceThemes: themes)
+            }
+            .eraseToAnyPublisher()
     }
 }

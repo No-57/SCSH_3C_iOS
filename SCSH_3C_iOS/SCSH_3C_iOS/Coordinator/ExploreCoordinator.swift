@@ -17,7 +17,7 @@ class ExploreCoordinator: ExploreCoordinatorType {
     func startUIKit() -> UIViewController {
         let coordinator = ExploreCoordinator()
         let boardRepository = BoardRepository(boardCoreDataFacade: BoardCoreDataFacade(), moyaNetworkFacade: MoyaNetworkFacade(), mapper: ExploreBoardMapper())
-        let themeRepository = ThemeRepository()
+        let themeRepository = ThemeRepository(mapper: ThemeMapper(), themeCoreDataFacade: ThemeCoreDataFacade(), moyaNetworkFacadeType: MoyaNetworkFacade())
         let distributorRepository = DistributorRepository()
         
         let viewModel = ExploreViewModel(coordinator: coordinator, boardRepository: boardRepository, themeRepository: themeRepository, distributorRepository: distributorRepository)
