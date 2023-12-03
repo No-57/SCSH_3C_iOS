@@ -13,7 +13,7 @@ enum HomeTheme: ThemeType {
     case Explore
     case Subject
     case Product3C
-    case Speacial
+    case Special
     case GamePoint
     case Distributor(name: String)
 }
