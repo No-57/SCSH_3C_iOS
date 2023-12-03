@@ -80,6 +80,9 @@
 		61C931592A78225A00EA7BD8 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C931582A78225A00EA7BD8 /* HomeCoordinator.swift */; };
 		61C9315B2A78226300EA7BD8 /* HomeCoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9315A2A78226300EA7BD8 /* HomeCoordinatorType.swift */; };
 		61C9326B2A7825DD00EA7BD8 /* StartUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9326A2A7825DD00EA7BD8 /* StartUpCoordinator.swift */; };
+		61D19B702B1CB8F80064A56D /* ThemeTransformStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D19B6F2B1CB8F80064A56D /* ThemeTransformStrategy.swift */; };
+		61D19B722B1CB9150064A56D /* HomeThemeTransformStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D19B712B1CB9150064A56D /* HomeThemeTransformStrategy.swift */; };
+		61D19B742B1CB92C0064A56D /* ExploreThemeTransformStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D19B732B1CB92C0064A56D /* ExploreThemeTransformStrategy.swift */; };
 		61DC01372AC9AB9D00F4E3EF /* LoginApiInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC01362AC9AB9D00F4E3EF /* LoginApiInterface.swift */; };
 		61DC013A2AC9D3CE00F4E3EF /* LoginApiInterface_MoyaNetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC01392AC9D3CE00F4E3EF /* LoginApiInterface_MoyaNetworkServiceTests.swift */; };
 		61DC013C2AC9DA2B00F4E3EF /* TokenApiInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC013B2AC9DA2B00F4E3EF /* TokenApiInterface.swift */; };
@@ -239,6 +242,9 @@
 		61C931582A78225A00EA7BD8 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		61C9315A2A78226300EA7BD8 /* HomeCoordinatorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinatorType.swift; sourceTree = "<group>"; };
 		61C9326A2A7825DD00EA7BD8 /* StartUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartUpCoordinator.swift; sourceTree = "<group>"; };
+		61D19B6F2B1CB8F80064A56D /* ThemeTransformStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTransformStrategy.swift; sourceTree = "<group>"; };
+		61D19B712B1CB9150064A56D /* HomeThemeTransformStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeThemeTransformStrategy.swift; sourceTree = "<group>"; };
+		61D19B732B1CB92C0064A56D /* ExploreThemeTransformStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreThemeTransformStrategy.swift; sourceTree = "<group>"; };
 		61DC01362AC9AB9D00F4E3EF /* LoginApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginApiInterface.swift; sourceTree = "<group>"; };
 		61DC01392AC9D3CE00F4E3EF /* LoginApiInterface_MoyaNetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginApiInterface_MoyaNetworkServiceTests.swift; sourceTree = "<group>"; };
 		61DC013B2AC9DA2B00F4E3EF /* TokenApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenApiInterface.swift; sourceTree = "<group>"; };
@@ -572,6 +578,9 @@
 				61A95C1A2A77F00B005BB895 /* ProductModelMapper.swift */,
 				617301C62B17BD5F00D5B624 /* ExploreBoardMapper.swift */,
 				617301E62B1BB6A400D5B624 /* ThemeMapper.swift */,
+				61D19B6F2B1CB8F80064A56D /* ThemeTransformStrategy.swift */,
+				61D19B712B1CB9150064A56D /* HomeThemeTransformStrategy.swift */,
+				61D19B732B1CB92C0064A56D /* ExploreThemeTransformStrategy.swift */,
 			);
 			path = Mapper;
 			sourceTree = "<group>";
@@ -1077,8 +1086,10 @@
 				61A95C1B2A77F00B005BB895 /* ProductModelMapper.swift in Sources */,
 				612B00E02B02198A00CB0C06 /* DistributorCollectionViewCell.swift in Sources */,
 				6109FF7D2AE264F000FFE532 /* Route.swift in Sources */,
+				61D19B722B1CB9150064A56D /* HomeThemeTransformStrategy.swift in Sources */,
 				61DC04812AD408CE00F4E3EF /* PopularSectionCollectionViewCell.swift in Sources */,
 				6109FF792AE2619F00FFE532 /* CoordinatorType.swift in Sources */,
+				61D19B702B1CB8F80064A56D /* ThemeTransformStrategy.swift in Sources */,
 				61DC047B2AD405DE00F4E3EF /* BoardSectionCollectionViewCell.swift in Sources */,
 				612B00E82B02772700CB0C06 /* CardBorderedView.swift in Sources */,
 				610901A72AE5378A00FFE532 /* BoardCollectionViewCell.swift in Sources */,
@@ -1090,6 +1101,7 @@
 				61C931592A78225A00EA7BD8 /* HomeCoordinator.swift in Sources */,
 				61C54E372A13A2B700EF39C3 /* HomeView.swift in Sources */,
 				612E6F492AE8E69E0038DCD7 /* ThemeRepository.swift in Sources */,
+				61D19B742B1CB92C0064A56D /* ExploreThemeTransformStrategy.swift in Sources */,
 				61DC04852AD40F7800F4E3EF /* ExploreSectionCollectionViewCell.swift in Sources */,
 				61C9315B2A78226300EA7BD8 /* HomeCoordinatorType.swift in Sources */,
 				61DC047F2AD4086A00F4E3EF /* DistributorSectionCollectionViewCell.swift in Sources */,
