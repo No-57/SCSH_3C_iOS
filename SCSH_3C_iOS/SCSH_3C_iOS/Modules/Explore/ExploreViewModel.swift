@@ -64,7 +64,7 @@ class ExploreViewModel: ObservableObject {
                     return Empty<([ExploreTheme], [ExploreBoard], [Distributor]), Error>().eraseToAnyPublisher()
                 }
                 
-                return self.themeRepository.getExploreThemes(isLatest: false)
+                return self.themeRepository.getThemes(isLatest: true)
                     .combineLatest(self.boardRepository.getExploreBoards(isLatest: true),
                                    self.distributorRepository.getDistributors(isLatest: false))
                     .eraseToAnyPublisher()

@@ -49,7 +49,7 @@ class HeaderCollectionViewCell: UICollectionViewCell {
             titleLabel.text = "點數卡"
         case .Product3C:
             titleLabel.text = "3C用品"
-        case .Speacial:
+        case .Special:
             titleLabel.text = "特殊企劃"
         case .Distributor(let name):
             titleLabel.text = name

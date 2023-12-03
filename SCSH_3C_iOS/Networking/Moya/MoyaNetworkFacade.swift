@@ -82,6 +82,19 @@ extension MoyaNetworkFacade {
         switch apiInterface {
         case is BoardApiInterface:
             return getMockBoardApiResponse()
+            
+        case is ThemeApiInterface:
+            let apiInterface = apiInterface as! ThemeApiInterface
+            
+            switch apiInterface.path.split(separator: "/").last {
+            case "home":
+                return getMockHomeThemeApiResponse()
+            case "explore":
+                return  getMockExploreThemeApiResponse()
+            default:
+                fatalError()
+            }
+            
         default:
             fatalError()
         }
@@ -121,6 +134,34 @@ extension MoyaNetworkFacade {
                                          imageUrl: "https://cdn.pixabay.com/photo/2023/08/29/19/42/goose-8222013_1280.jpg",
                                          actionType: nil,
                                          action: nil),
+                            ])
+        )
+    }
+    
+    // Delete it when API `/themes/{type}` is ready.
+    private func getMockExploreThemeApiResponse() -> Data {
+        try! JSONEncoder().encode(
+            MockApiResponse(code: 10010,
+                            data: [
+                                Theme(id: 1, type: "explore", code: "board"),
+                                Theme(id: 2, type: "explore", code: "recent"),
+                                Theme(id: 3, type: "explore", code: "distributor"),
+                                Theme(id: 4, type: "explore", code: "popular"),
+                                Theme(id: 5, type: "explore", code: "explore"),
+                            ])
+        )
+    }
+    
+    private func getMockHomeThemeApiResponse() -> Data {
+        try! JSONEncoder().encode(
+            MockApiResponse(code: 10010,
+                            data: [
+                                Theme(id: 10, type: "home", code: "explore"),
+                                Theme(id: 11, type: "home", code: "subject"),
+                                Theme(id: 12, type: "home", code: "special"),
+                                Theme(id: 13, type: "home", code: "product_3C"),
+                                Theme(id: 14, type: "home", code: "game_point"),
+                                Theme(id: 15, type: "home", code: "distributor_PChome"),
                             ])
         )
     }

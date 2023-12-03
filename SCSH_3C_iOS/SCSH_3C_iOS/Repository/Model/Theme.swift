@@ -7,15 +7,20 @@
 
 import Foundation
 
-protocol ThemeType {}
+protocol ThemeType {
+    static var type: String { get }
+}
 
-enum HomeTheme: ThemeType {
+enum HomeTheme: ThemeType, Equatable {
     case Explore
     case Subject
     case Product3C
-    case Speacial
+    case Special
     case GamePoint
     case Distributor(name: String)
+    
+    // Use for save, query, filter in `Persistence` and `Network` modules.
+    static let type = "home"
 }
 
 enum ExploreTheme: ThemeType {
@@ -24,4 +29,7 @@ enum ExploreTheme: ThemeType {
     case Distributor
     case Popular
     case Explore
+    
+    // Use for save, query, filter in `Persistence` and `Network` modules.
+    static let type = "explore"
 }

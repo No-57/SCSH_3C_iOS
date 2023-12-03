@@ -49,7 +49,7 @@ class HomeViewModel: ObservableObject {
                     return Empty().eraseToAnyPublisher()
                 }
                 
-                return self.themeRepository.getHomeThemes(isLatest: false)
+                return self.themeRepository.getThemes(isLatest: true)
             }
             .sink(receiveCompletion: { _ in
                 // TODO: Error handling

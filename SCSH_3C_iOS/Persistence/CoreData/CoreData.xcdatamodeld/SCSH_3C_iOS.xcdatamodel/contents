@@ -10,4 +10,9 @@
     <entity name="Product" representedClassName="Product" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="Theme" representedClassName="Theme" syncable="YES" codeGenerationType="class">
+        <attribute name="code" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+    </entity>
 </model>
