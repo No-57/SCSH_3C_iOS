@@ -11,7 +11,7 @@ protocol ThemeType {
     static var type: String { get }
 }
 
-enum HomeTheme: ThemeType {
+enum HomeTheme: ThemeType, Equatable {
     case Explore
     case Subject
     case Product3C

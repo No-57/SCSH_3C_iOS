@@ -83,6 +83,8 @@
 		61D19B702B1CB8F80064A56D /* ThemeTransformStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D19B6F2B1CB8F80064A56D /* ThemeTransformStrategy.swift */; };
 		61D19B722B1CB9150064A56D /* HomeThemeTransformStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D19B712B1CB9150064A56D /* HomeThemeTransformStrategy.swift */; };
 		61D19B742B1CB92C0064A56D /* ExploreThemeTransformStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D19B732B1CB92C0064A56D /* ExploreThemeTransformStrategy.swift */; };
+		61D19B772B1CBC4A0064A56D /* ExploreThemeTransformStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D19B762B1CBC4A0064A56D /* ExploreThemeTransformStrategyTests.swift */; };
+		61D19B792B1CC3150064A56D /* HomeThemeTransformStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D19B782B1CC3150064A56D /* HomeThemeTransformStrategyTests.swift */; };
 		61DC01372AC9AB9D00F4E3EF /* LoginApiInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC01362AC9AB9D00F4E3EF /* LoginApiInterface.swift */; };
 		61DC013A2AC9D3CE00F4E3EF /* LoginApiInterface_MoyaNetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC01392AC9D3CE00F4E3EF /* LoginApiInterface_MoyaNetworkServiceTests.swift */; };
 		61DC013C2AC9DA2B00F4E3EF /* TokenApiInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC013B2AC9DA2B00F4E3EF /* TokenApiInterface.swift */; };
@@ -245,6 +247,8 @@
 		61D19B6F2B1CB8F80064A56D /* ThemeTransformStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTransformStrategy.swift; sourceTree = "<group>"; };
 		61D19B712B1CB9150064A56D /* HomeThemeTransformStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeThemeTransformStrategy.swift; sourceTree = "<group>"; };
 		61D19B732B1CB92C0064A56D /* ExploreThemeTransformStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreThemeTransformStrategy.swift; sourceTree = "<group>"; };
+		61D19B762B1CBC4A0064A56D /* ExploreThemeTransformStrategyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreThemeTransformStrategyTests.swift; sourceTree = "<group>"; };
+		61D19B782B1CC3150064A56D /* HomeThemeTransformStrategyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeThemeTransformStrategyTests.swift; sourceTree = "<group>"; };
 		61DC01362AC9AB9D00F4E3EF /* LoginApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginApiInterface.swift; sourceTree = "<group>"; };
 		61DC01392AC9D3CE00F4E3EF /* LoginApiInterface_MoyaNetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginApiInterface_MoyaNetworkServiceTests.swift; sourceTree = "<group>"; };
 		61DC013B2AC9DA2B00F4E3EF /* TokenApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenApiInterface.swift; sourceTree = "<group>"; };
@@ -599,6 +603,7 @@
 		61A95C1F2A77F904005BB895 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				61D19B752B1CBC290064A56D /* Mapper */,
 				61A95C212A77F94C005BB895 /* ProductRepositoryTests.swift */,
 				617301CB2B189A9B00D5B624 /* BoardRepositoryTests.swift */,
 			);
@@ -681,6 +686,15 @@
 				61C9315A2A78226300EA7BD8 /* HomeCoordinatorType.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		61D19B752B1CBC290064A56D /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				61D19B762B1CBC4A0064A56D /* ExploreThemeTransformStrategyTests.swift */,
+				61D19B782B1CC3150064A56D /* HomeThemeTransformStrategyTests.swift */,
+			);
+			path = Mapper;
 			sourceTree = "<group>";
 		};
 		61DC01352AC9AB8400F4E3EF /* Auth */ = {
@@ -1135,6 +1149,8 @@
 				6190D90A2AB6FBAE00276557 /* NotificationManagerTests.swift in Sources */,
 				61A95C222A77F94C005BB895 /* ProductRepositoryTests.swift in Sources */,
 				617301CC2B189A9B00D5B624 /* BoardRepositoryTests.swift in Sources */,
+				61D19B792B1CC3150064A56D /* HomeThemeTransformStrategyTests.swift in Sources */,
+				61D19B772B1CBC4A0064A56D /* ExploreThemeTransformStrategyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
