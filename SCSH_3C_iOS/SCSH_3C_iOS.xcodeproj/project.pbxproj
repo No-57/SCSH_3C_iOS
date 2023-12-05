@@ -90,6 +90,10 @@
 		61D19B772B1CBC4A0064A56D /* ExploreThemeTransformStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D19B762B1CBC4A0064A56D /* ExploreThemeTransformStrategyTests.swift */; };
 		61D19B792B1CC3150064A56D /* HomeThemeTransformStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D19B782B1CC3150064A56D /* HomeThemeTransformStrategyTests.swift */; };
 		61D19B7C2B1D01270064A56D /* DistributorApiInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D19B7B2B1D01270064A56D /* DistributorApiInterface.swift */; };
+		61D19B7F2B1D06890064A56D /* DistributorCoreDataFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D19B7E2B1D06890064A56D /* DistributorCoreDataFacade.swift */; };
+		61D19B812B1D06980064A56D /* DistributorCoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D19B802B1D06980064A56D /* DistributorCoreDataService.swift */; };
+		61D19B832B1D06A20064A56D /* DistributorCoreDataDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D19B822B1D06A20064A56D /* DistributorCoreDataDao.swift */; };
+		61D19B852B1D8F5A0064A56D /* DistributorLikeCoreDataDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D19B842B1D8F5A0064A56D /* DistributorLikeCoreDataDao.swift */; };
 		61DC01372AC9AB9D00F4E3EF /* LoginApiInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC01362AC9AB9D00F4E3EF /* LoginApiInterface.swift */; };
 		61DC013A2AC9D3CE00F4E3EF /* LoginApiInterface_MoyaNetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC01392AC9D3CE00F4E3EF /* LoginApiInterface_MoyaNetworkServiceTests.swift */; };
 		61DC013C2AC9DA2B00F4E3EF /* TokenApiInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC013B2AC9DA2B00F4E3EF /* TokenApiInterface.swift */; };
@@ -259,6 +263,10 @@
 		61D19B762B1CBC4A0064A56D /* ExploreThemeTransformStrategyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreThemeTransformStrategyTests.swift; sourceTree = "<group>"; };
 		61D19B782B1CC3150064A56D /* HomeThemeTransformStrategyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeThemeTransformStrategyTests.swift; sourceTree = "<group>"; };
 		61D19B7B2B1D01270064A56D /* DistributorApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributorApiInterface.swift; sourceTree = "<group>"; };
+		61D19B7E2B1D06890064A56D /* DistributorCoreDataFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributorCoreDataFacade.swift; sourceTree = "<group>"; };
+		61D19B802B1D06980064A56D /* DistributorCoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributorCoreDataService.swift; sourceTree = "<group>"; };
+		61D19B822B1D06A20064A56D /* DistributorCoreDataDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributorCoreDataDao.swift; sourceTree = "<group>"; };
+		61D19B842B1D8F5A0064A56D /* DistributorLikeCoreDataDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributorLikeCoreDataDao.swift; sourceTree = "<group>"; };
 		61DC01362AC9AB9D00F4E3EF /* LoginApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginApiInterface.swift; sourceTree = "<group>"; };
 		61DC01392AC9D3CE00F4E3EF /* LoginApiInterface_MoyaNetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginApiInterface_MoyaNetworkServiceTests.swift; sourceTree = "<group>"; };
 		61DC013B2AC9DA2B00F4E3EF /* TokenApiInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenApiInterface.swift; sourceTree = "<group>"; };
@@ -544,6 +552,7 @@
 			isa = PBXGroup;
 			children = (
 				617301BE2B176BB200D5B624 /* Board */,
+				61D19B7D2B1D06700064A56D /* Distributor */,
 				61784D3F2A81EBCB00E0B96D /* Product */,
 				617301CD2B1915DD00D5B624 /* Theme */,
 				61C54E3D2A13A2B700EF39C3 /* CoreDataController.swift */,
@@ -713,6 +722,17 @@
 			children = (
 				61D19B7B2B1D01270064A56D /* DistributorApiInterface.swift */,
 				6100A0F62B24416400523A2C /* DistributorLikeApiInterface.swift */,
+			);
+			path = Distributor;
+			sourceTree = "<group>";
+		};
+		61D19B7D2B1D06700064A56D /* Distributor */ = {
+			isa = PBXGroup;
+			children = (
+				61D19B7E2B1D06890064A56D /* DistributorCoreDataFacade.swift */,
+				61D19B802B1D06980064A56D /* DistributorCoreDataService.swift */,
+				61D19B822B1D06A20064A56D /* DistributorCoreDataDao.swift */,
+				61D19B842B1D8F5A0064A56D /* DistributorLikeCoreDataDao.swift */,
 			);
 			path = Distributor;
 			sourceTree = "<group>";
@@ -1183,7 +1203,11 @@
 				617301D92B1A489100D5B624 /* BoardCoreDataDao.swift in Sources */,
 				61A5CAFB2A827CD10035950B /* ProductCoreDataService.swift in Sources */,
 				61E931082A827C55000D99AC /* CoreData.xcdatamodeld in Sources */,
+				61D19B7F2B1D06890064A56D /* DistributorCoreDataFacade.swift in Sources */,
+				61D19B852B1D8F5A0064A56D /* DistributorLikeCoreDataDao.swift in Sources */,
+				61D19B812B1D06980064A56D /* DistributorCoreDataService.swift in Sources */,
 				61A5CAFD2A827CD80035950B /* CoreDataController.swift in Sources */,
+				61D19B832B1D06A20064A56D /* DistributorCoreDataDao.swift in Sources */,
 				617301D72B1A47BB00D5B624 /* CoreDataError.swift in Sources */,
 				61E930EF2A827BE5000D99AC /* Persistence.docc in Sources */,
 				617301E12B1B972C00D5B624 /* ThemeCoreDataFacade.swift in Sources */,

@@ -10,4 +10,6 @@ import Foundation
 enum CoreDataError: Error {
     case invalidManagedObjectContext
     case invalidProperty
+    case duplicatedData
+    case noSuchData
 }
