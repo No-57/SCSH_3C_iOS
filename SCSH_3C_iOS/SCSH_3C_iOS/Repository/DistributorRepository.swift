@@ -7,79 +7,120 @@
 
 import Foundation
 import Combine
+import CoreData
+import Persistence
+import Networking
 
 protocol DistributorRepositoryType {
     func getDistributors(isLatest: Bool) -> AnyPublisher<[Distributor], Error>
+    func addLike(id: Int) -> AnyPublisher<Void, Error>
+    func deleteLike(id: Int) -> AnyPublisher<Void, Error>
 }
 
 class DistributorRepository: DistributorRepositoryType {
     
-    // TODO: API design is required.
-
-    ///
-    /// ```
-    /// GET https://{domainhost}/distributors
-    /// ?limit={limit}`
-    /// ```
-    ///
-    /// Response: {
-    /// ```
-    ///     "data": [
-    ///         { "id": ...,
-    ///           "name": ...,
-    ///           "description": ...,
-    ///           "brandImage": ...,
-    ///           "products": [
-    ///               { "id":...,
-    ///                 "image":..., }
-    ///            ]},
-    ///     ]
-    /// ```
-    /// }
-    ///
+    private let mapper: DistributorMapperType
+    private let moyaNetworkFacade: MoyaNetworkFacadeType
+    private let distributorCoreDataFacade: DistributorCoreDataFacadeType
+    
+    private let coreDataBackgroundContext = Persistence.CoreDataController.shared.container.newBackgroundContext()
+    
+    init(mapper: DistributorMapperType, moyaNetworkFacade: MoyaNetworkFacadeType, distributorCoreDataFacade: DistributorCoreDataFacadeType) {
+        self.mapper = mapper
+        self.moyaNetworkFacade = moyaNetworkFacade
+        self.distributorCoreDataFacade = distributorCoreDataFacade
+    }
+    
     func getDistributors(isLatest: Bool) -> AnyPublisher<[Distributor], Error> {
-        Future { promise in 
-            promise(.success([
-                Distributor(id: "網家",
-                            name: "PChome",
-                            description: "台灣電商龍頭 ^^ <3",
-                            brandImage: URL(string: "https://images.pexels.com/photos/1287145/pexels-photo-1287145.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")!,
-                            products: [
-                                Distributor.Product(id: "山1",
-                                                    image: URL(string: "https://images.pexels.com/photos/12762122/pexels-photo-12762122.jpeg")!),
-                                Distributor.Product(id: "山2",
-                                                    image: URL(string: "https://images.pexels.com/photos/12784538/pexels-photo-12784538.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")!),
-                                Distributor.Product(id: "山3",
-                                                    image: URL(string: "https://images.pexels.com/photos/12792288/pexels-photo-12792288.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")!),
-                            ]),
-                
-                Distributor(id: "蝦皮",
-                            name: "蝦皮購物",
-                            description: "財務危機ing RRR",
-                            brandImage: URL(string: "https://images.pexels.com/photos/2138922/pexels-photo-2138922.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")!,
-                            products: [
-                                Distributor.Product(id: "樹1",
-                                                    image: URL(string: "https://images.pexels.com/photos/15324791/pexels-photo-15324791/free-photo-of-scenic-view-of-a-dirt-road-in-a-forest.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")!),
-                                Distributor.Product(id: "樹2",
-                                                    image: URL(string: "https://images.pexels.com/photos/802127/pexels-photo-802127.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")!),
-                                Distributor.Product(id: "樹3",
-                                                    image: URL(string: "https://images.pexels.com/photos/15478177/pexels-photo-15478177/free-photo-of-trees-in-forest-in-fog.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")!),
-                            ]),
-
-                Distributor(id: "momo",
-                            name: "momo購物",
-                            description: "要辦卡才會比較便宜",
-                            brandImage: URL(string: "https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")!,
-                            products: [
-                                Distributor.Product(id: "太空1",
-                                                    image: URL(string: "https://images.pexels.com/photos/5641973/pexels-photo-5641973.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")!),
-                                Distributor.Product(id: "太空2",
-                                                    image: URL(string: "https://images.pexels.com/photos/2078126/pexels-photo-2078126.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")!),
-                                Distributor.Product(id: "太空3",
-                                                    image: URL(string: "https://images.pexels.com/photos/71116/hurricane-earth-satellite-tracking-71116.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")!),
-                            ]),
-            ]))
+        if isLatest {
+            return fetchDistributors()
+                .combineLatest(fetchDistributorsLike())
+                .flatMap { [weak self] _ -> AnyPublisher<[Distributor], Error> in
+                    guard let self = self else {
+                        return Empty<[Distributor], Error>().eraseToAnyPublisher()
+                    }
+                    
+                    return self.getDistributors()
+                }
+                .eraseToAnyPublisher()
         }
-        .eraseToAnyPublisher()
+        
+        return getDistributors()
+    }
+    
+    func addLike(id: Int) -> AnyPublisher<Void, Error> {
+        // TODO: Use `fetch` when API POST `/distributors/{distributor_id}/like` is ready
+        moyaNetworkFacade.stubFetch(apiInterface: DistributorLikeApiInterface.Post(id: id))
+            .flatMap { [weak self] _ -> AnyPublisher<Void, Error> in
+                guard let self = self else {
+                    return Empty<Void, Error>().eraseToAnyPublisher()
+                }
+                
+                return self.distributorCoreDataFacade.save(likeId: Int64(id))
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func deleteLike(id: Int) -> AnyPublisher<Void, Error> {
+        // TODO: Use `fetch` when DELETE API `/distributors/{distributor_id}/like` is ready
+        moyaNetworkFacade.stubFetch(apiInterface: DistributorLikeApiInterface.Delete(id: id))
+            .flatMap { [weak self] _ -> AnyPublisher<Void, Error> in
+                guard let self = self else {
+                    return Empty<Void, Error>().eraseToAnyPublisher()
+                }
+                
+                return self.distributorCoreDataFacade.delete(likeId: Int64(id))
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private func fetchDistributors() -> AnyPublisher<Void, Error> {
+        // TODO: Use `fetch` when API `/distributors?limit={limit}` is ready
+        moyaNetworkFacade.stubFetch(apiInterface: DistributorApiInterface())
+            .map(\.data)
+            .map { [weak self] distributors -> [Persistence.Distributor] in
+                guard let self = self else { return [] }
+                
+                return self.mapper.transform(networkDistributors: distributors, context: self.coreDataBackgroundContext)
+            }
+            .flatMap { [weak self] distributors -> AnyPublisher<Void, Error> in
+                guard let self = self else {
+                    return Empty<Void, Error>().eraseToAnyPublisher()
+                }
+
+                return self.distributorCoreDataFacade.save(distributors: distributors)
+            }
+            .eraseToAnyPublisher()
+            
+    }
+    
+    private func fetchDistributorsLike() -> AnyPublisher<Void, Error> {
+        // TODO: Use `fetch` when API `/distributors/like` is ready
+        moyaNetworkFacade.stubFetch(apiInterface: DistributorLikeApiInterface.Get())
+            .map(\.data)
+            .map { [weak self] likes -> [Persistence.Distributor_Like] in
+                guard let self = self else { return [] }
+                
+                
+                return self.mapper.transform(networkDistributorLikes: likes, context: self.coreDataBackgroundContext)
+            }
+            .flatMap { [weak self] likes -> AnyPublisher<Void, Error> in
+                guard let self = self else {
+                    return Empty<Void, Error>().eraseToAnyPublisher()
+                }
+
+                return self.distributorCoreDataFacade.save(likes: likes)
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private func getDistributors() -> AnyPublisher<[Distributor], Error> {
+        distributorCoreDataFacade.get()
+            .map { [weak self] distributors -> [Distributor] in
+                guard let self = self else { return [] }
+                
+                return self.mapper.transform(persistenceDistributors: distributors)
+            }
+            .eraseToAnyPublisher()
     }
 }

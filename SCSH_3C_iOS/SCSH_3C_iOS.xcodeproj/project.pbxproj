@@ -602,6 +602,7 @@
 		61A95C192A77EFF1005BB895 /* Mapper */ = {
 			isa = PBXGroup;
 			children = (
+				6100A0F42B20346700523A2C /* DistributorMapper.swift */,
 				61A95C1A2A77F00B005BB895 /* ProductModelMapper.swift */,
 				617301C62B17BD5F00D5B624 /* ExploreBoardMapper.swift */,
 				617301E62B1BB6A400D5B624 /* ThemeMapper.swift */,
@@ -1149,6 +1150,7 @@
 			files = (
 				6109FF802AE2942D00FFE532 /* ExploreCoordinatorType.swift in Sources */,
 				61C9326B2A7825DD00EA7BD8 /* StartUpCoordinator.swift in Sources */,
+				6100A0F52B20346700523A2C /* DistributorMapper.swift in Sources */,
 				61A95C1E2A77F05A005BB895 /* Product.swift in Sources */,
 				6109FF822AE2945E00FFE532 /* ExploreCoordinator.swift in Sources */,
 				6169AE562A6F9E7F00F84AE5 /* HomeViewModel.swift in Sources */,
