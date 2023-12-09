@@ -46,11 +46,12 @@ class DistributorMapper: DistributorMapperType {
                 products = (try? self.decode(distributorProductsData: productsData)) ?? []
             }
             
-            result.append(Distributor(id: String(distributor.id),
+            result.append(Distributor(id: Int(distributor.id),
                                       name: distributor.name ?? "",
                                       description: distributor.detail ?? "",
                                       brandImage: distributor.brand_image,
-                                      products: products))
+                                      products: products,
+                                      isLiked: distributor.distributor_like?.id == distributor.id))
             
         }
         

@@ -10,7 +10,7 @@ import Kingfisher
 
 class DistributorCollectionViewCell: UICollectionViewCell {
     
-    private var distributor = Distributor(id: UUID().uuidString, name: "", description: "", brandImage: URL.temporaryDirectory, products: [])
+    private var distributor = Distributor(id: 0, name: "", description: "", brandImage: URL.temporaryDirectory, products: [], isLiked: false)
     
     private let containerStackView = {
         let v = UIStackView()
@@ -212,9 +212,10 @@ class DistributorCollectionViewCell: UICollectionViewCell {
     
     @objc
     private func likeButtonDidTap(_ sender: UIButton) {
-        sender.isSelected.toggle()
+        let isSelected = sender.isSelected
         
-        sender.tintColor = sender.isSelected ? .red : .lightGray
+        setupLikeButton(isSelected: !isSelected)
+        distributor.isLiked = !isSelected
         
         delegate?.distributorLikeButtonDidTap(distributor: distributor)
     }
@@ -273,6 +274,11 @@ class DistributorCollectionViewCell: UICollectionViewCell {
         subProductImageView_2.kf.setImage(with: subProductImage_2, placeholder: UIImage(systemName: "photo.fill"))
     }
     
+    private func setupLikeButton(isSelected: Bool) {
+        likeButton.isSelected = isSelected
+        likeButton.tintColor = isSelected ? .red : .lightGray
+    }
+    
     func setup(distributor: Distributor) {
         self.distributor = distributor
         
@@ -282,8 +288,7 @@ class DistributorCollectionViewCell: UICollectionViewCell {
         
         nameLabel.text = self.distributor.name
         detailLabel.text = self.distributor.description
-        
-        // TODO: add like data.
-        likeButton.isSelected = false
+
+        setupLikeButton(isSelected: distributor.isLiked)
     }
 }

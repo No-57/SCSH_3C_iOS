@@ -13,9 +13,10 @@ struct Distributor {
         let image: URL?
     }
     
-    let id: String
+    let id: Int
     let name: String
     let description: String
     let brandImage: URL?
     let products: [Product]
+    var isLiked: Bool
 }
