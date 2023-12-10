@@ -8,14 +8,15 @@
 import Foundation
 
 struct Distributor {
-    struct Porduct {
+    struct Product: Codable {
         let id: String
-        let image: URL
+        let image: URL?
     }
     
-    let id: String
+    let id: Int
     let name: String
     let description: String
-    let brandImage: URL
-    let products: [Porduct]
+    let brandImage: URL?
+    let products: [Product]
+    var isLiked: Bool
 }

@@ -37,6 +37,10 @@ public struct ApiResponse<Data: Decodable>: Decodable {
     public let data: Data
 }
 
+public struct EmptyApiResponse: Decodable {
+    public let code: Int
+}
+
 public struct ApiError: Decodable, LocalizedError, Equatable {
     public let code: Int
     public let extra: String?

@@ -66,7 +66,7 @@ class ExploreViewModel: ObservableObject {
                 
                 return self.themeRepository.getThemes(isLatest: true)
                     .combineLatest(self.boardRepository.getExploreBoards(isLatest: true),
-                                   self.distributorRepository.getDistributors(isLatest: false))
+                                   self.distributorRepository.getDistributors(isLatest: true))
                     .eraseToAnyPublisher()
             }
             .sink(receiveCompletion: { _ in
@@ -110,18 +110,30 @@ class ExploreViewModel: ObservableObject {
     }
     
     private func bindDistributorEvents() {
+        // TODO: optimize it, use `scan` operator or else.
         distributorLikeButtonDidTap
-            .print("distributorLikeButtonDidTap")
-            .sink(receiveValue: { [weak self] _ in
-                //TODO: implement like button bahavior.
-            })
+            .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
+            .flatMap { [weak self] distributor -> AnyPublisher<Void, Error> in
+                guard let self = self else {
+                    return Empty<Void, Error>().eraseToAnyPublisher()
+                }
+
+                guard distributor.isLiked else {
+                    return self.distributorRepository.deleteLike(id: distributor.id).eraseToAnyPublisher()
+                }
+
+                return self.distributorRepository.addLike(id: distributor.id).eraseToAnyPublisher()
+            }
+            .sink(receiveCompletion: { _ in
+                // TODO: Error handling
+            }, receiveValue: {})
             .store(in: &cancellables)
         
         distributorExploreButtonDidTap
             .merge(with: distributorCellDidTap)
             .map(\.id)
             .sink(receiveValue: { [weak self] in
-                self?.coordinator.requestDistributorNavigation(id: $0)
+                self?.coordinator.requestDistributorNavigation(id: String($0))
             })
             .store(in: &cancellables)
         

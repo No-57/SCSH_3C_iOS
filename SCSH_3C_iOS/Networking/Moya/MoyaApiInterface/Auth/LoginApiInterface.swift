@@ -14,15 +14,15 @@ public struct LoginApiInterface: MoyaApiInterfaceType {
 
     private let parameter: LoginApiParameter
     
+    public let baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost8080)!
+    public let path: String = "\(NetworkConstants.apiRootPath)/\(NetworkConstants.apiVersion)/login"
+    public let method: Moya.Method = .post
+    public var task: Moya.Task { .requestCustomJSONEncodable(parameter, encoder: jsonEncoder) }
+    public let headers: [String : String]? = ["Content-Type":"application/json", "accept": "application/json"]
+    
     public init(password: String, target: String) {
         parameter = LoginApiParameter(password: password, target: target)
     }
-    
-    public var baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost8080)!
-    public var path: String = "\(NetworkConstants.apiRootPath)/\(NetworkConstants.apiVersion)/login"
-    public var method: Moya.Method = .post
-    public var task: Moya.Task { .requestCustomJSONEncodable(parameter, encoder: jsonEncoder) }
-    public var headers: [String : String]? = ["Content-Type":"application/json", "accept": "application/json"]
 }
 
 struct LoginApiParameter: Encodable {

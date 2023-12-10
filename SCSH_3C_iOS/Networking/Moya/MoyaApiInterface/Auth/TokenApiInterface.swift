@@ -14,15 +14,15 @@ public struct TokenApiInterface: MoyaApiInterfaceType {
 
     private let parameter: TokenApiParameter
     
+    public let baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost8080)!
+    public let path: String = "\(NetworkConstants.apiRootPath)/\(NetworkConstants.apiVersion)/token"
+    public let method: Moya.Method = .patch
+    public var task: Moya.Task { .requestCustomJSONEncodable(parameter, encoder: jsonEncoder) }
+    public let headers: [String : String]? = ["Content-Type":"application/json", "accept": "application/json"]
+    
     public init(refreshToken: String) {
         self.parameter = TokenApiParameter(refreshToken: refreshToken)
     }
-    
-    public var baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost8080)!
-    public var path: String = "\(NetworkConstants.apiRootPath)/\(NetworkConstants.apiVersion)/token"
-    public var method: Moya.Method = .patch
-    public var task: Moya.Task { .requestCustomJSONEncodable(parameter, encoder: jsonEncoder) }
-    public var headers: [String : String]? = ["Content-Type":"application/json", "accept": "application/json"]
 }
 
 struct TokenApiParameter: Encodable {

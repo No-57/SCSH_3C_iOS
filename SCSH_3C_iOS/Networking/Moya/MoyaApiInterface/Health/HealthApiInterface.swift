@@ -12,12 +12,13 @@ public struct HealthApiInterface: MoyaApiInterfaceType {
     public typealias OutputModel = ApiResponse<HealthApiModel>
     public typealias OutputError = ApiError
 
+    public let baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost8080)!
+    public let path: String = "\(NetworkConstants.apiRootPath)/\(NetworkConstants.apiVersion)/health"
+    public let method: Moya.Method = .get
+    public let task: Moya.Task = .requestPlain
+    public let headers: [String : String]? = .none
+    
     public init() {}
-    public var baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost8080)!
-    public var path: String = "\(NetworkConstants.apiRootPath)/\(NetworkConstants.apiVersion)/health"
-    public var method: Moya.Method = .get
-    public var task: Moya.Task = .requestPlain
-    public var headers: [String : String]? = .none
 }
 
 public struct HealthApiModel: Decodable, Equatable {
