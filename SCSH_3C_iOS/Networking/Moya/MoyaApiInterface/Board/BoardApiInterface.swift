@@ -12,6 +12,12 @@ public class BoardApiInterface: MoyaApiInterfaceType {
     public typealias OutputModel = ApiResponse<[Board]>
     public typealias OutputError = ApiError
 
+    public let baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost8080)!
+    public let path: String = "\(NetworkConstants.apiRootPath)/\(NetworkConstants.apiVersion)/boards"
+    public let method: Moya.Method = .get
+    public let task: Moya.Task
+    public let headers: [String : String]? = .none
+    
     public init(code: String? = nil) {
         if let code = code {
             task = .requestParameters(parameters: ["code": code], encoding: URLEncoding.default)
@@ -19,12 +25,6 @@ public class BoardApiInterface: MoyaApiInterfaceType {
             task = .requestPlain
         }
     }
-    
-    public var baseURL: URL = URL(string: NetworkConstants.httpUrlScheme + NetworkConstants.localHost8080)!
-    public var path: String = "\(NetworkConstants.apiRootPath)/\(NetworkConstants.apiVersion)/boards"
-    public var method: Moya.Method = .get
-    public let task: Moya.Task
-    public var headers: [String : String]? = .none
 }
 
 public struct Board: Codable, Equatable {

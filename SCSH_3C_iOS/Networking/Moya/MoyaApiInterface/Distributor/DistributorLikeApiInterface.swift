@@ -27,40 +27,40 @@ public class DistributorLikeApiInterface {
         public typealias OutputModel = ApiResponse<[DistributorLike]>
         public typealias OutputError = ApiError
         
-        // TODO: Authentication is required.
-        public init() {}
-
-        public var path: String = "\(NetworkConstants.apiRootPath)/\(NetworkConstants.apiVersion)/distributors/like"
+        public let path: String = "\(NetworkConstants.apiRootPath)/\(NetworkConstants.apiVersion)/distributors/like"
         public let method: Moya.Method = .get
         public let task: Moya.Task = .requestPlain
+        
+        // TODO: Authentication is required.
+        public init() {}
     }
     
     public class Post: DistributorLikeApiInterfaceType {
         public typealias OutputModel = EmptyApiResponse
         public typealias OutputError = ApiError
         
+        public let path: String
+        public let method: Moya.Method = .post
+        public let task: Moya.Task = .requestPlain
+        
         // TODO: Authentication is required.
         public init(id: Int) {
             path = "\(NetworkConstants.apiRootPath)/\(NetworkConstants.apiVersion)/distributors/\(id)/like"
         }
-        
-        public let path: String
-        public let method: Moya.Method = .post
-        public let task: Moya.Task = .requestPlain
     }
     
     public class Delete: DistributorLikeApiInterfaceType {
         public typealias OutputModel = EmptyApiResponse
         public typealias OutputError = ApiError
         
+        public let path: String
+        public let method: Moya.Method = .delete
+        public let task: Moya.Task = .requestPlain
+        
         // TODO: Authentication is required.
         public init(id: Int) {
             path = "\(NetworkConstants.apiRootPath)/\(NetworkConstants.apiVersion)/distributors/\(id)/like"
         }
-        
-        public let path: String
-        public let method: Moya.Method = .delete
-        public let task: Moya.Task = .requestPlain
     }
 }
 
