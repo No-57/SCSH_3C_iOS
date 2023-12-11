@@ -10,7 +10,7 @@ import UIKit
 class DistributorSectionCollectionViewCell: UICollectionViewCell {
     private var distributors: [Distributor] = []
     
-    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: TopAlignedCollectionViewFlowLayout())
     
     weak var delegate: ExploreViewControllerDelegate?
     
@@ -60,7 +60,7 @@ extension DistributorSectionCollectionViewCell: UICollectionViewDelegateFlowLayo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: 300, height: collectionView.bounds.height)
+        CGSize(width: 300, height: 350)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

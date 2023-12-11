@@ -15,6 +15,9 @@ class ExploreViewController: UIViewController {
     
     private var cancellables = Set<AnyCancellable>()
     
+    private let minimumInteritemSpacingAtProductExplore: CGFloat = 5
+    private let minimumLineSpacingAtProductExplore: CGFloat = 5
+    
     init(viewModel: ExploreViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -65,8 +68,11 @@ class ExploreViewController: UIViewController {
         collectionView.dataSource = self
         
         (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.scrollDirection = .vertical
+        collectionView.showsVerticalScrollIndicator = false
         
         collectionView.register(DistributorSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "DistributorSectionHeaderView")
+        collectionView.register(ProductExploreSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProductExploreSectionHeaderView")
+        collectionView.register(SeparatorFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "SeparatorFooterView")
         
         collectionView.register(BoardSectionCollectionViewCell.self, forCellWithReuseIdentifier: "BoardSectionCollectionViewCell")
         collectionView.register(RecentSectionCollectionViewCell.self, forCellWithReuseIdentifier: "RecentSectionCollectionViewCell")
@@ -160,7 +166,7 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
         case .Board, .Recent, .Distributor, .Popular:
             return 1
         default:
-            return 15
+            return viewModel.products.count
         }
     }
     
@@ -168,6 +174,9 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
         switch viewModel.themes[section] {
         case .Board:
             return .zero
+
+        case .ProductExplore:
+            return .init(top: 10, left: 5, bottom: 10, right: 5)
 
         default:
             return .init(top: 10, left: 0, bottom: 0, right: 0)
@@ -177,11 +186,42 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
         switch viewModel.themes[section] {
-        case .Distributor:
+        case .Distributor, .ProductExplore:
             return CGSize(width: collectionView.frame.width, height: 50)
 
         default:
             return .zero
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        let lastSection = viewModel.themes.count - 1
+        guard lastSection != section else {
+            return .zero
+        }
+            
+        return CGSize(width: collectionView.frame.width, height: 10)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        switch viewModel.themes[section] {
+
+        case .ProductExplore:
+            return minimumLineSpacingAtProductExplore
+
+        default:
+            return 0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        switch viewModel.themes[section] {
+
+        case .ProductExplore:
+            return minimumInteritemSpacingAtProductExplore
+
+        default:
+            return 0
         }
     }
     
@@ -195,13 +235,24 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: collectionView.bounds.width, height: 200)
 
         case .Distributor:
-            return CGSize(width: collectionView.bounds.width, height: 350)
+            return CGSize(width: collectionView.bounds.width, height: 380)
 
         case .Popular:
             return CGSize(width: collectionView.bounds.width, height: 150)
 
+        case .ProductExplore:
+            return CGSize(width: (collectionView.bounds.width - 3 * minimumInteritemSpacingAtProductExplore) / 2, height: 290)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch viewModel.themes[indexPath.section] {
+        case .ProductExplore:
+            // TODO: productExploreCellDidTap
+            break
+            
         default:
-            return CGSize(width: collectionView.bounds.width / 2 - 10, height: 200)
+            break
         }
     }
 }
@@ -209,18 +260,29 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
 extension ExploreViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard kind == UICollectionView.elementKindSectionHeader else {
-            return UICollectionReusableView()
-        }
-
-        switch viewModel.themes[indexPath.section] {
-        case .Distributor:
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "DistributorSectionHeaderView", for: indexPath) as! DistributorSectionHeaderView
-            return headerView
+        
+        if kind == UICollectionView.elementKindSectionHeader {
+            switch viewModel.themes[indexPath.section] {
+            case .Distributor:
+                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "DistributorSectionHeaderView", for: indexPath) as! DistributorSectionHeaderView
+                return headerView
+                
+            case .ProductExplore:
+                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "ProductExploreSectionHeaderView", for: indexPath) as! ProductExploreSectionHeaderView
+                return headerView
+                
             
-        default:
-            return UICollectionReusableView()
+            default:
+                return UICollectionReusableView()
+            }
+            
+        } else if kind == UICollectionView.elementKindSectionFooter {
+            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SeparatorFooterView", for: indexPath) as! SeparatorFooterView
+            return footerView
         }
+        
+        return UICollectionReusableView()
+       
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -248,7 +310,8 @@ extension ExploreViewController: UICollectionViewDataSource {
             
         case .ProductExplore:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductExploreSectionCollectionViewCell", for: indexPath) as! ProductExploreSectionCollectionViewCell
-            cell.contentView.backgroundColor = .blue
+            cell.setup(product: viewModel.products[indexPath.item])
+            cell.delegate = self
             return cell
         }
     }
@@ -263,6 +326,8 @@ protocol ExploreViewControllerDelegate: AnyObject {
     func distributorSubProduct2GestureDidTap(productId: String)
     func distributorLikeButtonDidTap(distributor: Distributor)
     func distributorExploreButtonDidTap(distributor: Distributor)
+    
+    func productExploreLikeButtonDidTap(product: Product)
 }
 
 extension ExploreViewController: ExploreViewControllerDelegate {
@@ -292,5 +357,9 @@ extension ExploreViewController: ExploreViewControllerDelegate {
 
     func distributorExploreButtonDidTap(distributor: Distributor) {
         viewModel.distributorExploreButtonDidTap.send(distributor)
+    }
+    
+    func productExploreLikeButtonDidTap(product: Product) {
+        // TODO: productExploreLikeButtonDidTap
     }
 }

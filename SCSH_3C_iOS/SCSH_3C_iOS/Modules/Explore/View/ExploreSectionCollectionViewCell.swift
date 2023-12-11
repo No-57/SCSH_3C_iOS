@@ -1,5 +1,5 @@
 //
-//  ProductExploreSectionCollectionViewCell.swift
+//  ExploreSectionCollectionViewCell.swift
 //  SCSH_3C_iOS
 //
 //  Created by 辜敬閎 on 2023/10/9.
@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class ProductExploreSectionCollectionViewCell: UICollectionViewCell {
+class ExploreSectionCollectionViewCell: UICollectionViewCell {
     
     private let productImageView: UIImageView = {
         let v = UIImageView()

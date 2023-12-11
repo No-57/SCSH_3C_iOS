@@ -18,6 +18,8 @@ class ExploreViewModel: ObservableObject {
     @Published var boards: [ExploreBoard] = []
     
     @Published var distributors: [Distributor] = []
+    
+    @Published var products: [Product] = []
 
     @Published var route = Route.none
 

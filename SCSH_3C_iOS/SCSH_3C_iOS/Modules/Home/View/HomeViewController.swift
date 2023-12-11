@@ -12,7 +12,7 @@ class HomeViewController: UIViewController {
     
     private let viewModel: HomeViewModel
     
-    private let headerCollectionView = UICollectionView(frame: .zero, collectionViewLayout: ZoomAndSnapFlowLayout())
+    private let headerCollectionView = UICollectionView(frame: .zero, collectionViewLayout: ZoomAndSnapCollectionViewFlowLayout())
     private let bodyCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     // The scroll (per page) offset ratio between header and body
