@@ -19,8 +19,9 @@ class ExploreCoordinator: ExploreCoordinatorType {
         let boardRepository = BoardRepository(boardCoreDataFacade: BoardCoreDataFacade(), moyaNetworkFacade: MoyaNetworkFacade(), mapper: ExploreBoardMapper())
         let themeRepository = ThemeRepository(mapper: ThemeMapper(), themeCoreDataFacade: ThemeCoreDataFacade(), moyaNetworkFacadeType: MoyaNetworkFacade())
         let distributorRepository = DistributorRepository(mapper: DistributorMapper(), moyaNetworkFacade: MoyaNetworkFacade(), distributorCoreDataFacade: DistributorCoreDataFacade())
+        let productRepository = ProductRepository()
         
-        let viewModel = ExploreViewModel(coordinator: coordinator, boardRepository: boardRepository, themeRepository: themeRepository, distributorRepository: distributorRepository)
+        let viewModel = ExploreViewModel(coordinator: coordinator, boardRepository: boardRepository, themeRepository: themeRepository, distributorRepository: distributorRepository, productRepository: productRepository)
         return ExploreViewController(viewModel: viewModel)
     }
     

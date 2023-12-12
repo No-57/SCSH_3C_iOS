@@ -145,7 +145,7 @@ extension MoyaNetworkFacade {
                                          action: "https://cdn.pixabay.com/photo/2023/10/03/07/46/hamburg-8290719_1280.jpg"),
                                    Board(id: 5,
                                          code: "explore_carousel_board",
-                                         imageUrl: "https://cdn.pixabay.com/photo/2023/08/29/19/42/goose-8222013_1280.jpg",
+                                         imageUrl: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
                                          actionType: nil,
                                          action: nil),
                             ])
@@ -161,7 +161,7 @@ extension MoyaNetworkFacade {
                                 Theme(id: 2, type: "explore", code: "recent"),
                                 Theme(id: 3, type: "explore", code: "distributor"),
                                 Theme(id: 4, type: "explore", code: "popular"),
-                                Theme(id: 5, type: "explore", code: "explore"),
+                                Theme(id: 5, type: "explore", code: "product_explore"),
                             ])
         )
     }

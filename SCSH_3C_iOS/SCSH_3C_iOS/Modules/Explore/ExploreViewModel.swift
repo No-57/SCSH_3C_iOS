@@ -18,7 +18,10 @@ class ExploreViewModel: ObservableObject {
     @Published var boards: [ExploreBoard] = []
     
     @Published var distributors: [Distributor] = []
-
+    
+    @Published var products: [Product] = []
+    private var currentPageAtProductExplore: Int = 0
+    
     @Published var route = Route.none
 
     // Infinite scroll items number on Board section.
@@ -39,42 +42,52 @@ class ExploreViewModel: ObservableObject {
     let distributorLikeButtonDidTap = PassthroughSubject<Distributor, Never>()
     let distributorExploreButtonDidTap = PassthroughSubject<Distributor, Never>()
     
+    let productExploreCellDidTap = PassthroughSubject<Product, Never>()
+    let porductExploreLikeButtonDidTap = PassthroughSubject<Product, Never>()
+    let productExploreListDidScrollToThreshold = PassthroughSubject<Void, Never>()
+    
     private let coordinator: ExploreCoordinatorType
     private let boardRepository: BoardRepositoryType
     private let themeRepository: ThemeRepositoryType
     private let distributorRepository: DistributorRepositoryType
+    private let productRepository: ProductRepositoryType
     private var cancellables = Set<AnyCancellable>()
     
-    init(coordinator: ExploreCoordinatorType, boardRepository: BoardRepositoryType, themeRepository: ThemeRepositoryType, distributorRepository: DistributorRepositoryType) {
+    init(coordinator: ExploreCoordinatorType, boardRepository: BoardRepositoryType, themeRepository: ThemeRepositoryType, distributorRepository: DistributorRepositoryType, productRepository: ProductRepositoryType) {
         self.coordinator = coordinator
         self.boardRepository = boardRepository
         self.themeRepository = themeRepository
         self.distributorRepository = distributorRepository
+        self.productRepository = productRepository
         
         bindExploreEvents()
         bindBoardEvents()
         bindDistributorEvents()
+        bindProductExploreEvents()
         bindTransitionEvents()
     }
 
     private func bindExploreEvents() {
         viewDidLoad
-            .flatMap { [weak self] _ -> AnyPublisher<([ExploreTheme], [ExploreBoard], [Distributor]), Error> in
+            .flatMap { [weak self] _ -> AnyPublisher<([ExploreTheme], [ExploreBoard], [Distributor], [Product]), Error> in
                 guard let self = self else {
-                    return Empty<([ExploreTheme], [ExploreBoard], [Distributor]), Error>().eraseToAnyPublisher()
+                    return Empty<([ExploreTheme], [ExploreBoard], [Distributor], [Product]), Error>().eraseToAnyPublisher()
                 }
                 
                 return self.themeRepository.getThemes(isLatest: true)
                     .combineLatest(self.boardRepository.getExploreBoards(isLatest: true),
-                                   self.distributorRepository.getDistributors(isLatest: true))
+                                   self.distributorRepository.getDistributors(isLatest: true),
+                                   self.productRepository.getProducts(isLatest: false, page: 0))
                     .eraseToAnyPublisher()
             }
             .sink(receiveCompletion: { _ in
                 // TODO: Error handling
-            }, receiveValue: { [weak self] (themes, boards, distributors) in
+            }, receiveValue: { [weak self] (themes, boards, distributors, products) in
                 self?.themes = themes
                 self?.boards = boards
                 self?.distributors = distributors
+                self?.products = products
+                self?.currentPageAtProductExplore = 0
             })
             .store(in: &cancellables)
     }
@@ -143,6 +156,60 @@ class ExploreViewModel: ObservableObject {
                 self?.coordinator.requestProductNavigation(id: $0)
             })
             .store(in: &cancellables)
+    }
+    
+    private func bindProductExploreEvents() {
+     
+        productExploreCellDidTap
+            .map(\.id)
+            .sink(receiveValue: { [weak self] in
+                self?.coordinator.requestProductNavigation(id: String($0))
+            })
+            .store(in: &cancellables)
+        
+        porductExploreLikeButtonDidTap
+            .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
+            .flatMap { [weak self] product -> AnyPublisher<Void, Error> in
+                guard let self = self else {
+                    return Empty<Void, Error>().eraseToAnyPublisher()
+                }
+
+                guard product.isLiked else {
+                    // TODO: implement delete like
+                    return Empty<Void, Error>().eraseToAnyPublisher()
+                }
+
+                // TODO: implement add like
+                return Empty<Void, Error>().eraseToAnyPublisher()
+            }
+            .sink(receiveCompletion: { _ in
+                // TODO: Error handling
+            }, receiveValue: {})
+            .store(in: &cancellables)
+        
+        productExploreListDidScrollToThreshold
+            .compactMap { [weak self] _ -> Int? in
+                guard let self = self else {
+                    return nil
+                }
+                
+                self.currentPageAtProductExplore += self.currentPageAtProductExplore
+                
+                return self.currentPageAtProductExplore
+            }
+            .flatMap { [weak self] page -> AnyPublisher<[Product], Error> in
+                guard let self = self else {
+                    return Empty<[Product], Error>().eraseToAnyPublisher()
+                }
+                
+                return self.productRepository.getProducts(isLatest: true, page: self.currentPageAtProductExplore)
+            } .sink(receiveCompletion: { _ in
+                // TODO: Error handling
+            }, receiveValue: { [weak self] products in
+                self?.products.append(contentsOf: products)
+            })
+            .store(in: &cancellables)
+            
     }
 
     private func bindTransitionEvents() {
