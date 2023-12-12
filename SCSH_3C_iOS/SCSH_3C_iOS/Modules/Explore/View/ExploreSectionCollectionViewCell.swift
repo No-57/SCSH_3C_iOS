@@ -10,6 +10,8 @@ import Kingfisher
 
 class ExploreSectionCollectionViewCell: UICollectionViewCell {
     
+    private var product: Product = Product(id: 0, name: "", image: URL.temporaryDirectory, distributor: .init(id: 1, name: ""), specialPrice: "", tagPrice: "", isLiked: false)
+    
     private let productImageView: UIImageView = {
         let v = UIImageView()
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -128,19 +130,23 @@ class ExploreSectionCollectionViewCell: UICollectionViewCell {
     @objc
     private func likeButtonDidTap(_ sender: UIButton) {
         sender.isSelected.toggle()
+
+        delegate?.exploreProductLinkButtonDidTap(product: product)
     }
     
     func setup(product: Product) {
-        productImageView.kf.setImage(with: product.image, placeholder: UIImage(systemName: "photo.fill"))
+        self.product = product
         
-        productNameLabel.text = product.name
-        distributorNameLabel.text = product.distributor.name
-        specialPriceLabel.text = "NT$ \(product.specialPrice)"
+        productImageView.kf.setImage(with: self.product.image, placeholder: UIImage(systemName: "photo.fill"))
+        
+        productNameLabel.text = self.product.name
+        distributorNameLabel.text = self.product.distributor.name
+        specialPriceLabel.text = "NT$ \(self.product.specialPrice)"
         tagPriceLabel.attributedText = NSAttributedString(
-            string: "NT$ \(product.tagPrice)",
+            string: "NT$ \(self.product.tagPrice)",
             attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue]
         )
         
-        likeButton.isSelected = product.isLiked
+        likeButton.isSelected = self.product.isLiked
     }
 }

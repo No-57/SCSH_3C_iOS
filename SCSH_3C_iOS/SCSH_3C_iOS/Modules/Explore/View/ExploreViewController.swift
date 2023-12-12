@@ -17,7 +17,9 @@ class ExploreViewController: UIViewController {
     
     private let minimumInteritemSpacingAtProductExplore: CGFloat = 5
     private let minimumLineSpacingAtProductExplore: CGFloat = 5
-    
+    private let nextPageThresholdAtProductExplore: CGFloat = UIScreen.main.bounds.height / 2
+    private var isLoadingAtProductExplore = false
+
     init(viewModel: ExploreViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -73,6 +75,7 @@ class ExploreViewController: UIViewController {
         collectionView.register(DistributorSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "DistributorSectionHeaderView")
         collectionView.register(ProductExploreSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProductExploreSectionHeaderView")
         collectionView.register(SeparatorFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "SeparatorFooterView")
+        collectionView.register(LoadingFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "LoadingFooterView")
         
         collectionView.register(BoardSectionCollectionViewCell.self, forCellWithReuseIdentifier: "BoardSectionCollectionViewCell")
         collectionView.register(RecentSectionCollectionViewCell.self, forCellWithReuseIdentifier: "RecentSectionCollectionViewCell")
@@ -137,7 +140,14 @@ class ExploreViewController: UIViewController {
             })
             .store(in: &cancellables)
         
-        
+        viewModel.$products
+            .throttle(for: .milliseconds(100), scheduler: DispatchQueue.main, latest: true)
+            .sink(receiveValue: { [weak self] _ in
+                self?.collectionView.reloadData()
+                self?.collectionView.layoutIfNeeded()
+                self?.isLoadingAtProductExplore = false
+            })
+            .store(in: &cancellables)
     }
     
     private func bindTransitionEvents() {
@@ -157,6 +167,18 @@ class ExploreViewController: UIViewController {
 }
 
 extension ExploreViewController: UICollectionViewDelegateFlowLayout {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !isLoadingAtProductExplore else {
+            return
+        }
+        
+        /// execute when the height of the remaining content reach `nextPageThresholdAtProductExplore`
+        if scrollView.contentOffset.y + scrollView.frame.size.height > scrollView.contentSize.height - nextPageThresholdAtProductExplore {
+            isLoadingAtProductExplore = true
+            viewModel.productExploreListDidScrollToThreshold.send(())
+        }
+    }
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         viewModel.themes.count
     }
@@ -195,12 +217,14 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        let lastSection = viewModel.themes.count - 1
-        guard lastSection != section else {
-            return .zero
+        switch viewModel.themes[section] {
+
+        case .ProductExplore:
+            return CGSize(width: collectionView.frame.width, height: 30)
+
+        default:
+            return CGSize(width: collectionView.frame.width, height: 10)
         }
-            
-        return CGSize(width: collectionView.frame.width, height: 10)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -248,7 +272,7 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch viewModel.themes[indexPath.section] {
         case .ProductExplore:
-            // TODO: productExploreCellDidTap
+            viewModel.productExploreCellDidTap.send(viewModel.products[indexPath.item])
             break
             
         default:
@@ -277,8 +301,18 @@ extension ExploreViewController: UICollectionViewDataSource {
             }
             
         } else if kind == UICollectionView.elementKindSectionFooter {
-            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SeparatorFooterView", for: indexPath) as! SeparatorFooterView
-            return footerView
+            
+            switch viewModel.themes[indexPath.section] {
+                
+            case .ProductExplore:
+                let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "LoadingFooterView", for: indexPath) as! LoadingFooterView
+                return footerView
+                
+            default:
+                let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SeparatorFooterView", for: indexPath) as! SeparatorFooterView
+                return footerView
+            }
+            
         }
         
         return UICollectionReusableView()
@@ -360,6 +394,6 @@ extension ExploreViewController: ExploreViewControllerDelegate {
     }
     
     func productExploreLikeButtonDidTap(product: Product) {
-        // TODO: productExploreLikeButtonDidTap
+        viewModel.porductExploreLikeButtonDidTap.send(product)
     }
 }

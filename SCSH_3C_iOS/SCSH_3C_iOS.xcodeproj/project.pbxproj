@@ -26,6 +26,8 @@
 		61131D2E2B27464400165C15 /* TopAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61131D2D2B27464400165C15 /* TopAlignedCollectionViewFlowLayout.swift */; };
 		61131D302B27474D00165C15 /* ZoomAndSnapCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61131D2F2B27474D00165C15 /* ZoomAndSnapCollectionViewFlowLayout.swift */; };
 		61131D322B2763B300165C15 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61131D312B2763B300165C15 /* Product.swift */; };
+		61131D342B27665600165C15 /* ProductRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61131D332B27665600165C15 /* ProductRepository.swift */; };
+		61131D382B28443900165C15 /* LoadingFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61131D372B28443900165C15 /* LoadingFooterView.swift */; };
 		6113505C2ADBBE1D00F65943 /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6190D7F32AB1DEDB00276557 /* Networking.framework */; };
 		6113505D2ADBBE1D00F65943 /* Networking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6190D7F32AB1DEDB00276557 /* Networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		611350602ADBBE1D00F65943 /* Persistence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6190D7F22AB1DEDB00276557 /* Persistence.framework */; };
@@ -198,6 +200,8 @@
 		61131D2D2B27464400165C15 /* TopAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		61131D2F2B27474D00165C15 /* ZoomAndSnapCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomAndSnapCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		61131D312B2763B300165C15 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		61131D332B27665600165C15 /* ProductRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRepository.swift; sourceTree = "<group>"; };
+		61131D372B28443900165C15 /* LoadingFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingFooterView.swift; sourceTree = "<group>"; };
 		611350642ADC520100F65943 /* HomeViewControllerAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewControllerAdapter.swift; sourceTree = "<group>"; };
 		612B00DD2B0213ED00CB0C06 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		612B00DF2B02198A00CB0C06 /* DistributorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributorCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -404,6 +408,7 @@
 				610901A42AE529F000FFE532 /* BoardRepository.swift */,
 				612E6F482AE8E69E0038DCD7 /* ThemeRepository.swift */,
 				612B00E32B02278C00CB0C06 /* DistributorRepository.swift */,
+				61131D332B27665600165C15 /* ProductRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -795,6 +800,7 @@
 				61DC04842AD40F7800F4E3EF /* ProductExploreSectionCollectionViewCell.swift */,
 				61131C1B2B27347000165C15 /* ProductExploreSectionHeaderView.swift */,
 				61131C1D2B273CBE00165C15 /* SeparatorFooterView.swift */,
+				61131D372B28443900165C15 /* LoadingFooterView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1139,6 +1145,7 @@
 			files = (
 				6109FF802AE2942D00FFE532 /* ExploreCoordinatorType.swift in Sources */,
 				61C9326B2A7825DD00EA7BD8 /* StartUpCoordinator.swift in Sources */,
+				61131D382B28443900165C15 /* LoadingFooterView.swift in Sources */,
 				6100A0F52B20346700523A2C /* DistributorMapper.swift in Sources */,
 				6109FF822AE2945E00FFE532 /* ExploreCoordinator.swift in Sources */,
 				6169AE562A6F9E7F00F84AE5 /* HomeViewModel.swift in Sources */,
@@ -1176,6 +1183,7 @@
 				611350652ADC520100F65943 /* HomeViewControllerAdapter.swift in Sources */,
 				61DC035F2AD269E900F4E3EF /* HeaderCollectionViewCell.swift in Sources */,
 				61B185592A971EE90072F119 /* NotificationManager.swift in Sources */,
+				61131D342B27665600165C15 /* ProductRepository.swift in Sources */,
 				61C54E352A13A2B700EF39C3 /* MainApp.swift in Sources */,
 				615F95802ADA96510093166B /* MainView.swift in Sources */,
 				610901A52AE529F000FFE532 /* BoardRepository.swift in Sources */,
