@@ -29,7 +29,7 @@ class ExploreThemeTransformStrategy: ThemeTransformStrategyType {
 
         case "popular": return .Popular
 
-        case "explore": return .Explore
+        case "product_explore": return .ProductExplore
 
         default:
             return nil

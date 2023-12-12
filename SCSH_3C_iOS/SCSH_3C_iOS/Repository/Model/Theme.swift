@@ -28,7 +28,7 @@ enum ExploreTheme: ThemeType {
     case Recent
     case Distributor
     case Popular
-    case Explore
+    case ProductExplore
     
     // Use for save, query, filter in `Persistence` and `Network` modules.
     static let type = "explore"

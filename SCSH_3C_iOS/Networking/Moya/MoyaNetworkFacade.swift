@@ -161,7 +161,7 @@ extension MoyaNetworkFacade {
                                 Theme(id: 2, type: "explore", code: "recent"),
                                 Theme(id: 3, type: "explore", code: "distributor"),
                                 Theme(id: 4, type: "explore", code: "popular"),
-                                Theme(id: 5, type: "explore", code: "explore"),
+                                Theme(id: 5, type: "explore", code: "product_explore"),
                             ])
         )
     }

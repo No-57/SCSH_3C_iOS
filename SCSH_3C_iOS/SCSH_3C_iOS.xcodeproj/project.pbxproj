@@ -99,7 +99,7 @@
 		61DC047D2AD4082B00F4E3EF /* RecentSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC047C2AD4082B00F4E3EF /* RecentSectionCollectionViewCell.swift */; };
 		61DC047F2AD4086A00F4E3EF /* DistributorSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC047E2AD4086A00F4E3EF /* DistributorSectionCollectionViewCell.swift */; };
 		61DC04812AD408CE00F4E3EF /* PopularSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC04802AD408CE00F4E3EF /* PopularSectionCollectionViewCell.swift */; };
-		61DC04852AD40F7800F4E3EF /* ExploreSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC04842AD40F7800F4E3EF /* ExploreSectionCollectionViewCell.swift */; };
+		61DC04852AD40F7800F4E3EF /* ProductExploreSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC04842AD40F7800F4E3EF /* ProductExploreSectionCollectionViewCell.swift */; };
 		61DC05952AD7C63A00F4E3EF /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC05942AD7C63A00F4E3EF /* RoundedButton.swift */; };
 		61E930EF2A827BE5000D99AC /* Persistence.docc in Sources */ = {isa = PBXBuildFile; fileRef = 61E930EE2A827BE5000D99AC /* Persistence.docc */; };
 		61E930FD2A827BE5000D99AC /* Persistence.h in Headers */ = {isa = PBXBuildFile; fileRef = 61E930ED2A827BE5000D99AC /* Persistence.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -265,7 +265,7 @@
 		61DC047C2AD4082B00F4E3EF /* RecentSectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSectionCollectionViewCell.swift; sourceTree = "<group>"; };
 		61DC047E2AD4086A00F4E3EF /* DistributorSectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributorSectionCollectionViewCell.swift; sourceTree = "<group>"; };
 		61DC04802AD408CE00F4E3EF /* PopularSectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularSectionCollectionViewCell.swift; sourceTree = "<group>"; };
-		61DC04842AD40F7800F4E3EF /* ExploreSectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreSectionCollectionViewCell.swift; sourceTree = "<group>"; };
+		61DC04842AD40F7800F4E3EF /* ProductExploreSectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductExploreSectionCollectionViewCell.swift; sourceTree = "<group>"; };
 		61DC05942AD7C63A00F4E3EF /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RoundedButton.swift; path = SCSH_3C_iOS/Utility/UI/RoundedButton.swift; sourceTree = SOURCE_ROOT; };
 		61E930ED2A827BE5000D99AC /* Persistence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Persistence.h; sourceTree = "<group>"; };
 		61E930EE2A827BE5000D99AC /* Persistence.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Persistence.docc; sourceTree = "<group>"; };
@@ -778,7 +778,7 @@
 				612B00E52B025BC100CB0C06 /* DistributorSectionHeaderView.swift */,
 				61DC047E2AD4086A00F4E3EF /* DistributorSectionCollectionViewCell.swift */,
 				61DC04802AD408CE00F4E3EF /* PopularSectionCollectionViewCell.swift */,
-				61DC04842AD40F7800F4E3EF /* ExploreSectionCollectionViewCell.swift */,
+				61DC04842AD40F7800F4E3EF /* ProductExploreSectionCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1141,7 +1141,7 @@
 				61C54E372A13A2B700EF39C3 /* HomeView.swift in Sources */,
 				612E6F492AE8E69E0038DCD7 /* ThemeRepository.swift in Sources */,
 				61D19B742B1CB92C0064A56D /* ExploreThemeTransformStrategy.swift in Sources */,
-				61DC04852AD40F7800F4E3EF /* ExploreSectionCollectionViewCell.swift in Sources */,
+				61DC04852AD40F7800F4E3EF /* ProductExploreSectionCollectionViewCell.swift in Sources */,
 				61C9315B2A78226300EA7BD8 /* HomeCoordinatorType.swift in Sources */,
 				61DC047F2AD4086A00F4E3EF /* DistributorSectionCollectionViewCell.swift in Sources */,
 				612B00E62B025BC100CB0C06 /* DistributorSectionHeaderView.swift in Sources */,

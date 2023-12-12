@@ -72,7 +72,7 @@ class ExploreViewController: UIViewController {
         collectionView.register(RecentSectionCollectionViewCell.self, forCellWithReuseIdentifier: "RecentSectionCollectionViewCell")
         collectionView.register(DistributorSectionCollectionViewCell.self, forCellWithReuseIdentifier: "DistributorSectionCollectionViewCell")
         collectionView.register(PopularSectionCollectionViewCell.self, forCellWithReuseIdentifier: "PopularSectionCollectionViewCell")
-        collectionView.register(ExploreSectionCollectionViewCell.self, forCellWithReuseIdentifier: "ExploreSectionCollectionViewCell")
+        collectionView.register(ProductExploreSectionCollectionViewCell.self, forCellWithReuseIdentifier: "ProductExploreSectionCollectionViewCell")
     }
     
     private func bindViewStateEvents() {
@@ -246,8 +246,8 @@ extension ExploreViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PopularSectionCollectionViewCell", for: indexPath) as! PopularSectionCollectionViewCell
             return cell
             
-        case .Explore:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExploreSectionCollectionViewCell", for: indexPath) as! ExploreSectionCollectionViewCell
+        case .ProductExplore:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductExploreSectionCollectionViewCell", for: indexPath) as! ProductExploreSectionCollectionViewCell
             cell.contentView.backgroundColor = .blue
             return cell
         }
