@@ -57,8 +57,7 @@ class BoardRepository: BoardRepositoryType {
     }
     
     private func fetchExploreBoards() -> AnyPublisher<Void, Error> {
-        // TODO: Use `fetch` when API `/boards` is ready
-        moyaNetworkFacade.stubFetch(apiInterface: BoardApiInterface(code: ExploreBoard.code))
+        moyaNetworkFacade.fetch(apiInterface: BoardApiInterface(code: ExploreBoard.code, limit: 10))
             .map(\.data)
             .compactMap { [weak self] boards -> [Persistence.Board]? in
                 guard let self = self else {
