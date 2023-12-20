@@ -18,9 +18,9 @@ public class BoardApiInterface: MoyaApiInterfaceType {
     public let task: Moya.Task
     public let headers: [String : String]? = .none
     
-    public init(code: String? = nil) {
+    public init(code: String? = nil, limit: Int) {
         if let code = code {
-            task = .requestParameters(parameters: ["code": code], encoding: URLEncoding.default)
+            task = .requestParameters(parameters: ["code": code, "limit": limit], encoding: URLEncoding.default)
         } else {
             task = .requestPlain
         }

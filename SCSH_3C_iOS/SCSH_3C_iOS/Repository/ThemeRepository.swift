@@ -46,8 +46,7 @@ class ThemeRepository: ThemeRepositoryType {
     }
 
     private func fetchThemes(type: String) -> AnyPublisher<Void, Error> {
-        // TODO: Use `fetch` when API `/theme/{type}` is ready
-        moyaNetworkFacadeType.stubFetch(apiInterface: ThemeApiInterface(type: type))
+        moyaNetworkFacadeType.fetch(apiInterface: ThemeApiInterface(type: type))
             .map(\.data)
             .map { [weak self] themes -> [Persistence.Theme] in
                 guard let self = self else {
